@@ -1,0 +1,52 @@
+{
+  "produk_jajanan": [
+    {
+      "nama": "Kue Lumpur",
+      "deskripsi": "Kue tradisional yang terbuat dari tepung ketan, gula merah, dan santan.",
+      "harga": 5000,
+      "gambar": "https://example.com/kuelumpur.jpg"
+    },
+    {
+      "nama": "Klepon",
+      "deskripsi": "Kue tradisional yang terbuat dari ketan yang diisi dengan gula merah dan ditaburi kelapa parut.",
+      "harga": 3000,
+      "gambar": "https://example.com/klepon.jpg"
+    },
+    {
+      "nama": "Onde-Onde",
+      "deskripsi": "Kue tradisional yang terbuat dari ketan yang diisi dengan kacang hijau yang sudah direbus dan digiling, kemudian digoreng.",
+      "harga": 4000,
+      "gambar": "https://example.com/ondeonde.jpg"
+    },
+    {
+      "nama": "Lemper",
+      "deskripsi": "Kue tradisional yang terbuat dari ketan yang dibentuk seperti segi empat dan diisi dengan daging ayam yang sudah dibumbui.",
+      "harga": 6000,
+      "gambar": "https://example.com/lemper.jpg"
+    },
+    {
+      "nama": "Pastel",
+      "deskripsi": "Makanan yang terbuat dari kulit pangsit dan diisi dengan sayuran dan daging.",
+      "harga": 8000,
+      "gambar": "https://example.com/pastel.jpg"
+    },
+    {
+      "nama": "Risol",
+      "deskripsi": "Makanan yang terbuat dari kulit pangsit dan diisi dengan daging cincang dan sayuran seperti wortel dan kacang polong.",
+      "harga": 7000,
+      "gambar": "https://example.com/risol.jpg"
+    },
+    {
+      "nama": "Martabak Manis",
+      "deskripsi": "Makanan yang terbuat dari adonan terigu yang diisi dengan cokelat, keju, atau kacang.",
+      "harga": 12000,
+      "gambar": "https://example.com/martabakmanis.jpg"
+    },
+    {
+      "nama": "Serabi",
+      "deskripsi": "Kue dadar yang terbuat dari adonan tepung beras yang diisi dengan kelapa parut dan gula merah.",
+      "harga": 4000,
+      "gambar": "https://example.com/serabi.jpg"
+    }
+  ]
+}
