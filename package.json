@@ -17,6 +17,7 @@
     "lottie-web": "^5.10.2",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6",
+    "vuetify": "^3.1.10",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

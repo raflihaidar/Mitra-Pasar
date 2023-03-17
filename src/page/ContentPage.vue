@@ -6,7 +6,13 @@
             <div class="grid grid-cols-4 gap-y-2">
                 <div v-for="(item, index) in catalog" :key="index">
                     <div class="bg-lime-700 w-3/5 text-center text-white">
-                        <p>{{ item.nama }}</p>
+                        <div class="max-w-full h-auto">
+                            <img :src="item.gambar" :alt="item.name" class="w-full">
+                        </div>
+                        <div>
+                            <p>{{ item.nama }}</p>
+                            <p>Rp.{{ item.harga }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -25,8 +31,5 @@ export default {
     computed: {
         ...mapGetters(['catalog'])
     },
-    mounted() {
-        this.$store.dispatch('setCatalog')
-    }
 }
 </script>

@@ -15,7 +15,8 @@
                     <div class="flex items-center justify-evenly py-2 px-3 bg-white">
                         <UserIcon />
                         <span>|</span>
-                        <input type="text" class="bg-white w-full outline-none" name="username" placeholder="username">
+                        <input type="text" class="bg-white w-full outline-none" name="username" placeholder="username"
+                            @change="inputUsername($event)">
                     </div>
                 </div>
                 <div class="w-4/5 mx-auto">
@@ -23,14 +24,18 @@
                     <div class="flex items-center justify-evenly py-2 px-3 bg-white">
                         <LockIcon />
                         <span>|</span>
-                        <input type="password" class="bg-white w-full outline-none" name="password" placeholder="password">
+                        <input type="password" class="bg-white w-full outline-none" name="password" placeholder="password"
+                            @change="inputPassword($event)">
                     </div>
                 </div>
             </div>
-            <div
+
+
+            <div @click="login"
                 class="bg-lime-700 w-56 py-4 mt-16 rounded-full mx-auto text-white text-center text-lg font-semibold cursor-pointer">
                 Login
             </div>
+
         </div>
     </div>
 </template>
@@ -38,11 +43,33 @@
 <script>
 import UserIcon from '../assets/icon/UserIcon.vue'
 import LockIcon from '../assets/icon/LockIcon.vue'
+// import { useRouter } from 'vue-router'
 export default {
     name: 'AdminPage',
     components: {
         UserIcon,
         LockIcon,
+    },
+    data() {
+        return {
+            username: '',
+            password: '',
+        }
+    },
+    methods: {
+        inputUsername(e) {
+            this.username = e.target.value
+        },
+        inputPassword(e) {
+            this.password = e.target.value
+        },
+        login() {
+            if (this.username === 'admin' && this.password === 'admin') {
+                this.$router.push({ name: 'admin dashboard' })
+            } else {
+                alert('Check kembali username dan password anda!')
+            }
+        }
     }
 }
 </script>

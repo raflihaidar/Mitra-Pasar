@@ -10,6 +10,9 @@ defineElement(lottie.loadAnimation)
 
 export default {
   name: 'App',
+  mounted() {
+    this.$store.dispatch('setCatalog')
+  }
 }
 </script>
 

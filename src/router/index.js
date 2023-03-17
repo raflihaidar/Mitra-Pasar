@@ -7,7 +7,7 @@ import ContentPage from '../page/ContentPage.vue'
 import AdminPage from '../page/AdminPage.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',

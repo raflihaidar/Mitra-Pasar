@@ -1,52 +1,74 @@
 {
-  "produk_jajanan": [
+  "jajanan_pasar": [
     {
+      "id": 1,
       "nama": "Kue Lumpur",
       "deskripsi": "Kue tradisional yang terbuat dari tepung ketan, gula merah, dan santan.",
       "harga": 5000,
-      "gambar": "https://example.com/kuelumpur.jpg"
+      "gambar": "https://4.bp.blogspot.com/-d-8Il6iZGYs/XAtWH0VdXFI/AAAAAAAAAW8/TxakIozwVokQEtrqrvoCdaDtxxPqsR9aQCLcBGAs/s1600/kue-lumpur.png"
     },
     {
+      "id": 2,
       "nama": "Klepon",
       "deskripsi": "Kue tradisional yang terbuat dari ketan yang diisi dengan gula merah dan ditaburi kelapa parut.",
       "harga": 3000,
-      "gambar": "https://example.com/klepon.jpg"
+      "gambar": "https://th.bing.com/th/id/OIP.RBfwXBE7-flEmyTw6JCoMAHaFp?pid=ImgDet&rs=1"
     },
     {
+      "id": 3,
       "nama": "Onde-Onde",
       "deskripsi": "Kue tradisional yang terbuat dari ketan yang diisi dengan kacang hijau yang sudah direbus dan digiling, kemudian digoreng.",
       "harga": 4000,
-      "gambar": "https://example.com/ondeonde.jpg"
+      "gambar": "https://th.bing.com/th/id/OIP.LJS32PYcFl07cdgerGcHKwHaFr?w=213&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
     },
     {
+      "id": 4,
       "nama": "Lemper",
       "deskripsi": "Kue tradisional yang terbuat dari ketan yang dibentuk seperti segi empat dan diisi dengan daging ayam yang sudah dibumbui.",
       "harga": 6000,
-      "gambar": "https://example.com/lemper.jpg"
+      "gambar": "https://th.bing.com/th/id/OIP.L5xVddRAuI1PRTIYWvY9RQHaE8?w=273&h=182&c=7&r=0&o=5&dpr=1.3&pid=1.7"
     },
     {
+      "id": 5,
       "nama": "Pastel",
       "deskripsi": "Makanan yang terbuat dari kulit pangsit dan diisi dengan sayuran dan daging.",
       "harga": 8000,
-      "gambar": "https://example.com/pastel.jpg"
+      "gambar": "https://th.bing.com/th/id/OIP.JQVnhtsn7ctYLJDvbNVylgHaFT?w=248&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
     },
     {
+      "id": 6,
       "nama": "Risol",
       "deskripsi": "Makanan yang terbuat dari kulit pangsit dan diisi dengan daging cincang dan sayuran seperti wortel dan kacang polong.",
       "harga": 7000,
-      "gambar": "https://example.com/risol.jpg"
+      "gambar": "https://th.bing.com/th/id/OIP.nxUWy_VDilz15uSM1hSHXAHaFj?w=221&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
     },
     {
+      "id": 7,
       "nama": "Martabak Manis",
       "deskripsi": "Makanan yang terbuat dari adonan terigu yang diisi dengan cokelat, keju, atau kacang.",
       "harga": 12000,
-      "gambar": "https://example.com/martabakmanis.jpg"
+      "gambar": "https://ecs7.tokopedia.net/blog-tokopedia-com/uploads/2020/05/Martabak-manis.jpg"
     },
     {
+      "id": 8,
       "nama": "Serabi",
       "deskripsi": "Kue dadar yang terbuat dari adonan tepung beras yang diisi dengan kelapa parut dan gula merah.",
       "harga": 4000,
-      "gambar": "https://example.com/serabi.jpg"
+      "gambar": "https://th.bing.com/th/id/OIP.gil2hF3UyV2Swvo2CpzgHgHaFj?w=247&h=185&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+    },
+    {
+      "id": 9,
+      "nama": "Pisang Goreng",
+      "deskripsi": "Makanan yang terbuat dari pisang yang dibalut dengan adonan tepung dan digoreng.",
+      "harga": 5000,
+      "gambar": "https://th.bing.com/th/id/OIP.1FJ3Lsqfw-Y1CIqVFjT6owHaEK?w=282&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
+    },
+    {
+      "id": 10,
+      "nama": "Cenil",
+      "deskripsi": "Kue tradisional yang terbuat dari tepung ketan yang dibentuk seperti bola",
+      "harga": 6000,
+      "gambar": "https://th.bing.com/th/id/OIP.6cSbMMI9BVTvil-oxh9YjwHaEt?w=234&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7"
     }
   ]
 }
