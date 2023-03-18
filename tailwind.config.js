@@ -15,6 +15,9 @@ module.exports = {
         slideIn: 'slideIn 1s ease-out',
         fadein: 'fadein 2s ease-in'
       },
+      colors: {
+        'black-rgba': 'rgba(0, 0, 0, 0.5)'
+      },
       keyframes: {
         slideIn: {
           '0%': { transform: 'translateX(-100%)' },

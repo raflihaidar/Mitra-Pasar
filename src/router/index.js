@@ -5,6 +5,8 @@ import LoginAdmin from '../page/LoginAdmin.vue'
 import SignPage from '../page/SignPage.vue'
 import ContentPage from '../page/ContentPage.vue'
 import AdminPage from '../page/AdminPage.vue'
+import NewDataPage from '../page/NewData.vue'
+import CartComponent from '../page/CartPage.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -35,9 +37,19 @@ const router = createRouter({
       component: AdminPage
     },
     {
+      path: '/admin/new_data',
+      name: 'add data',
+      component: NewDataPage
+    },
+    {
       path: '/content',
       name: 'content page',
       component: ContentPage
+    },
+    {
+      path: '/cart',
+      name: 'cart page',
+      component: CartComponent
     }
   ]
 })

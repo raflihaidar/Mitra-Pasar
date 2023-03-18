@@ -1,14 +1,7 @@
 <template>
     <div class="h-screen bg-hero bg-cover bg-center font-openSans">
         <nav class="w-[90%] mx-auto flex justify-between items-center">
-            <section class="w-2/5 text-white flex justify-start items-center gap-x-2">
-                <div
-                    class="bg-lime-700 flex justify-center items-center w-[50px] h-[50px] text-lg rounded-md font-semibold">
-                    <span class="">M</span><span>P</span>
-                </div>
-                <div class="text-xl font-bold">Mitra Pasar</div>
-            </section>
-
+            <LogoIcon />
             <section class="w-2/5 text-md flex justify-end gap-x-10 text-white font-bold">
                 <router-link to='/sign' class="hover:-mt-2 transition-all">
                     Daftar
@@ -41,8 +34,12 @@
 </template>
 
 <script>
+import LogoIcon from '../assets/icon/LogoIcon.vue'
 export default {
     name: 'LandingPage',
+    components: {
+        LogoIcon
+    },
     data() {
         return {
             isActive: false
