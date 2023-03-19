@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import UserIcon from '../assets/icon/userIcon.vue'
+import UserIcon from '../assets/icon/UserIcon.vue'
 import LockIcon from '../assets/icon/LockIcon.vue'
 export default {
     name: 'AdminPage',
