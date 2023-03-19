@@ -1,11 +1,15 @@
 <template>
     <NavbarComponent />
     <div
-        class="bg-lime-700 absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 border-2 border-lime-700 md:w-2/5 px-10 py-8 w-full">
+        class="bg-lime-700 absolute left-[50%] top-[55%] -translate-x-1/2 -translate-y-1/2 border-2 border-lime-700 md:w-2/5 px-10 py-8 w-full">
         <form class="grid gap-y-2">
             <section class="flex flex-col gap-y-1">
                 <label name="nama" class="text-white">Name</label>
                 <input name="nama" type="text" class="p-2 rounded-md outline-none border-none" v-model="data.nama">
+            </section>
+            <section class="flex flex-col gap-y-1">
+                <label name="stok" class="text-white">Stok Barang</label>
+                <input name="stok" type="text" class="p-2 rounded-md outline-none border-none" v-model="data.stok">
             </section>
             <section class="flex flex-col gap-y-1">
                 <label class="text-white">Harga</label>
@@ -21,7 +25,7 @@
                     v-model="data.deskripsi"></textarea>
             </section>
         </form>
-        <button class="bg-lime-600 px-3 py-2" @click="addData">Tambah</button>
+        <button class="bg-lime-600 px-3 py-2 rounded-md" @click="addData">Tambah</button>
     </div>
 </template>
 
@@ -35,6 +39,7 @@ export default {
             data: {
                 nama: '',
                 deskripsi: '',
+                stok: '',
                 harga: null,
                 gambar: ''
             }

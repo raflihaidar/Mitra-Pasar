@@ -2,10 +2,10 @@
   "jajanan_pasar": [
     {
       "id": 1,
-      "nama": "Kue Lapis",
+      "nama": "Kue Lapis manis",
       "deskripsi": "Kue lapis merupakan kue tradisional yang terbuat dari tepung beras dengan lapisan yang tipis-tipis dan berwarna-warni.",
       "harga": 15000,
-      "stok": 10,
+      "stok": "15",
       "gambar": "https://th.bing.com/th/id/OIP.vo5bSezLfpV2xWZWYxJoXwHaFj?w=256&h=192&c=7&r=0&o=5&dpr=1.3&pid=1.7",
       "priceUser": 0,
       "kuantitas": 0,

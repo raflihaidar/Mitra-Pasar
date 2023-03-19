@@ -113,6 +113,11 @@
                             <input type="text" class="border-2 border-black px-2 py-1 rounded-md"
                                 v-model="modalContent.nama">
                         </section>
+                        <section class="flex flex-col gap-y-1 mb-5">
+                            <label>Stok</label>
+                            <input type="text" class="border-2 border-black px-2 py-1 rounded-md"
+                                v-model="modalContent.stok">
+                        </section>
                         <section class="flex flex-col mb-5">
                             <label>Harga</label>
                             <input type="text" class="border-2 border-black px-2 py-1 rounded-md"
@@ -158,6 +163,7 @@ export default {
             modalContent: {
                 id: 0,
                 nama: '',
+                stok: 0,
                 deskripsi: '',
                 harga: 0,
                 gambar: ''
