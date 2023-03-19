@@ -1,37 +1,62 @@
 <template>
     <NavbarComponent />
-    <table class="absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 w-[80%] text-left">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Gambar</th>
-                <th>Nama Produk</th>
-                <th>Kuantitas</th>
-                <th>Harga</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="(item, index) in cart" :key="index">
-                <td class="">
-                    <input type="checkbox" v-model="selectedValues" :value="item.priceUser" @change="viewTotal"
-                        @click="setStatus(index)">
-                </td>
-                <td>
-                    <div style="width: 200px;">
-                        <img :src="item.gambar" alt="gambar produk" style="width: inherit;">
-                    </div>
-                </td>
-                <td>{{ item.nama }}</td>
-                <td>{{ item.kuantitas }}</td>
-                <td>{{ item.harga }}</td>
-                <td class="">
-                    <button class="btn btn-danger" @click="removeItem(index)">Delete</button>
-                    <button class="btn btn-danger" @click="clearAll(index)">Delete All</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="container my-5" v-if="cart.length !== 0">
+        <table class="w-[80%] mx-auto my-10 px-3 py-4 text-left border-2 border-lime-700 table-auto mb-10">
+            <thead class="border-2 border-lime-700 bg-lime-500">
+                <tr class="text-white">
+                    <th class="px-5 py-3"></th>
+                    <th class="px-5 py-3">Gambar</th>
+                    <th class="px-5 py-3">Nama Produk</th>
+                    <th class="px-5 py-3">Kuantitas</th>
+                    <th class="px-5 py-3">Harga</th>
+                    <th class="px-5 py-3"></th>
+                </tr>
+            </thead>
+            <tbody class="border-2 border-lime-700">
+                <tr v-for="(item, index) in cart" :key="index" class="text-sm font-semibold bg-lime-200 bg-opacity-25">
+                    <td class="">
+                        <input type="checkbox" v-model="selectedValues" :value="item.priceUser" @change="viewTotal"
+                            @click="setStatus(index)">
+                    </td>
+                    <td>
+                        <div style="width: 200px;">
+                            <img :src="item.gambar" alt="gambar produk" style="width: inherit;">
+                        </div>
+                    </td>
+                    <td class="px-5 py-3 whitespace-nowrap">{{ item.nama }}</td>
+                    <td class="px-5 py-3 whitespace-nowrap">{{ item.kuantitas }}</td>
+                    <td class="px-5 py-3 whitespace-nowrap">Rp.{{ item.priceUser }}</td>
+                    <td class="text-white text center px-5 py-3 whitespace-nowrap">
+                        <button class="bg-red-500 py-1 px-2 mr-3 rounded-md" @click="removeItem(index)">Delete</button>
+                        <button class="bg-red-500 py-1 px-2 rounded-md" @click="clearAll(index)">Delete All</button>
+                    </td>
+                </tr>
+                <tr v-if="selectedValues.length > 0 && Total > 0" class="text-sm font-semibold bg-lime-200 bg-opacity-25">
+                    <td></td>
+                    <td class="font-bold text-lg">Total :</td>
+                    <td></td>
+                    <td></td>
+                    <td class="font-bold">Rp.{{ Total }}</td>
+                    <td v-if="Total > 0" class="text-white text center px-5 py-3 whitespace-nowrap" @click="handleCheckOut">
+                        <button class="bg-lime-600 px-2 py-1 text-cente rounded-md">Check Out</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- <div v-if="Total > 0">
+            <button class="bg-lime-700 px-2 py-1" type="button" @click="handleCheckOut">
+                Check Out
+            </button>
+        </div> -->
+    </div>
+
+    <div v-else
+        class="absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 bg-red-600 w-[60%] text-white text-3xl font-bold py-10 text-center mt-5">
+        <div class="">
+            <h3>Tidak Ada Produk Disini</h3>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -42,8 +67,50 @@ export default {
     components: {
         NavbarComponent
     },
+    data() {
+        return {
+            selectedValues: [],
+        }
+    },
+    methods: {
+        removeItem(index) {
+            this.selectedValues.fill(0)
+            this.$store.dispatch("removeCartProduct", index);
+            this.$store.dispatch("getTotal", 0)
+        },
+        clearAll(item) {
+            this.selectedValues.fill(0)
+            this.$store.dispatch("clearCart", item);
+            this.$store.dispatch("getTotal", 0)
+        },
+        handleCheckOut() {
+            this.$store.dispatch("checkOut")
+        },
+        viewTotal() {
+            let amount = this.selectedValues.reduce((a, b) => a + b, 0)
+            console.log(amount)
+            this.$store.dispatch("getTotal", amount)
+        },
+        setStatus(index) {
+            this.$store.dispatch("handleStatus", index)
+        }
+    },
     computed: {
-        ...mapGetters(['cart'])
+        ...mapGetters(["cart", "Total"]),
+    },
+    mounted() {
+        this.selectedValues = this.cart.filter(item => item.status).map(item => item.priceUser);
+        this.viewTotal();
+    },
+    watch: {
+        selectedValues: {
+            handler: function (newVal) {
+                this.cart.forEach((item) => {
+                    item.status = newVal.includes(item.priceUser);
+                });
+            },
+            deep: true
+        }
     }
 }
 </script>
