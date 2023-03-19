@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     extend: {
       backgroundImage: {
-        hero: "url('../src/assets/img/img1.jpg')"
+        hero: "url('./src/assets/img/img1.jpg')"
       },
       fontFamily: {
         openSans: "font-family: 'Quicksand', sans-serif;"
