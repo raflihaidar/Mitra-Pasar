@@ -13,7 +13,7 @@ export default {
   },
   actions: {
     async setCatalog({ commit }) {
-      await axios.get('http://localhost:3000/jajanan_pasar').then((response) => {
+      await axios.get('http://localhost:8000').then((response) => {
         commit('SET_CATALOG', response.data)
       })
     },
@@ -37,7 +37,7 @@ export default {
     },
     async deleteData({ commit }, id) {
       try {
-        const response = await axios.delete(`http://localhost:3000/jajanan_pasar/${id}`)
+        const response = await axios.delete(`http://localhost:8000/${id}`)
         commit('DELETE_DATA', id)
         return response.data
       } catch (error) {
@@ -45,7 +45,7 @@ export default {
       }
     },
     async updateData({ commit }, id, newData) {
-      await axios.put(`http://localhost:3000/jajanan_pasar/${id}`, newData).then((response) => {
+      await axios.put(`http://localhost:8000/${id}`, newData).then((response) => {
         commit('SET_CATALOG', response.data)
         console.log(newData)
       })

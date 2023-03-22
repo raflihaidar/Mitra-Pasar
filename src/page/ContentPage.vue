@@ -26,10 +26,10 @@
                 <div v-for="(item, index) in catalog" :key="index">
                     <div class="w-[200px] h-[300px] bg-lime-600 text-white rounded-lg flex flex-col justify-between">
                         <div class="w-full h-auto rounded-lg">
-                            <img :src="item.gambar" :alt="item.name" class="w-full">
+                            <img :src="item.url_gambar" :alt="item.name" class="w-full">
                         </div>
                         <div class="text-left font-semibold py-2 px-3">
-                            <p class="text-lg">{{ item.nama }}</p>
+                            <p class="text-lg">{{ item.nama_produk }}</p>
                             <p>Rp.{{ item.harga }}</p>
                         </div>
                         <div class="flex justify-between w-full px-2 py-3">

@@ -75,7 +75,7 @@
                 <tbody v-for="(item, index) in catalog" :key="index" class="border-2 border-lime-700 relative">
                     <tr class="text-sm font-semibold bg-lime-200 bg-opacity-25">
                         <td class="px-5 py-3 whitespace-nowrap">{{ index + 1 }}</td>
-                        <td class="px-5 py-3 whitespace-nowrap">{{ item.nama }}</td>
+                        <td class="px-5 py-3 whitespace-nowrap">{{ item.nama_produk }}</td>
                         <td class="px-5 py-3 whitespace-nowrap">{{ item.deskripsi }}</td>
                         <td class="px-5 py-3 whitespace-nowrap">Rp.{{ item.harga }}</td>
                         <td>
@@ -185,7 +185,7 @@ export default {
             this.modalDelete = false
         },
         async saveNewData(id) {
-            await axios.put(`http://localhost:3000/jajanan_pasar/${id}`, this.modalContent).then(() => {
+            await axios.put(`http://localhost:8000/${id}`, this.modalContent).then(() => {
                 this.modalModify = false
             })
         },
