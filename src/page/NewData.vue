@@ -50,7 +50,7 @@ export default {
     },
     methods: {
         async addData() {
-            await axios.post('http://localhost:3000/jajanan_pasar', this.data).then(() => {
+            await axios.post('http://localhost:8000', this.data).then(() => {
                 this.$router.push({ name: 'admin dashboard' })
             })
         }
