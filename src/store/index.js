@@ -62,17 +62,17 @@ export default {
     UPDATE_CART: (state, payload) => {
       //mutations untuk memasukkan product ke keranjang
       const addedItem = state.cart.find((item) => item.id === payload.id)
-      const limitItem = payload.stok > 0
+      const limitItem = payload.stock > 0
       if (limitItem) {
-        payload.stok -= 1
+        payload.stock -= 1
         if (addedItem) {
-          addedItem.kuantitas++
-          addedItem.priceUser = payload.harga * addedItem.kuantitas
+          addedItem.quantity++
+          addedItem.priceUser = payload.price * addedItem.quantity
         } else {
           state.cart.push({
             ...payload,
-            kuantitas: 1,
-            priceUser: payload.harga
+            quantity: 1,
+            priceUser: payload.price
           })
         }
       }
@@ -105,15 +105,15 @@ export default {
     REMOVE_ITEM: (state, index) => {
       //untuk menghapus item product
       const product = state.cart[index]
-      if (product.kuantitas === 1) {
+      if (product.quantity === 1) {
         state.cart.splice(index, 1)
       } else {
-        product.kuantitas--
+        product.quantity--
         product.priceUser -= product.price
       }
       state.products.map((item) => {
         if (item.id === product.id) {
-          item.stok++
+          item.stock++
         }
         return item
       })
@@ -126,7 +126,7 @@ export default {
       state.cart.splice(index, 1)
       state.products.map((item) => {
         if (item.id === product.id) {
-          item.stok += product.kuantitas
+          item.stock += product.quantity
         }
         return item
       })

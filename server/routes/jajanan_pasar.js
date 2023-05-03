@@ -10,7 +10,7 @@ router.get('/', jajanan_pasarController.getJajanan_pasar)
 router.post('/', jajanan_pasarController.createNewProduct)
 
 // UPDATE - PATCH
-router.patch('/:id', jajanan_pasarController.updateData)
+router.put('/:id', jajanan_pasarController.updateData)
 
 // DELETE - DELETE
 router.delete('/:id', jajanan_pasarController.deleteProducts)

@@ -23,8 +23,8 @@
                             <img :src="item.url_gambar" alt="gambar produk" style="width: inherit;">
                         </div>
                     </td>
-                    <td class="px-5 py-3 whitespace-nowrap">{{ item.nama_produk }}</td>
-                    <td class="px-5 py-3 whitespace-nowrap">{{ item.kuantitas }}</td>
+                    <td class="px-5 py-3 whitespace-nowrap">{{ item.product_name }}</td>
+                    <td class="px-5 py-3 whitespace-nowrap">{{ item.quantity }}</td>
                     <td class="px-5 py-3 whitespace-nowrap">Rp.{{ item.priceUser }}</td>
                     <td class="text-white text center px-5 py-3 whitespace-nowrap">
                         <button class="bg-red-500 py-1 px-2 mr-3 rounded-md" @click="removeItem(index)">Delete</button>

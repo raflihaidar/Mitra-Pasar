@@ -6,11 +6,21 @@ const getJajanan_pasar = () => {
 }
 
 const createNewProduct = (body) => {
-  const SQLquery = `INSERT INTO express_mitrapasar.jajanan_pasar (product_name, description, price, stock, img, priceUser, quantity, status)
-  VALUES (  
-            '${body.product_name}', '${body.description}', ${body.price}, ${body.stock},
-            '${body.img}', ${body.priceUser}, ${body.quantity}, ${body.status}
-          )`
+  const SQLquery = `INSERT INTO express_mitrapasar.jajanan_pasar 
+                    (
+                      product_name, 
+                      description, 
+                      price, 
+                      stock, 
+                      img
+                    )
+                    VALUES (  
+                      '${body.product_name}', 
+                      '${body.description}', 
+                      ${body.price}, 
+                      ${body.stock},
+                      '${body.img}'
+                    )`
 
   return dbPool.execute(SQLquery)
 }

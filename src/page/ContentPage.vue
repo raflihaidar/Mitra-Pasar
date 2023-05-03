@@ -24,15 +24,17 @@
             </div>
             <div class="grid grid-cols-4 gap-y-10 my-5">
                 <div v-for="(item, index) in catalog.data" :key="index">
-                    <div class="w-[200px] h-[300px] bg-lime-600 text-white rounded-lg flex flex-col justify-between">
-                        <div class="w-full h-auto rounded-lg">
-                            <img :src="item.img" :alt="item.product_name" class="w-full">
+                    <div class="w-[200px] h-[300px] bg-lime-600 text-white rounded-xl cursor-pointer">
+                        <div class="h-[75%] flex flex-col justify-between">
+                            <div class="w-full h-auto rounded-lg">
+                                <img :src="item.img" :alt="item.product_name" class="w-full">
+                            </div>
+                            <div class="text-left font-semibold py-2 px-3">
+                                <p class="text-lg">{{ item.product_name }}</p>
+                                <p>Rp.{{ item.price }}</p>
+                            </div>
                         </div>
-                        <div class="text-left font-semibold py-2 px-3">
-                            <p class="text-lg">{{ item.product_name }}</p>
-                            <p>Rp.{{ item.price }}</p>
-                        </div>
-                        <div class="flex justify-between w-full px-2 py-3">
+                        <div class="flex justify-between w-full px-2 py-3 mt-5">
                             <button class="bg-yellow-400 px-2 py-1 rounded-md text-sm" @click="addToCart(item)">Add to
                                 Cart</button>
                             <button class="p-1 rounded-md bg-gray-400" @click="likeButton($event)"><svg
@@ -95,7 +97,7 @@ export default {
     computed: {
         ...mapGetters(['catalog', 'cart']),
         totalItems() {
-            return this.cart.reduce((a, b) => a + b.kuantitas, 0)
+            return this.cart.reduce((a, b) => a + b.quantity, 0)
         }
     },
 }

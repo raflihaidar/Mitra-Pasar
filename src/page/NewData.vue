@@ -5,24 +5,24 @@
         <form class="grid gap-y-2">
             <section class="flex flex-col gap-y-1">
                 <label name="nama" class="text-white">Name</label>
-                <input name="nama" type="text" class="p-2 rounded-md outline-none border-none" v-model="data.nama">
+                <input name="nama" type="text" class="p-2 rounded-md outline-none border-none" v-model="data.product_name">
             </section>
             <section class="flex flex-col gap-y-1">
                 <label name="stok" class="text-white">Stok Barang</label>
-                <input name="stok" type="text" class="p-2 rounded-md outline-none border-none" v-model="data.stok">
+                <input name="stok" type="text" class="p-2 rounded-md outline-none border-none" v-model="data.stock">
             </section>
             <section class="flex flex-col gap-y-1">
                 <label class="text-white">Harga</label>
-                <input type="text" class="p-2 rounded-md outline-none border-none" v-model="data.harga">
+                <input type="text" class="p-2 rounded-md outline-none border-none" v-model="data.price">
             </section>
             <section class="flex flex-col gap-y-1">
                 <label class="text-white">Url Gambar</label>
-                <input type="url" class="p-2 rounded-md outline-none border-none" v-moel="data.gambar">
+                <input type="text" class="p-2 rounded-md outline-none border-none" v-model="data.img">
             </section>
             <section class="flex flex-col gap-y-1">
                 <label class="text-white">Deskripsi Produk</label>
                 <textarea cols="30" rows="5" class="p-2 rounded-md outline-none border-none"
-                    v-model="data.deskripsi"></textarea>
+                    v-model="data.description"></textarea>
             </section>
         </form>
         <button class="bg-lime-600 px-3 py-2 rounded-md" @click="addData">Tambah</button>
@@ -37,11 +37,11 @@ export default {
     data() {
         return {
             data: {
-                nama: '',
-                deskripsi: '',
-                stok: '',
-                harga: null,
-                gambar: ''
+                product_name: '',
+                description: '',
+                stock: '',
+                price: null,
+                img: ''
             }
         }
     },

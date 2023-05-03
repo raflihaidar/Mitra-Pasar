@@ -111,27 +111,26 @@
                         <section class="flex flex-col gap-y-1 mb-5">
                             <label>Nama Produk</label>
                             <input type="text" class="border-2 border-black px-2 py-1 rounded-md"
-                                v-model="modalContent.nama">
+                                v-model="modalContent.product_name">
                         </section>
                         <section class="flex flex-col gap-y-1 mb-5">
                             <label>Stok</label>
                             <input type="text" class="border-2 border-black px-2 py-1 rounded-md"
-                                v-model="modalContent.stok">
+                                v-model="modalContent.stock">
                         </section>
                         <section class="flex flex-col mb-5">
                             <label>Harga</label>
                             <input type="text" class="border-2 border-black px-2 py-1 rounded-md"
-                                v-model="modalContent.harga">
+                                v-model="modalContent.price">
                         </section>
                         <section class="flex flex-col mb-5">
                             <label>Url Gambar</label>
-                            <input type="url" class="border-2 border-black px-2 py-1 rounded-md"
-                                v-model="modalContent.gambar">
+                            <input type="file" @change="onFileSelected" ref="foto">
                         </section>
-                        <section class="flex flex-col mb-5">
+                        <section class=" flex flex-col mb-5">
                             <label>Deskripsi</label>
                             <textarea name="" id="" cols="25" rows="8" class="border-2 border-black px-2 py-1 rounded-md"
-                                v-model="modalContent.deskripsi"></textarea>
+                                v-model="modalContent.description"></textarea>
                         </section>
                         <section class="flex justify-end gap-x-5">
                             <button class="bg-blue-300 rounded-md px-3 py-2" @click="cancelButton">Batal</button>
@@ -184,8 +183,11 @@ export default {
             this.$store.dispatch('deleteData', id)
             this.modalDelete = false
         },
+        onFileSelected(event) {
+            this.modalContent.gambar = event.target.files[0]
+        },
         async saveNewData(id) {
-            await axios.put(`http://localhost:8000/jajanan_pasar${id}`, this.modalContent).then(() => {
+            await axios.put(`http://localhost:8000/jajanan_pasar/${id}`, this.modalContent).then(() => {
                 this.modalModify = false
             })
         },
@@ -210,6 +212,7 @@ export default {
     },
     mounted() {
         this.$store.dispatch('setCatalog')
+        this.modalContent;
     }
 }
 </script>
