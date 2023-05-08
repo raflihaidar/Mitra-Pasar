@@ -1,9 +1,9 @@
 <template>
     <NavbarComponent />
     <div class="container my-5" v-if="cart.length !== 0">
-        <table class="w-[80%] mx-auto my-10 px-3 py-4 text-left border-2 border-lime-700 table-auto mb-10">
-            <thead class="border-2 border-lime-700 bg-lime-500">
-                <tr class="text-white">
+        <table class="w-[80%] mx-auto my-10 px-3 py-4 text-left table-auto mb-10 shadow-lg">
+            <thead class="bg-lime-500">
+                <tr class="text-white text-center">
                     <th class="px-5 py-3"></th>
                     <th class="px-5 py-3">Gambar</th>
                     <th class="px-5 py-3">Nama Produk</th>
@@ -12,15 +12,16 @@
                     <th class="px-5 py-3"></th>
                 </tr>
             </thead>
-            <tbody class="border-2 border-lime-700">
-                <tr v-for="(item, index) in cart" :key="index" class="text-sm font-semibold bg-lime-200 bg-opacity-25">
-                    <td class="">
+            <tbody class="">
+                <tr v-for=" (item, index) in cart" :key="item.id"
+                    class="text-sm font-semibold bg-lime-200 bg-opacity-25 text-center">
+                    <td>
                         <input type="checkbox" v-model="selectedValues" :value="item.priceUser" @change="viewTotal"
                             @click="setStatus(index)">
                     </td>
                     <td>
-                        <div style="width: 200px;">
-                            <img :src="item.url_gambar" alt="gambar produk" style="width: inherit;">
+                        <div style="width: 200px;" class="m-auto">
+                            <img :src="item.img" alt="gambar produk" style="width: inherit;">
                         </div>
                     </td>
                     <td class="px-5 py-3 whitespace-nowrap">{{ item.product_name }}</td>
@@ -43,12 +44,6 @@
                 </tr>
             </tbody>
         </table>
-
-        <!-- <div v-if="Total > 0">
-            <button class="bg-lime-700 px-2 py-1" type="button" @click="handleCheckOut">
-                Check Out
-            </button>
-        </div> -->
     </div>
 
     <div v-else
@@ -70,6 +65,8 @@ export default {
     data() {
         return {
             selectedValues: [],
+            priceUser: null,
+            id: null
         }
     },
     methods: {
@@ -92,6 +89,7 @@ export default {
             this.$store.dispatch("getTotal", amount)
         },
         setStatus(index) {
+            console.log("ini index", index);
             this.$store.dispatch("handleStatus", index)
         }
     },

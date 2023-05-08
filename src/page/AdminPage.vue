@@ -125,7 +125,8 @@
                         </section>
                         <section class="flex flex-col mb-5">
                             <label>Url Gambar</label>
-                            <input type="file" @change="onFileSelected" ref="foto">
+                            <input type="text" v-model="modalContent.img"
+                                class="border-2 border-black px-2 py-1 rounded-md">
                         </section>
                         <section class=" flex flex-col mb-5">
                             <label>Deskripsi</label>
@@ -182,9 +183,6 @@ export default {
         deleteData(id) {
             this.$store.dispatch('deleteData', id)
             this.modalDelete = false
-        },
-        onFileSelected(event) {
-            this.modalContent.gambar = event.target.files[0]
         },
         async saveNewData(id) {
             await axios.put(`http://localhost:8000/jajanan_pasar/${id}`, this.modalContent).then(() => {
