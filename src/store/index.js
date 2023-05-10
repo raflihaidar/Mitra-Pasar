@@ -4,12 +4,20 @@ export default {
   state: {
     catalog: [],
     cart: [],
-    total: null
+    total: 0
   },
   getters: {
     catalog: (state) => state.catalog,
     cart: (state) => state.cart,
-    Total: (state) => state.total
+    Total: (state) => {
+      return state.cart.reduce((amount, item) => {
+        if (item.status) {
+          amount += item.priceUser
+          state.total = amount
+        }
+        return amount
+      }, 0)
+    }
   },
   actions: {
     async setCatalog({ commit }) {
@@ -26,19 +34,16 @@ export default {
     clearCart({ commit }, payload) {
       commit('CLEAR_CART', payload)
     },
-    getTotal({ commit }, payload) {
-      commit('SET_TOTAL', payload)
-    },
     handleStatus({ commit }, payload) {
       commit('SET_STATUS', payload)
     },
     checkOut({ commit }) {
       commit('CHECK_OUT')
     },
-    async deleteData({ commit }, id) {
+    async deleteData({ commit }, item) {
       try {
-        const response = await axios.delete(`http://localhost:8000/jajanan_pasar/${id}`)
-        commit('DELETE_DATA', id)
+        const response = await axios.delete(`http://localhost:8000/jajanan_pasar/${item.id}`)
+        commit('DELETE_DATA', item)
         return response.data
       } catch (error) {
         console.log(error)
@@ -53,11 +58,14 @@ export default {
   mutations: {
     SET_CATALOG: (state, payload) => (state.catalog = payload),
     SET_STATUS: (state, payload) => {
-      state.cart[payload].status = true //untuk mengubah status checklist pada products
-    },
-    SET_TOTAL: (state, payload) => (state.total = payload), // untuk mengapdate state total
-    DELETE_DATA: (state, id) => {
-      state.catalog.find((item) => item.id !== id)
+      state.cart[payload].status = !state.cart[payload].status //untuk mengubah status checklist pada products
+    }, // untuk mengapdate state total
+    DELETE_DATA: (state, payload) => {
+      let deletedItem = state.catalog.find((item) => item.id === payload.id)
+      if (deletedItem) {
+        const index = state.catalog.indexOf(deletedItem)
+        state.catalog.splice(index, 1)
+      }
     },
     UPDATE_CART: (state, payload) => {
       //mutations untuk memasukkan product ke keranjang
@@ -92,7 +100,7 @@ export default {
             timer: 2000
           }).then(() => {
             state.total = null
-            const result = state.cart.filter((item) => item.status === false)
+            const result = state.cart.filter((item) => !item.status)
             state.cart = result
           })
         } else {

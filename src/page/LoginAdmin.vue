@@ -67,7 +67,7 @@ export default {
             this.password = e.target.value
         },
         login() {
-            if (this.username === 'admin' && this.password === 'admin') {
+            if (this.username === 'admin' && this.password === 'adminlogin') {
                 this.$router.push({ name: 'admin dashboard' })
             } else {
                 alert('Check kembali username dan password anda!')

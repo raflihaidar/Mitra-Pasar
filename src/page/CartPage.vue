@@ -12,12 +12,11 @@
                     <th class="px-5 py-3"></th>
                 </tr>
             </thead>
-            <tbody class="">
+            <tbody>
                 <tr v-for=" (item, index) in cart" :key="item.id"
                     class="text-sm font-semibold bg-lime-200 bg-opacity-25 text-center">
-                    <td>
-                        <input type="checkbox" v-model="selectedValues" :value="item.priceUser" @change="viewTotal"
-                            @click="setStatus(index)">
+                    <td class="align-middle">
+                        <input type="checkbox" :name="item.product_name" :v-model="item.status" @click="setStatus(index)">
                     </td>
                     <td>
                         <div style="width: 200px;" class="m-auto">
@@ -32,18 +31,18 @@
                         <button class="bg-red-500 py-1 px-2 rounded-md" @click="clearAll(index)">Delete All</button>
                     </td>
                 </tr>
-                <tr v-if="selectedValues.length > 0 && Total > 0" class="text-sm font-semibold bg-lime-200 bg-opacity-25">
-                    <td></td>
-                    <td class="font-bold text-lg">Total :</td>
-                    <td></td>
-                    <td></td>
-                    <td class="font-bold">Rp.{{ Total }}</td>
-                    <td v-if="Total > 0" class="text-white text center px-5 py-3 whitespace-nowrap" @click="handleCheckOut">
-                        <button class="bg-lime-600 px-2 py-1 text-cente rounded-md">Check Out</button>
-                    </td>
-                </tr>
             </tbody>
         </table>
+        <div v-if="Total > 0"
+            class="w-[80%] flex left-[10%] fixed justify-between items-center bottom-0 text-sm text-center font-semibold bg-lime-200  px-5">
+            <div class="flex">
+                <p class="font-bold text-lg">Total : </p>
+                <p class="font-bold text-lg">Rp.{{ Total }}</p>
+            </div>
+            <div v-if="Total > 0" class="text-white text center px-5 py-3 whitespace-nowrap" @click="handleCheckOut">
+                <button class="bg-lime-600 px-2 py-1 text-cente rounded-md">Check Out</button>
+            </div>
+        </div>
     </div>
 
     <div v-else
@@ -65,8 +64,6 @@ export default {
     data() {
         return {
             selectedValues: [],
-            priceUser: null,
-            id: null
         }
     },
     methods: {
@@ -83,32 +80,13 @@ export default {
         handleCheckOut() {
             this.$store.dispatch("checkOut")
         },
-        viewTotal() {
-            let amount = this.selectedValues.reduce((a, b) => a + b, 0)
-            console.log(amount)
-            this.$store.dispatch("getTotal", amount)
-        },
         setStatus(index) {
-            console.log("ini index", index);
             this.$store.dispatch("handleStatus", index)
         }
     },
     computed: {
         ...mapGetters(["cart", "Total"]),
+
     },
-    mounted() {
-        this.selectedValues = this.cart.filter(item => item.status).map(item => item.priceUser);
-        this.viewTotal();
-    },
-    watch: {
-        selectedValues: {
-            handler: function (newVal) {
-                this.cart.forEach((item) => {
-                    item.status = newVal.includes(item.priceUser);
-                });
-            },
-            deep: true
-        }
-    }
 }
 </script>

@@ -15,9 +15,9 @@
             </div>
             <p class="text-2xl font-semibold">Kategori Produk</p>
             <div class="w-full grid grid-cols-7 text-sm text-center text-white font-semibold mb-20 mt-5">
-                <div v-for="(item, index) in category" :key="index">
+                <div v-for="(item, index) in category" :key="index" class="group">
                     <p
-                        class="w-[100px] h-[100px] leading-[90px] px-2 py-3 bg-lime-600 mr-3 rounded-lg cursor-pointer shadow-lg">
+                        class="w-[100px] h-[100px] leading-[90px] px-2 py-3 bg-lime-600 mr-3 rounded-lg cursor-pointer shadow-lg group-hover:scale-110 transition-all">
                         {{ item }}
                     </p>
                 </div>
