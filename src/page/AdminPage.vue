@@ -99,7 +99,7 @@
                         <p class="text-2xl">Yakin Ingin Menghapus</p>
                         <div class="mt-10 flex gap-x-10 justify-end text-lg">
                             <button class="bg-blue-300 p-3" @click="cancelButton">Batal</button>
-                            <button class="bg-red-500 p-3" @click="deleteData(modalContent.id)">Hapus</button>
+                            <button class="bg-red-500 p-3" @click="deleteData(modalContent)">Hapus</button>
                         </div>
                     </div>
                 </div>
@@ -182,6 +182,7 @@ export default {
         },
         deleteData(id) {
             this.$store.dispatch('deleteData', id)
+            console.log(this.modalContent)
             this.modalDelete = false
         },
         async saveNewData(id) {
