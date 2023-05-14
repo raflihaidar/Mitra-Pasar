@@ -13,6 +13,17 @@
     </div>
 </template>
   
-<script setup>
-import LogoIcon from '../assets/icon/LogoIcon.vue';
+<script>
+import { mapGetters } from 'vuex';
+export default {
+    name: 'NavbarComponent',
+    data() {
+        return {
+            username: ""
+        }
+    },
+    computed: {
+        ...mapGetters(['setDataUser'])
+    },
+}
 </script>

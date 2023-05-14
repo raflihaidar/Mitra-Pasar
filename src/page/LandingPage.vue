@@ -6,20 +6,25 @@
                 <router-link to='/sign' class="hover:-mt-2 transition-all">
                     Daftar
                 </router-link>
-                <p @click="switchActive" class="relative hover:-mt-2 transition-all">Login</p>
-                <ul class="absolute text-center grid bg-white text-lime-700 font-medium w-[110px] right-10 top-10 rounded-lg"
-                    :class="isActive ? 'block' : 'hidden'">
-                    <router-link to="/login_user">
-                        <li class=" hover:bg-lime-700 py-3 hover:text-white">
-                            User
-                        </li>
-                    </router-link>
-                    <router-link to="/login_admin">
-                        <li class="hover:bg-lime-700 py-3 hover:text-white">
-                            Admin
-                        </li>
-                    </router-link>
-                </ul>
+                <div v-if="!isAuthenticated">
+                    <p @click="switchActive" class="relative hover:-mt-2 transition-all">Login</p>
+                    <ul class="absolute text-center grid bg-white text-lime-700 font-medium w-[110px] right-10 top-10 rounded-lg"
+                        :class="isActive ? 'block' : 'hidden'">
+                        <router-link to="/login_user">
+                            <li class=" hover:bg-lime-700 py-3 hover:text-white">
+                                User
+                            </li>
+                        </router-link>
+                        <router-link to="/login_admin">
+                            <li class="hover:bg-lime-700 py-3 hover:text-white">
+                                Admin
+                            </li>
+                        </router-link>
+                    </ul>
+                </div>
+                <div v-else>
+                    <p class="relative hover:-mt-2 transition-all" @click="handleLogout">Log out</p>
+                </div>
             </section>
         </nav>
         <div class="mt-56 text-center tracking-widest">
@@ -34,7 +39,9 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import LogoIcon from '../assets/icon/LogoIcon.vue'
+import swal from 'sweetalert'
 export default {
     name: 'LandingPage',
     components: {
@@ -48,7 +55,21 @@ export default {
     methods: {
         switchActive() {
             this.isActive = !this.isActive
+        },
+        handleLogout() {
+            swal("Apakah Anda Ingin Logout", {
+                icon: 'question',
+                buttons: {
+                    cancel: 'Batal',
+                    confirm: 'Logout'
+                }
+            }).then((confirm) => {
+                if (confirm) this.$store.dispatch('handleLogin')
+            })
         }
+    },
+    computed: {
+        ...mapGetters(['isAuthenticated'])
     }
 }
 </script>

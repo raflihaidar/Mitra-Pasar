@@ -1,9 +1,11 @@
 import { createStore } from 'vuex'
-import Index from './index'
+import JajananPasar from '../store/modules/jajanan_pasar'
+import users from './modules/users'
 
 const store = createStore({
   modules: {
-    Index
+    JajananPasar,
+    users
   }
 })
 

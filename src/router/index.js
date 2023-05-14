@@ -7,6 +7,8 @@ import ContentPage from '../page/ContentPage.vue'
 import AdminPage from '../page/AdminPage.vue'
 import NewDataPage from '../page/NewData.vue'
 import CartComponent from '../page/CartPage.vue'
+import Store from '../store/modules/users/index'
+import swal from 'sweetalert'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -52,6 +54,25 @@ const router = createRouter({
       component: CartComponent
     }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  let status = Store.state.isAuthenticated
+  if (to.name !== 'login user' && !status && to.name === 'content page') {
+    swal('Anda Belum Login\nSilahkan Login Terlebih Dahulu', {
+      buttons: {
+        cancel: 'Batal',
+        confirm: 'Login'
+      }
+    }).then((login) => {
+      if (login) next({ name: 'login user' })
+      else next({ name: 'home' })
+    })
+  } else if (to.name === 'login user' && status) {
+    alert('Anda Sudah Login')
+  } else {
+    next()
+  }
 })
 
 export default router
