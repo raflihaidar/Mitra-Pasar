@@ -15,7 +15,8 @@
                     <div class="flex items-center justify-evenly py-2 px-3 bg-white">
                         <UserIcon />
                         <span>|</span>
-                        <input type="text" class="bg-white w-full outline-none" name="username" placeholder="username">
+                        <input type="text" class="bg-white w-full outline-none" name="username" placeholder="username"
+                            v-model="username">
                     </div>
                 </div>
                 <div class="w-4/5 mx-auto">
@@ -23,12 +24,13 @@
                     <div class="flex items-center justify-evenly py-2 px-3 bg-white">
                         <LockIcon />
                         <span>|</span>
-                        <input type="password" class="bg-white w-full outline-none" name="password" placeholder="password">
+                        <input type="password" class="bg-white w-full outline-none" name="password" placeholder="password"
+                            v-model="password">
                     </div>
                 </div>
             </div>
-            <div
-                class="bg-lime-700 w-56 py-4 mt-16 rounded-full mx-auto text-white text-center text-lg font-semibold cursor-pointer">
+            <div class="bg-lime-700 w-56 py-4 mt-16 rounded-full mx-auto text-white text-center text-lg font-semibold cursor-pointer"
+                @click="handleLogin">
                 Login</div>
         </div>
     </div>
@@ -37,11 +39,46 @@
 <script>
 import UserIcon from '../assets/icon/UserIcon.vue'
 import LockIcon from '../assets/icon/LockIcon.vue'
+import swal from 'sweetalert'
+import { mapGetters } from 'vuex'
 export default {
     name: 'AdminPage',
     components: {
         UserIcon,
         LockIcon
+    },
+    data() {
+        return {
+            username: "",
+            password: "",
+        }
+    },
+    methods: {
+        handleLogin() {
+
+            this.dataUser.data.forEach(item => {
+                if (item.username == this.username && item.password == this.password) {
+                    this.$store.dispatch('handleLogin')
+                }
+            })
+            if (this.$store.getters.isAuthenticated) {
+                swal('Berhasil Login', {
+                    icon: 'success'
+                }).then(() => {
+                    this.$router.push({ name: 'content page' })
+                })
+            } else {
+                swal("Gagal Login", {
+                    icon: 'warning'
+                })
+            }
+        }
+    },
+    computed: {
+        ...mapGetters(['dataUser', 'isAuthenticated'])
+    },
+    mounted() {
+        this.$store.dispatch('setDataUser')
     }
 }
 </script>
