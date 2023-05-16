@@ -58,7 +58,7 @@ export default {
         },
         handleLogout() {
             swal("Apakah Anda Ingin Logout", {
-                icon: 'question',
+                icon: 'warning',
                 buttons: {
                     cancel: 'Batal',
                     confirm: 'Logout'

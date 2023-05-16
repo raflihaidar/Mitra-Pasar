@@ -32,11 +32,13 @@ import axios from 'axios'
 import CartIcon from '../assets/icon/CartIcon.vue';
 import NavbarComponent from '../components/NavbarComponent.vue'
 import { mapGetters } from 'vuex';
+import swal from 'sweetalert';
 export default {
     name: "DetailProduct",
     data() {
         return {
-            product: []
+            product: [],
+            checkStock: this.catalog
         };
     },
     components: {
@@ -54,11 +56,25 @@ export default {
             }
         },
         addToCart(item) {
-            this.$store.dispatch('addToCart', item)
+            let data = this.catalog.data.find((p) => p.id === item.id)
+            if (data.stock !== 0) {
+                this.$store.dispatch('addToCart', item)
+            } else {
+                swal('Mohon Maaf, Stock Habis', {
+                    icon: 'info'
+                })
+            }
         },
         buyNow(item) {
-            this.$store.dispatch('handleBuy', item)
-            this.$store.dispatch("checkOut")
+            let data = this.catalog.data.find((p) => p.id === item.id)
+            if (data.stock !== 0) {
+                this.$store.dispatch('handleBuy', item)
+                this.$store.dispatch("checkOut")
+            } else {
+                swal('Mohon Maaf, Stock Habis', {
+                    icon: 'info'
+                })
+            }
         }
     },
     mounted() {
@@ -66,7 +82,7 @@ export default {
         this.getDetailProduct(productId);
     },
     computed: {
-        ...mapGetters(['cart']),
+        ...mapGetters(['cart', 'catalog']),
         totalItems() {
             return this.cart.reduce((a, b) => a + b.quantity, 0)
         }
