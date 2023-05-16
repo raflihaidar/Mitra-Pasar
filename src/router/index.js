@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import DetailProduct from '../page/DetailProduct.vue'
 import LandingPage from '../page/LandingPage.vue'
 import LoginUser from '../page/LoginUser.vue'
 import LoginAdmin from '../page/LoginAdmin.vue'
@@ -47,6 +48,11 @@ const router = createRouter({
       path: '/content',
       name: 'content page',
       component: ContentPage
+    },
+    {
+      path: '/product/detail/:productId',
+      name: 'detail product',
+      component: DetailProduct
     },
     {
       path: '/cart',

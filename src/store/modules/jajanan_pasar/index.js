@@ -25,6 +25,9 @@ export default {
         commit('SET_CATALOG', response.data)
       })
     },
+    handleBuy({ commit }, payload) {
+      commit('BUY_NOW', payload)
+    },
     addToCart({ commit }, payload) {
       commit('UPDATE_CART', payload)
     },
@@ -84,6 +87,9 @@ export default {
           })
         }
       }
+    },
+    BUY_NOW: (state, payload) => {
+      state.total = payload.price
     },
     CHECK_OUT: (state) => {
       //untuk menampilkan modal checkout

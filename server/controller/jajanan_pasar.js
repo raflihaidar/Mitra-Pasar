@@ -1,75 +1,92 @@
-const jajananPasarModules = require("../models/jajanan_pasar");
+const jajananPasarModules = require('../models/jajanan_pasar')
 
 const getJajanan_pasar = async (req, res) => {
   try {
-    const [data] = await jajananPasarModules.getJajanan_pasar();
+    const [data] = await jajananPasarModules.getJajanan_pasar()
     res.json({
-      data: data,
-    });
+      data: data
+    })
   } catch (error) {
     res.status(500).json({
-      message: "server error",
-      serverMessage: error,
-    });
+      message: 'server error',
+      serverMessage: error
+    })
   }
-};
+}
+
+const getDetailProducts = async (req, res) => {
+  const { id } = req.params
+  try {
+    const [data] = await jajananPasarModules.getJajanan_pasar()
+    const product = data.find((item) => item.id.toString() === id)
+    res.json({
+      data: product
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: 'server error',
+      serverMessage: error
+    })
+  }
+}
 
 const createNewProduct = async (req, res) => {
-  const { body } = req;
+  const { body } = req
   try {
-    await jajananPasarModules.createNewProduct(body);
+    await jajananPasarModules.createNewProduct(body)
     res.status(201).json({
-      message: "CREATE NEW PRODUCT SUCCESS",
-      data: body,
-    });
+      message: 'CREATE NEW PRODUCT SUCCESS',
+      data: body
+    })
   } catch (error) {
     res.status(500).json({
-      message: "server error",
-      serverMessage: error,
-    });
+      message: 'server error',
+      serverMessage: error
+    })
   }
-};
+}
 
 const updateData = async (req, res) => {
-  const { id } = req.params;
-  const { body } = req;
+  const { id } = req.params
+  const { body } = req
   try {
-    await jajananPasarModules.updateData(body, id);
+    await jajananPasarModules.updateData(body, id)
     res.json({
-      message: "Update Products Success",
-      data: body,
-    });
+      message: 'Update Products Success',
+      data: body
+    })
   } catch (error) {
     res.status(500).json({
-      message: "server error",
-      serverMessage: error,
-    });
+      message: 'server error',
+      serverMessage: error
+    })
   }
-};
+}
 
 const deleteProducts = async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.params
   try {
-    await jajananPasarModules.deleteProducts(id);
+    await jajananPasarModules.deleteProducts(id)
     res.json({
-      message: "Delete Products Success",
+      message: 'Delete Products Success',
       data: {
-        id: "1",
-        name: "Dadar Gulung",
-        price: 3000,
-      },
-    });
+        id: '1',
+        name: 'Dadar Gulung',
+        price: 3000
+      }
+    })
   } catch (error) {
     res.status(500).json({
-      message: "server error",
-      serverMessage: error,
-    });
+      message: 'server error',
+      serverMessage: error
+    })
   }
-};
+}
 
 module.exports = {
   getJajanan_pasar,
+  getDetailProducts,
   createNewProduct,
   updateData,
-  deleteProducts,
-};
+  deleteProducts
+}

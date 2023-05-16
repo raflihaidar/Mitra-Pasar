@@ -25,17 +25,19 @@
             <div class="grid grid-cols-4 gap-y-10 my-5">
                 <div v-for="(item, index) in catalog.data" :key="index" class="group">
                     <div
-                        class="w-[200px] h-[300px] bg-lime-600 text-white rounded-xl cursor-pointer shadow-xl group-hover:ring-4 ring-offset-1 ring-lime-600 transition-all">
+                        class="z-10 w-[200px] h-[300px] bg-lime-600 text-white rounded-xl cursor-pointer shadow-xl group-hover:ring-4 ring-offset-1 ring-lime-600 transition-all">
                         <div class="h-[75%] flex flex-col justify-between">
-                            <div class="w-full h-auto rounded-lg">
-                                <img :src="item.img" :alt="item.product_name" class="w-full rounded-xl">
-                            </div>
+                            <router-link :to="'/product/detail/' + item.id">
+                                <div class="w-full h-auto rounded-lg">
+                                    <img :src="item.img" :alt="item.product_name" class="w-full rounded-xl">
+                                </div>
+                            </router-link>
                             <div class="text-left font-semibold py-2 px-3">
                                 <p class="text-lg">{{ item.product_name }}</p>
                                 <p>Rp.{{ item.price }}</p>
                             </div>
                         </div>
-                        <div class="flex justify-between w-full px-2 py-3 mt-5">
+                        <div class="flex justify-between w-full px-2 py-3 mt-5 z-20">
                             <button
                                 class="bg-yellow-500 px-2 py-1 rounded-md text-sm focus:bg-yellow-400 focus:ring-2 ring-white transition-all"
                                 @click="addToCart(item)">Add to

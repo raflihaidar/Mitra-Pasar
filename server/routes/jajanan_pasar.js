@@ -6,6 +6,9 @@ const router = express.Router()
 // READ - GET
 router.get('/', jajanan_pasarController.getJajanan_pasar)
 
+//READ - GET DETAIL PRODUCTS
+router.get('/product/:id', jajanan_pasarController.getDetailProducts)
+
 // CREATE - POST
 router.post('/', jajanan_pasarController.createNewProduct)
 
