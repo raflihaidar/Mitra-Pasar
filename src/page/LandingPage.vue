@@ -3,11 +3,11 @@
         <nav class="w-[90%] mx-auto flex justify-between items-center">
             <LogoIcon />
             <section class="w-2/5 text-md flex justify-end gap-x-10 text-white font-bold">
-                <router-link to='/sign' class="hover:-mt-2 transition-all">
+                <router-link to='/sign' class="transition-all">
                     Daftar
                 </router-link>
                 <div v-if="!isAuthenticated">
-                    <p @click="switchActive" class="relative hover:-mt-2 transition-all">Login</p>
+                    <p @click="switchActive" class="relative transition-all pointer">Login</p>
                     <ul class="absolute text-center grid bg-white text-lime-700 font-medium w-[110px] right-10 top-10 rounded-lg"
                         :class="isActive ? 'block' : 'hidden'">
                         <router-link to="/login_user">
@@ -23,7 +23,7 @@
                     </ul>
                 </div>
                 <div v-else>
-                    <p class="relative hover:-mt-2 transition-all" @click="handleLogout">Log out</p>
+                    <p class="relative transition-all" @click="handleLogout">Log out</p>
                 </div>
             </section>
         </nav>

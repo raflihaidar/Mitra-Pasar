@@ -38,15 +38,6 @@
                             placeholder="Masukkan Password">
                     </div>
                 </div>
-                <!-- <div class="w-4/5 mx-auto">
-                    <label name="password" class="text-white">Konfirmasi Password</label>
-                    <div class="flex items-center justify-evenly py-2 px-3 bg-white">
-                        <LockIcon />
-                        <span>|</span>
-                        <input type="password" class="bg-white w-full outline-none" name="password"
-                            placeholder="Konfirmasi Password">
-                    </div>
-                </div> -->
             </div>
 
 

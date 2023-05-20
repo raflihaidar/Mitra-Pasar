@@ -56,7 +56,7 @@ export default {
             }
         },
         addToCart(item) {
-            let data = this.catalog.data.find((p) => p.id === item.id)
+            let data = this.catalog.find((p) => p.id === item.id)
             if (data.stock !== 0) {
                 this.$store.dispatch('addToCart', item)
             } else {
@@ -66,7 +66,7 @@ export default {
             }
         },
         buyNow(item) {
-            let data = this.catalog.data.find((p) => p.id === item.id)
+            let data = this.catalog.find((p) => p.id === item.id)
             if (data.stock !== 0) {
                 this.$store.dispatch('handleBuy', item)
                 this.$store.dispatch("checkOut")

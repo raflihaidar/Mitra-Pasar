@@ -3,11 +3,13 @@ import swal from 'sweetalert'
 export default {
   state: {
     catalog: [],
+    filteredCatalog: [],
     cart: [],
     total: 0
   },
   getters: {
-    catalog: (state) => state.catalog,
+    catalog: (state) => state.catalog.data,
+    filteredCatalog: (state) => state.filteredCatalog,
     cart: (state) => state.cart,
     Total: (state) => {
       return state.cart.reduce((amount, item) => {

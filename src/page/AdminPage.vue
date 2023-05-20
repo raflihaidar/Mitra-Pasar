@@ -72,7 +72,7 @@
                         <th class="px-5 py-3">Aksi</th>
                     </tr>
                 </thead>
-                <tbody v-for="(item, index) in catalog.data" :key="index" class="border-2 border-lime-700 relative">
+                <tbody v-for="(item, index) in catalog" :key="index" class="border-2 border-lime-700 relative">
                     <tr class="text-sm font-semibold bg-lime-200 bg-opacity-25">
                         <td class="px-5 py-3 whitespace-nowrap">{{ index + 1 }}</td>
                         <td class="px-5 py-3 whitespace-nowrap">{{ item.product_name }}</td>

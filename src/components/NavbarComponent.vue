@@ -15,12 +15,16 @@
   
 <script>
 import { mapGetters } from 'vuex';
+import LogoIcon from '../assets/icon/LogoIcon.vue';
 export default {
     name: 'NavbarComponent',
     data() {
         return {
             username: ""
         }
+    },
+    components: {
+        LogoIcon
     },
     computed: {
         ...mapGetters(['setDataUser'])

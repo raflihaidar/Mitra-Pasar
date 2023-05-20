@@ -1,11 +1,8 @@
 <template>
     <NavbarComponent />
-    <div class="w-[80%] mx-auto font-openSans">
+    <SearchBar />
+    <div class="w-[80%] mx-auto font-openSans mt-10">
         <div class="w-full relative">
-            <SearchBar />
-            <div class="w-full h-auto">
-                <img src="" alt="">
-            </div>
             <p class="text-2xl font-semibold">Kategori Produk</p>
             <div class="w-full grid grid-cols-7 text-sm text-center text-white font-semibold mb-20 mt-5">
                 <div v-for="(item, index) in category" :key="index" class="group">
@@ -16,7 +13,7 @@
                 </div>
             </div>
             <div class="grid grid-cols-4 gap-y-10 my-5">
-                <div v-for="(item, index) in catalog.data" :key="index" class="group">
+                <div v-for="(item, index) in catalog" :key="index" class="group">
                     <div class="z-10 w-[200px] h-[300px] bg-lime-600 text-white rounded-xl cursor-pointer shadow-xl group-hover:ring-4 ring-offset-1 ring-lime-600 transition-all"
                         :class="item.stock === 0 ? 'grayscale' : null">
                         <div class="h-[75%] flex flex-col justify-between">
@@ -92,7 +89,8 @@ export default {
         },
         likeButton(event) {
             event.target.parentElement.style.backgroundColor = 'red'
-        }
+        },
+
     },
     computed: {
         ...mapGetters(['catalog', 'cart']),

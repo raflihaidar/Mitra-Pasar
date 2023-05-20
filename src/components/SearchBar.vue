@@ -1,16 +1,36 @@
 <template>
-    <div class="w-[60%] mx-auto my-10 flex shadow-lg items-center px-3 py-5 rounded-lg">
-        <input type="search" class="w-full border-none outline-none " placeholder="Mau Cari Apa ?" @change="handleFilter"
-            v-model="searchWord">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
-            <path fill-rule="evenodd"
-                d="M10.5 3.75a6.75 6.75 0 100 13.5 6.75 6.75 0 000-13.5zM2.25 10.5a8.25 8.25 0 1114.59 5.28l4.69 4.69a.75.75 0 11-1.06 1.06l-4.69-4.69A8.25 8.25 0 012.25 10.5z"
-                clip-rule="evenodd" />
-        </svg>
+    <div class="w-[60%] mx-auto mt-10 flex items-center px-3 py-5 rounded-lg relative border-2">
+        <input type="text" class="w-full border-none outline-none " placeholder="Mau Cari Apa ?" v-model="wordEntered">
+        <div v-if="wordEntered !== ''" @click="handleDelete">
+            <CloseIcon />
+        </div>
+        <div v-else>
+            <SearchIcon />
+        </div>
+    </div>
+    <div v-if="filteredData.length !== 0"
+        class="w-3/5 mx-auto text-center rounded-lg bg-white shadow-xl absolute overflow-hidden overflow-y-auto z-[999] top-[28%] left-[50%] -translate-y-1/2 -translate-x-1/2">
+        <div v-for="(item, index) in filteredData" :key="index">
+            <ul class="py-2">
+                <router-link :to="'/product/detail/' + item.id">
+                    <li>{{ item.product_name }}</li>
+                </router-link>
+            </ul>
+        </div>
+    </div>
+    <div v-else-if="filteredData.length === 0 && wordEntered !== ''"
+        class="w-3/5 mx-auto text-center py-2 rounded-lg bg-white shadow-xl absolute z-[999] overflow-hidden top-[25%] left-[50%] -translate-y-1/2 -translate-x-1/2">
+        <p>
+            Tidak dapat menemukan "{{ wordEntered }}"
+        </p>
+
     </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import CloseIcon from '../assets/icon/CloseIcon.vue'
+import SearchIcon from '../assets/icon/SearchIcon.vue'
 export default {
     name: 'SearchBar',
     data() {
@@ -19,10 +39,33 @@ export default {
             wordEntered: "",
         }
     },
-    methods: {
-        handleFilter() {
-            console.log(this.wordEntered)
+    components: {
+        SearchIcon,
+        CloseIcon
+    },
+    watch: {
+        wordEntered(newVal) {
+            this.handleFilter(newVal);
         }
-    }
+    },
+    methods: {
+        handleFilter(wordEntered) {
+            const dataFilter = this.catalog.filter((item) => {
+                return item.product_name.toLowerCase().includes(wordEntered.toLowerCase())
+            })
+
+            if (wordEntered === "") {
+                this.filteredData = []
+            } else {
+                this.filteredData = dataFilter
+            }
+        },
+        handleDelete() {
+            this.wordEntered = ''
+        }
+    },
+    computed: {
+        ...mapGetters(['catalog'])
+    },
 }
 </script>
