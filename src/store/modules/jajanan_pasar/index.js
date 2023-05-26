@@ -9,6 +9,7 @@ export default {
   },
   getters: {
     catalog: (state) => state.catalog.data,
+    catalogs: (state) => state.catalog,
     filteredCatalog: (state) => state.filteredCatalog,
     cart: (state) => state.cart,
     Total: (state) => {
@@ -22,10 +23,15 @@ export default {
     }
   },
   actions: {
-    async setCatalog({ commit }) {
-      await axios.get('http://localhost:8000/jajanan_pasar').then((response) => {
-        commit('SET_CATALOG', response.data)
-      })
+    async setCatalog({ commit }, url) {
+      await axios
+        .get(`http://localhost:8000/${url}`)
+        .then((response) => {
+          commit('SET_CATALOG', response.data)
+        })
+        .catch(() => {
+          commit('SET_CATALOG_ERR')
+        })
     },
     handleBuy({ commit }, payload) {
       commit('BUY_NOW', payload)
@@ -62,6 +68,7 @@ export default {
   },
   mutations: {
     SET_CATALOG: (state, payload) => (state.catalog = payload),
+    SET_CATALOG_ERR: (state) => (state.catalog = []),
     SET_STATUS: (state, payload) => {
       state.cart[payload].status = !state.cart[payload].status //untuk mengubah status checklist pada products
     }, // untuk mengapdate state total

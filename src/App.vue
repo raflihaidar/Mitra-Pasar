@@ -11,7 +11,7 @@ defineElement(lottie.loadAnimation)
 export default {
   name: 'App',
   mounted() {
-    this.$store.dispatch('setCatalog')
+    this.$store.dispatch('setCatalog', 'jajanan_pasar')
   }
 }
 </script>

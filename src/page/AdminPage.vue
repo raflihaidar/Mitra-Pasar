@@ -210,7 +210,7 @@ export default {
         ...mapGetters(['catalog'])
     },
     mounted() {
-        this.$store.dispatch('setCatalog')
+        // this.$store.dispatch('setCatalog')
         this.modalContent;
     }
 }

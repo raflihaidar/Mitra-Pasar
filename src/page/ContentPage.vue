@@ -6,13 +6,13 @@
             <p class="text-2xl font-semibold">Kategori Produk</p>
             <div class="w-full grid grid-cols-7 text-sm text-center text-white font-semibold mb-20 mt-5">
                 <div v-for="(item, index) in category" :key="index" class="group">
-                    <p
-                        class="w-[100px] h-[100px] leading-[90px] px-2 py-3 bg-lime-600 mr-3 rounded-lg cursor-pointer shadow-lg group-hover:scale-110 transition-all">
-                        {{ item }}
+                    <p class="w-[100px] h-[100px] leading-[90px] px-2 py-3 mr-3 rounded-lg cursor-pointer shadow-lg group-hover:scale-110 transition-all"
+                        :class="item.status ? 'bg-lime-500' : 'bg-lime-600'" @click="selectCategory(item.url)">
+                        {{ item.name }}
                     </p>
                 </div>
             </div>
-            <div class="grid grid-cols-4 gap-y-10 my-5">
+            <div class="grid grid-cols-4 gap-y-10 my-5" v-if="catalogs.length !== 0">
                 <div v-for="(item, index) in catalog" :key="index" class="group">
                     <div class="z-10 w-[200px] h-[300px] bg-lime-600 text-white rounded-xl cursor-pointer shadow-xl group-hover:ring-4 ring-offset-1 ring-lime-600 transition-all"
                         :class="item.stock === 0 ? 'grayscale' : null">
@@ -61,6 +61,9 @@
                 </router-link>
 
             </div>
+            <div v-else>
+                <p>Belum Tersedia</p>
+            </div>
         </div>
     </div>
 </template>
@@ -79,7 +82,33 @@ export default {
     },
     data() {
         return {
-            category: ['Jajanan Pasar', 'Sayur', 'Mainan Anak', 'Pakaian', 'Warteg Food', 'Barang Elektronik', 'E-Becak'],
+            category: [
+                {
+                    name: "Jajanan Pasar",
+                    url: "jajanan_pasar",
+                    status: true
+                },
+                {
+                    name: "Pakaian",
+                    url: "pakaian",
+                    status: false
+                },
+                {
+                    name: "Mainan",
+                    url: "mainan",
+                    status: false
+                },
+                {
+                    name: "Transportasi",
+                    url: "transportasi",
+                    status: false
+                },
+                {
+                    name: "E-Warteg",
+                    url: 'warteg',
+                    status: false
+                }
+            ],
             likeStatus: false
         }
     },
@@ -90,10 +119,12 @@ export default {
         likeButton(event) {
             event.target.parentElement.style.backgroundColor = 'red'
         },
-
+        selectCategory(item) {
+            this.$store.dispatch('setCatalog', item)
+        }
     },
     computed: {
-        ...mapGetters(['catalog', 'cart']),
+        ...mapGetters(['catalog', 'catalogs', 'cart']),
         totalItems() {
             return this.cart.reduce((a, b) => a + b.quantity, 0)
         }
