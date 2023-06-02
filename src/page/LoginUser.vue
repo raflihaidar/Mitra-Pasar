@@ -7,7 +7,7 @@
                     colors="primary:#121331,secondary:#b26836,tertiary:#e8e230,quaternary:#f9c9c0,quinary:#ebe6ef"
                     style="width:150px;height:150px">
                 </lord-icon>
-                <p>Login User</p>
+                <p>Login</p>
             </div>
             <div class="flex flex-col gap-y-5">
                 <div class="w-4/5 mx-auto">
@@ -45,7 +45,7 @@ export default {
     name: 'AdminPage',
     components: {
         UserIcon,
-        LockIcon
+        LockIcon,
     },
     data() {
         return {
@@ -55,10 +55,11 @@ export default {
     },
     methods: {
         handleLogin() {
-
+            const adminAuth = this.username == 'admin' && this.password == 'adminlogin'
             this.dataUser.data.forEach(item => {
-                if (item.username == this.username && item.password == this.password) {
-                    this.$store.dispatch('handleLogin')
+                const userAuth = item.username == this.username && item.password == this.password
+                if (userAuth) {
+                    this.$store.dispatch('handleLogin', this.username)
                 }
             })
             if (this.$store.getters.isAuthenticated) {
@@ -66,6 +67,12 @@ export default {
                     icon: 'success'
                 }).then(() => {
                     this.$router.push({ name: 'content page' })
+                })
+            } else if (adminAuth) {
+                swal('Berhasil Login', {
+                    icon: 'success'
+                }).then(() => {
+                    this.$router.push({ name: 'admin dashboard' })
                 })
             } else {
                 swal("Gagal Login", {

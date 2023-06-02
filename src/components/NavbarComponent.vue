@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-lime-600 w-full py-3 flex justify-around items-center">
+    <router-link class="bg-lime-600 w-full py-3 flex justify-around items-center" to="/user/akun/profil">
         <LogoIcon />
         <div class='flex gap-x-2 text-white items-center font-semibold'>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
@@ -8,9 +8,9 @@
                     clip-rule="evenodd" />
             </svg>
 
-            <p class="text-lg">Rafli Haidar</p>
+            <p class="text-lg">{{ username }}</p>
         </div>
-    </div>
+    </router-link>
 </template>
   
 <script>
@@ -18,16 +18,16 @@ import { mapGetters } from 'vuex';
 import LogoIcon from '../assets/icon/LogoIcon.vue';
 export default {
     name: 'NavbarComponent',
-    data() {
-        return {
-            username: ""
+    props: {
+        user: {
+            type: String
         }
     },
     components: {
         LogoIcon
     },
     computed: {
-        ...mapGetters(['setDataUser'])
+        ...mapGetters(['setDataUser', 'username'])
     },
 }
 </script>

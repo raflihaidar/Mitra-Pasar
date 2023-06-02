@@ -27,7 +27,8 @@
                     <td class="px-5 py-3 whitespace-nowrap">{{ item.quantity }}</td>
                     <td class="px-5 py-3 whitespace-nowrap">Rp.{{ item.priceUser }}</td>
                     <td class="text-white text center px-5 py-3 whitespace-nowrap">
-                        <button class="bg-red-500 py-1 px-2 mr-3 rounded-md" @click="removeItem(index)">Delete</button>
+                        <button class="bg-red-500 py-1 px-2 mr-3 rounded-md"
+                            @click="removeItem(index, item)">Delete</button>
                         <button class="bg-red-500 py-1 px-2 rounded-md" @click="clearAll(index)">Delete All</button>
                     </td>
                 </tr>
@@ -55,6 +56,7 @@
 
 <script>
 import NavbarComponent from '../components/NavbarComponent.vue';
+import axios from 'axios'
 import { mapGetters } from 'vuex';
 export default {
     name: 'CartComponent',
@@ -67,15 +69,18 @@ export default {
         }
     },
     methods: {
-        removeItem(index) {
+        async removeItem(index, item) {
+            let result = item.stock + 1;
+            await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: result })
+                .then(() => {
+                    this.$store.dispatch("setCatalog", "jajanan_pasar")
+                })
             this.selectedValues.fill(0)
             this.$store.dispatch("removeCartProduct", index);
-            this.$store.dispatch("getTotal", 0)
         },
         clearAll(item) {
             this.selectedValues.fill(0)
             this.$store.dispatch("clearCart", item);
-            this.$store.dispatch("getTotal", 0)
         },
         handleCheckOut() {
             this.$store.dispatch("checkOut")
@@ -86,7 +91,6 @@ export default {
     },
     computed: {
         ...mapGetters(["cart", "Total"]),
-
     },
 }
 </script>

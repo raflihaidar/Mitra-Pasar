@@ -7,20 +7,7 @@
                     Daftar
                 </router-link>
                 <div v-if="!isAuthenticated">
-                    <p @click="switchActive" class="relative transition-all pointer">Login</p>
-                    <ul class="absolute text-center grid bg-white text-lime-700 font-medium w-[110px] right-10 top-10 rounded-lg"
-                        :class="isActive ? 'block' : 'hidden'">
-                        <router-link to="/login_user">
-                            <li class=" hover:bg-lime-700 py-3 hover:text-white">
-                                User
-                            </li>
-                        </router-link>
-                        <router-link to="/login_admin">
-                            <li class="hover:bg-lime-700 py-3 hover:text-white">
-                                Admin
-                            </li>
-                        </router-link>
-                    </ul>
+                    <router-link to="/login_user" class="relative transition-all pointer">Login</router-link>
                 </div>
                 <div v-else>
                     <p class="relative transition-all" @click="handleLogout">Log out</p>

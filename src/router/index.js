@@ -8,6 +8,7 @@ import ContentPage from '../page/ContentPage.vue'
 import AdminPage from '../page/AdminPage.vue'
 import NewDataPage from '../page/NewData.vue'
 import CartComponent from '../page/CartPage.vue'
+import UserProfile from '../page/UserProfile.vue'
 import Store from '../store/modules/users/index'
 import swal from 'sweetalert'
 
@@ -58,6 +59,11 @@ const router = createRouter({
       path: '/cart',
       name: 'cart page',
       component: CartComponent
+    },
+    {
+      path: '/user/akun/profil',
+      name: 'user profile',
+      component: UserProfile
     }
   ]
 })

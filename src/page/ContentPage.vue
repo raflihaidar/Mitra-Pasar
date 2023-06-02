@@ -4,12 +4,12 @@
     <div class="w-[80%] mx-auto font-openSans mt-10">
         <div class="w-full relative">
             <p class="text-2xl font-semibold">Kategori Produk</p>
-            <div class="w-full grid grid-cols-7 text-sm text-center text-white font-semibold mb-20 mt-5">
+            <div class="w-4/5 mx-auto grid grid-cols-5 text-sm text-center text-white font-semibold mb-20 mt-5">
                 <div v-for="(item, index) in category" :key="index" class="group">
-                    <p class="w-[100px] h-[100px] leading-[90px] px-2 py-3 mr-3 rounded-lg cursor-pointer shadow-lg group-hover:scale-110 transition-all"
-                        :class="item.status ? 'bg-lime-500' : 'bg-lime-600'" @click="selectCategory(item.url)">
+                    <div class="w-[100px] h-[100px] leading-[90px] px-2 py-3 mr-3 rounded-lg cursor-pointer shadow-lg group-hover:scale-110 transition-all"
+                        :class="item.status ? 'bg-lime-500' : 'bg-lime-600'" @click="selectCategory(item)">
                         {{ item.name }}
-                    </p>
+                    </div>
                 </div>
             </div>
             <div class="grid grid-cols-4 gap-y-10 my-5" v-if="catalogs.length !== 0">
@@ -30,13 +30,9 @@
                                 class="bg-yellow-500 px-2 py-1 rounded-md text-sm focus:bg-yellow-400 focus:ring-2 ring-white transition-all"
                                 @click="addToCart(item)">Add to
                                 Cart</button>
-                            <button class="p-1 rounded-md bg-gray-400" @click="likeButton($event)"><svg
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="w-6 h-6">
-                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                        d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
-                                </svg>
-                            </button>
+                            <div @click="likeButton($event)">
+                                <FavoriteIcon />
+                            </div>
                             <router-link :to="'/product/detail/' + item.id">
                                 <button class="bg-lime-500 p-1 rounded-md">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -61,8 +57,8 @@
                 </router-link>
 
             </div>
-            <div v-else>
-                <p>Belum Tersedia</p>
+            <div v-else class="bg-red-600 w-[60%] mx-auto text-white text-3xl font-bold py-10 text-center mt-5">
+                <p>Produk Belum Tersedia</p>
             </div>
         </div>
     </div>
@@ -71,14 +67,17 @@
 <script>
 import NavbarComponent from '../components/NavbarComponent.vue'
 import CartIcon from '../assets/icon/CartIcon.vue'
+import FavoriteIcon from '../assets/icon/favoriteIcon.vue';
 import { mapGetters } from 'vuex';
 import SearchBar from '../components/SearchBar.vue';
+import axios from 'axios';
 export default {
     name: 'ContentPage',
     components: {
         NavbarComponent,
         CartIcon,
-        SearchBar
+        SearchBar,
+        FavoriteIcon
     },
     data() {
         return {
@@ -109,18 +108,29 @@ export default {
                     status: false
                 }
             ],
-            likeStatus: false
         }
     },
     methods: {
-        addToCart(item) {
+        async addToCart(item) {
             this.$store.dispatch('addToCart', item)
+            await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: item.stock })
         },
         likeButton(event) {
-            event.target.parentElement.style.backgroundColor = 'red'
+            if (event.target.style.color != 'gold') {
+                event.target.style.color = 'gold'
+            } else {
+                event.target.style.color = ''
+            }
         },
         selectCategory(item) {
-            this.$store.dispatch('setCatalog', item)
+            this.$store.dispatch('setCatalog', item.url)
+            this.category.forEach((data) => {
+                if (data == item) {
+                    data.status = true;
+                } else {
+                    data.status = false
+                }
+            })
         }
     },
     computed: {

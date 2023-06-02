@@ -36,6 +36,13 @@ const updateData = (body, id) => {
   return dbPool.execute(SQLquery)
 }
 
+const updateSingleData = (body, id) => {
+  const SQLquery = `UPDATE express_mitrapasar.jajanan_pasar 
+                    SET stock=${body.stock}
+                        WHERE id=${id}`
+  return dbPool.execute(SQLquery)
+}
+
 const deleteProducts = (id) => {
   const SQLquery = `DELETE FROM express_mitrapasar.jajanan_pasar WHERE id=${id} `
   return dbPool.execute(SQLquery)
@@ -45,5 +52,6 @@ module.exports = {
   getJajanan_pasar,
   createNewProduct,
   updateData,
+  updateSingleData,
   deleteProducts
 }

@@ -87,6 +87,7 @@ export default {
         payload.stock -= 1
         if (addedItem) {
           addedItem.quantity++
+          addedItem.stock--
           addedItem.priceUser = payload.price * addedItem.quantity
         } else {
           state.cart.push({
@@ -127,14 +128,14 @@ export default {
     },
     REMOVE_ITEM: (state, index) => {
       //untuk menghapus item product
-      const product = state.cart[index]
+      let product = state.cart[index]
       if (product.quantity === 1) {
         state.cart.splice(index, 1)
       } else {
         product.quantity--
         product.priceUser -= product.price
       }
-      state.products.map((item) => {
+      state.cart.map((item) => {
         if (item.id === product.id) {
           item.stock++
         }

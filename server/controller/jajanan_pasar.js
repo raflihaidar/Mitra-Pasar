@@ -62,6 +62,22 @@ const updateData = async (req, res) => {
     })
   }
 }
+const updateSingleData = async (req, res) => {
+  const { id } = req.params
+  const { body } = req
+  try {
+    await jajananPasarModules.updateSingleData(body, id)
+    res.json({
+      message: 'Update Products Success',
+      data: body
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: 'server error',
+      serverMessage: error
+    })
+  }
+}
 
 const deleteProducts = async (req, res) => {
   const { id } = req.params
@@ -88,5 +104,6 @@ module.exports = {
   getDetailProducts,
   createNewProduct,
   updateData,
+  updateSingleData,
   deleteProducts
 }

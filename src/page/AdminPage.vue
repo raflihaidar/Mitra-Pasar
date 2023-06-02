@@ -182,7 +182,6 @@ export default {
         },
         deleteData(id) {
             this.$store.dispatch('deleteData', id)
-            console.log(this.modalContent)
             this.modalDelete = false
         },
         async saveNewData(id) {
@@ -210,7 +209,6 @@ export default {
         ...mapGetters(['catalog'])
     },
     mounted() {
-        // this.$store.dispatch('setCatalog')
         this.modalContent;
     }
 }

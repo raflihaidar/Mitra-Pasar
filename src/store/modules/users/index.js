@@ -2,11 +2,15 @@ import axios from 'axios'
 export default {
   state: {
     dataUser: [],
+    dataFiltered: [],
+    username: '',
     isAuthenticated: false
   },
   getters: {
     dataUser: (state) => state.dataUser,
-    isAuthenticated: (state) => state.isAuthenticated
+    dataFiltered: (state) => state.dataFiltered,
+    isAuthenticated: (state) => state.isAuthenticated,
+    username: (state) => state.username
   },
   actions: {
     async setDataUser({ commit }) {
@@ -15,13 +19,19 @@ export default {
         console.log(response.data)
       })
     },
-    handleLogin({ commit }) {
-      commit('SET_AUTHENTICATED')
+    handleLogin({ commit }, payload) {
+      commit('SET_AUTHENTICATED', payload)
+      commit('GET_DATA_FILTERED', payload)
     }
   },
   mutations: {
     GET_DATA_USER: (state, payload) => (state.dataUser = payload),
-    SET_AUTHENTICATED: (state) => {
+    GET_DATA_FILTERED: (state, payload) => {
+      const data = state.dataUser.data.find((item) => item.username == payload)
+      state.dataFiltered = data
+    },
+    SET_AUTHENTICATED: (state, payload) => {
+      state.username = payload
       state.isAuthenticated = !state.isAuthenticated
     }
   }

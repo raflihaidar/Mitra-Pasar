@@ -15,6 +15,9 @@ router.post('/', jajanan_pasarController.createNewProduct)
 // UPDATE - PATCH
 router.put('/:id', jajanan_pasarController.updateData)
 
+//UPDATE
+router.patch('/:id', jajanan_pasarController.updateSingleData)
+
 // DELETE - DELETE
 router.delete('/:id', jajanan_pasarController.deleteProducts)
 
