@@ -70,7 +70,7 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
   let status = Store.state.isAuthenticated
-  if (to.name !== 'login user' && !status && to.name === 'content page') {
+  if (to.name === 'cart page' && !status) {
     swal('Anda Belum Login\nSilahkan Login Terlebih Dahulu', {
       buttons: {
         cancel: 'Batal',
@@ -78,10 +78,10 @@ router.beforeEach((to, from, next) => {
       }
     }).then((login) => {
       if (login) next({ name: 'login user' })
-      else next({ name: 'home' })
+      else next({ name: 'content page' })
     })
   } else if (to.name === 'login user' && status) {
-    alert('Anda Sudah Login')
+    next({ name: 'home' })
   } else {
     next()
   }

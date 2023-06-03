@@ -8,7 +8,12 @@
                     clip-rule="evenodd" />
             </svg>
 
-            <p class="text-lg">{{ username }}</p>
+            <p class="text-lg" v-if="isAuthenticated">{{ username }}</p>
+            <div v-else class="flex gap-x-2">
+                <router-link to="/sign">Daftar</router-link>
+                <span>|</span>
+                <router-link to="/login_user">Masuk</router-link>
+            </div>
         </div>
     </router-link>
 </template>
@@ -27,7 +32,7 @@ export default {
         LogoIcon
     },
     computed: {
-        ...mapGetters(['setDataUser', 'username'])
+        ...mapGetters(['setDataUser', 'username', 'isAuthenticated'])
     },
 }
 </script>

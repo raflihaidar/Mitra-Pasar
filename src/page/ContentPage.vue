@@ -71,6 +71,8 @@ import FavoriteIcon from '../assets/icon/favoriteIcon.vue';
 import { mapGetters } from 'vuex';
 import SearchBar from '../components/SearchBar.vue';
 import axios from 'axios';
+import swal from 'sweetalert';
+import router from '../router';
 export default {
     name: 'ContentPage',
     components: {
@@ -112,8 +114,20 @@ export default {
     },
     methods: {
         async addToCart(item) {
-            this.$store.dispatch('addToCart', item)
-            await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: item.stock })
+            if (this.isAuthenticated) {
+                await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: item.stock })
+                this.$store.dispatch('addToCart', item)
+            } else {
+                swal('Anda Belum Login\nSilahkan Login Terlebih Dahulu', {
+                    buttons: {
+                        cancel: 'Batal',
+                        confirm: 'Login'
+                    }
+                }).then((login) => {
+                    if (login) router.push({ name: 'login user' })
+                    else router.push({ name: 'content page' })
+                })
+            }
         },
         likeButton(event) {
             if (event.target.style.color != 'gold') {
@@ -134,7 +148,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['catalog', 'catalogs', 'cart']),
+        ...mapGetters(['catalog', 'catalogs', 'cart', 'isAuthenticated']),
         totalItems() {
             return this.cart.reduce((a, b) => a + b.quantity, 0)
         }
