@@ -3,7 +3,7 @@
         :class="item.stock === 0 ? 'grayscale' : null">
         <div class="h-[75%] flex flex-col justify-between">
             <div class="w-full h-auto rounded-lg">
-                <img :src="item.img" :alt="item.product_name" class="w-full rounded-xl">
+                <img :src="item.img" :alt="item.product_name" class="w-full h-full rounded-xl">
             </div>
             <div class="text-left font-semibold py-2 px-3">
                 <p class="text-lg">{{ item.product_name }}</p>

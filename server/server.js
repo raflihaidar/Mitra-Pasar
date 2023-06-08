@@ -8,6 +8,7 @@ const logsMiddleware = require('./middleware/logs.js')
 
 const app = express()
 
+app.use(cors({ methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] }));
 app.use(logsMiddleware)
 app.use(express.json())
 app.use(cors()) // diletakkan setelah inisialisasi app
