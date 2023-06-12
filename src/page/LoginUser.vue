@@ -11,7 +11,7 @@
             </div>
             <div class="flex flex-col gap-y-5">
                 <div class="w-4/5 mx-auto">
-                    <label name="username" class="text-white">Username</label>
+                    <label name="username" class="text-white">Masukkan username / email / nomor hp</label>
                     <div class="flex items-center justify-evenly py-2 px-3 bg-white">
                         <UserIcon />
                         <span>|</span>
@@ -57,7 +57,7 @@ export default {
         handleLogin() {
             const adminAuth = this.username == 'admin' && this.password == 'adminlogin'
             this.dataUser.data.forEach(item => {
-                const userAuth = item.username == this.username && item.password == this.password
+                const userAuth = (item.username == this.username && item.password == this.password) || (item.nomor_hp == this.username && item.password == this.password) || (item.email == this.username && item.password == this.password)
                 if (userAuth) {
                     this.$store.dispatch('handleLogin', this.username)
                 }
