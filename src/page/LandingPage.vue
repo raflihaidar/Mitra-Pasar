@@ -3,7 +3,7 @@
         <nav class="w-[90%] mx-auto flex justify-between items-center">
             <LogoIcon />
             <section class="w-2/5 text-md flex justify-end gap-x-10 text-white font-bold">
-                <router-link to='/sign' class="transition-all">
+                <router-link to='/sign' class="transition-all" v-show="!isAuthenticated">
                     Daftar
                 </router-link>
                 <div v-if="!isAuthenticated">

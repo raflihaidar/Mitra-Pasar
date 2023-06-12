@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 import DetailProduct from '../page/DetailProduct.vue'
 import LandingPage from '../page/LandingPage.vue'
 import LoginUser from '../page/LoginUser.vue'
-import LoginAdmin from '../page/LoginAdmin.vue'
 import SignPage from '../page/SignPage.vue'
 import ContentPage from '../page/ContentPage.vue'
 import AdminPage from '../page/AdminPage.vue'
@@ -24,11 +23,6 @@ const router = createRouter({
       path: '/login_user',
       name: 'login user',
       component: LoginUser
-    },
-    {
-      path: '/login_admin',
-      name: 'login admin',
-      component: LoginAdmin
     },
     {
       path: '/sign',

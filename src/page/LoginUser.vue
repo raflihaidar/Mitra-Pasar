@@ -1,7 +1,8 @@
 <template>
+    <NavbarComponent />
     <div class="h-screen bg-lime-700 font-openSans">
         <div
-            class="absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 w-[40%] h-[96] py-10 bg-lime-600 rounded-lg">
+            class="absolute left-[50%] top-[60%] -translate-x-1/2 -translate-y-1/2 w-[40%] h-[96] py-10 bg-lime-600 rounded-lg">
             <div class="text-center text-2xl font-semibold leading-3 mb-10 text-white">
                 <lord-icon src="https://cdn.lordicon.com/vusrdugn.json" trigger="hover"
                     colors="primary:#121331,secondary:#b26836,tertiary:#e8e230,quaternary:#f9c9c0,quinary:#ebe6ef"
@@ -31,7 +32,12 @@
             </div>
             <div class="bg-lime-700 w-56 py-4 mt-16 rounded-full mx-auto text-white text-center text-lg font-semibold cursor-pointer"
                 @click="handleLogin">
-                Login</div>
+                Login
+            </div>
+
+            <div class="text-center text-white mt-5">
+                <span>Belum Punya Akun ?</span><router-link to="/sign"> Daftar</router-link>
+            </div>
         </div>
     </div>
 </template>
@@ -39,6 +45,7 @@
 <script>
 import UserIcon from '../assets/icon/UserIcon.vue'
 import LockIcon from '../assets/icon/LockIcon.vue'
+import NavbarComponent from '../components/NavbarComponent.vue'
 import swal from 'sweetalert'
 import { mapGetters } from 'vuex'
 export default {
@@ -46,6 +53,7 @@ export default {
     components: {
         UserIcon,
         LockIcon,
+        NavbarComponent
     },
     data() {
         return {

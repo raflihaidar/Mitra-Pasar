@@ -8,14 +8,16 @@ const getUser = () => {
 const createNewUser = (body) => {
   const SQLquery = `INSERT INTO express_mitrapasar.user 
                     (
+                      name,
                       username, 
                       password, 
-                      address
+                      nomor_hp
                     )
                     VALUES (  
+                      '${body.name}',
                       '${body.username}', 
                       '${body.password}', 
-                      '${body.address}'
+                      '${body.nomor_hp}'
                     )`
 
   return dbPool.execute(SQLquery)
