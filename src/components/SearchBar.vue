@@ -1,31 +1,33 @@
 <template>
-    <div class="w-[60%] mx-auto mt-10 flex items-center px-3 py-5 rounded-lg relative border-2">
-        <input type="text" class="w-full border-none outline-none " placeholder="Mau Cari Apa ?" v-model="wordEntered">
-        <div v-if="wordEntered !== ''" @click="handleDelete">
-            <CloseIcon />
+    <div class="relative mt-10">
+        <div class="w-[60%] mx-auto flex items-center px-3 py-5 rounded-lg border-2">
+            <input type="text" class="w-full border-none outline-none" placeholder="Mau Cari Apa ?" v-model="wordEntered">
+            <div v-if="wordEntered !== ''" @click="handleDelete">
+                <CloseIcon />
+            </div>
+            <div v-else>
+                <SearchIcon />
+            </div>
         </div>
-        <div v-else>
-            <SearchIcon />
+        <div v-if="filteredData.length !== 0"
+            class="w-[60%] mx-auto  text-center rounded-lg bg-white shadow-xl absolute overflow-hidden z-[999] left-[50%] -translate-x-1/2">
+            <div v-for="(item, index) in filteredData" :key="index">
+                <ul class="py-2">
+                    <router-link :to="'/product/detail/' + item.id">
+                        <li>{{ item.product_name }}</li>
+                    </router-link>
+                </ul>
+            </div>
         </div>
-    </div>
-    <div v-if="filteredData.length !== 0"
-        class="w-3/5 mx-auto text-center rounded-lg bg-white shadow-xl absolute overflow-hidden overflow-y-auto z-[999] top-[28%] left-[50%] -translate-y-1/2 -translate-x-1/2">
-        <div v-for="(item, index) in filteredData" :key="index">
-            <ul class="py-2">
-                <router-link :to="'/product/detail/' + item.id">
-                    <li>{{ item.product_name }}</li>
-                </router-link>
-            </ul>
+        <div v-else-if="filteredData.length === 0 && wordEntered !== ''"
+            class="w-[60%] mx-auto text-center py-2 rounded-lg bg-white shadow-xl absolute overflow-hidden z-[999] left-[50%] -translate-x-1/2">
+            <p>
+                Tidak dapat menemukan "{{ wordEntered }}"
+            </p>
         </div>
-    </div>
-    <div v-else-if="filteredData.length === 0 && wordEntered !== ''"
-        class="w-3/5 mx-auto text-center py-2 rounded-lg bg-white shadow-xl absolute z-[999] overflow-hidden top-[25%] left-[50%] -translate-y-1/2 -translate-x-1/2">
-        <p>
-            Tidak dapat menemukan "{{ wordEntered }}"
-        </p>
-
     </div>
 </template>
+
 
 <script>
 import { mapGetters } from 'vuex'

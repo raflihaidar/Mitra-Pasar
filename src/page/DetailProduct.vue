@@ -1,7 +1,7 @@
 <template>
     <NavbarComponent />
     <div v-for="(item, index) in product" :key="index">
-        <div class="w-[80%] mx-auto my-16 bg-lime-600 p-20">
+        <div class="w-[80%] mx-auto my-16 bg-lime-600 p-20 text-white font-semibold">
             <div class="flex gap-x-28">
                 <div class="w-[40%]">
                     <img :src="item.img" alt="gambar product" class="mx-auto w-[500px]">
@@ -10,7 +10,10 @@
                     <p class="text-4xl bold">{{ item.product_name }}</p>
                     <div class="text-2xl my-5">Rp.{{ item.price }}</div>
                     <div class="text-xl">{{ item.description }}</div>
-                    <div class="flex my-10 gap-x-5">
+                    <div class="flex my-10 gap-x-5 items-center">
+                        <div @click="likeButton($event)" class="w-10 h-10">
+                            <FavoriteIcon />
+                        </div>
                         <button class="bg-lime-500 px-2 py-3 rounded-md" @click="addToCart(item)">Masukkan
                             Keranjang</button>
                         <button class="bg-lime-500 px-2 py-3 rounded-md" @click="buyNow(item)">Beli Sekarang</button>
@@ -30,6 +33,7 @@
 <script>
 import axios from 'axios'
 import CartIcon from '../assets/icon/CartIcon.vue';
+import FavoriteIcon from '../assets/icon/favoriteIcon.vue';
 import NavbarComponent from '../components/NavbarComponent.vue'
 import { mapGetters } from 'vuex';
 import swal from 'sweetalert';
@@ -43,7 +47,8 @@ export default {
     },
     components: {
         NavbarComponent,
-        CartIcon
+        CartIcon,
+        FavoriteIcon
     },
     methods: {
         async getDetailProduct(id) {
@@ -63,6 +68,13 @@ export default {
                 swal('Mohon Maaf, Stock Habis', {
                     icon: 'info'
                 })
+            }
+        },
+        likeButton(event) {
+            if (event.target.style.color != 'gold') {
+                event.target.style.color = 'gold'
+            } else {
+                event.target.style.color = ''
             }
         },
         buyNow(item) {

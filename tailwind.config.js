@@ -9,7 +9,8 @@ module.exports = {
         hero: "url('./src/assets/img/img1.jpg')"
       },
       fontFamily: {
-        openSans: "font-family: 'Quicksand', sans-serif;"
+        openSans: "font-family: 'Quicksand', sans-serif;",
+        display: ['Ubuntu, sans-serif']
       },
       animation: {
         slideIn: 'slideIn 1s ease-out',

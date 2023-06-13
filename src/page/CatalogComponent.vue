@@ -1,5 +1,5 @@
 <template>
-    <div class="z-10 w-[200px] h-[300px] bg-lime-600 text-white rounded-xl cursor-pointer shadow-xl group-hover:ring-4 ring-offset-1 ring-lime-600 transition-all"
+    <div class="z-10 capitalize w-[200px] h-[300px] bg-lime-600 text-white rounded-xl cursor-pointer shadow-xl group-hover:ring-4 ring-offset-1 ring-lime-600 transition-all"
         :class="item.stock === 0 ? 'grayscale' : null">
         <div class="h-[75%] flex flex-col justify-between">
             <div class="w-full h-auto rounded-lg">
@@ -10,12 +10,12 @@
                 <p>Rp.{{ item.price }}</p>
             </div>
         </div>
-        <div class="flex justify-between w-full px-2 py-3 mt-5 z-20">
+        <div class="flex justify-between items-center w-full px-2 py-3 mt-5 z-20">
             <button
                 class="bg-yellow-500 px-2 py-1 rounded-md text-sm focus:bg-yellow-400 focus:ring-2 ring-white transition-all"
                 @click="addToCart(item)">Add to
                 Cart</button>
-            <div @click="likeButton($event)">
+            <div @click="likeButton($event)" class="w-6 h-6">
                 <FavoriteIcon />
             </div>
             <router-link :to="'/product/detail/' + item.id">

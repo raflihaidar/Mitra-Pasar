@@ -1,5 +1,5 @@
 <template>
-    <div class="h-screen bg-[url('../assets/img/img1.jpg')] bg-cover bg-center font-openSans">
+    <div class="h-screen bg-[url('../assets/img/img1.jpg')] bg-cover bg-center font-display">
         <nav class="w-[90%] mx-auto flex justify-between items-center">
             <LogoIcon />
             <section class="w-2/5 text-md flex justify-end gap-x-10 text-white font-bold">
