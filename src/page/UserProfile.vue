@@ -68,6 +68,11 @@ export default {
                     isActive: false
                 },
                 {
+                    nama: 'Wishlist',
+                    isActive: false,
+                    data: 
+                },
+                {
                     nama: 'Informasi sosial media',
                     isActive: false
                 },
