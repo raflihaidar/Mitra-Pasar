@@ -1,6 +1,6 @@
 <template>
     <NavbarComponent />
-    <div class="h-screen bg-lime-700 font-openSans">
+    <div class="h-screen bg-white font-openSans">
         <div
             class="absolute left-[50%] top-[60%] -translate-x-1/2 -translate-y-1/2 w-[40%] h-[96] py-10 bg-lime-600 rounded-lg">
             <div class="text-center text-2xl font-semibold leading-3 mb-10 text-white">
