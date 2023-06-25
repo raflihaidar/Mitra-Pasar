@@ -68,7 +68,7 @@ export default {
         handleLogin() {
             const adminAuth = this.username == 'admin' && this.password == 'adminlogin'
             this.dataUser.data.forEach(item => {
-                const userAuth = (item.username == this.username && item.password == this.password) || (item.nomor_hp == this.username && item.password == this.password) || (item.email == this.username && item.password == this.password)
+                const userAuth = item.username == this.username && item.password == this.password
                 if (userAuth) {
                     this.$store.dispatch('handleLogin', this.username)
                 }

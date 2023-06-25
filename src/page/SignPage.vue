@@ -10,8 +10,8 @@
 
             <div class="flex flex-col gap-y-5">
                 <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3">
-                    <input type="text" class="bg-white w-full outline-none" name="username" v-model="data.name"
-                        placeholder="Masukkan Nama">
+                    <input type="text" class="bg-white w-full outline-none" name="username" v-model="data.username"
+                        placeholder="Masukkan Username">
                 </div>
                 <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3">
                     <input type="password" class="bg-white w-full outline-none" name="password" v-model="data.password"
@@ -45,31 +45,25 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import LogoIcon from '../assets/icon/LogoIcon.vue';
+import swal from 'sweetalert';
 import axios from 'axios';
-export default {
-    name: 'SignPage',
-    components: {
-        LogoIcon
-    },
-    data() {
-        return {
-            data: {
-                name: '',
-                username: '',
-                nomor_hp: '',
-                password: '',
-            },
-            configure: ''
-        }
-    },
-    methods: {
-        async handleSignUp() {
-            await axios.post('http://localhost:8000/user', this.data).then(() => {
-                alert("Berhasil")
-            })
-        }
-    }
+import { useRouter } from 'vue-router';
+
+const data = {
+    username: '',
+    password: '',
+}
+const router = useRouter()
+
+const handleSignUp = async () => {
+    await axios.post('http://localhost:8000/user', data).then(() => {
+        swal('Berhasil Sign Up', {
+            icon: 'success'
+        }).then(() => {
+            router.push({ name: 'login user' })
+        })
+    })
 }
 </script>

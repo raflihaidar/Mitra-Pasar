@@ -34,7 +34,7 @@ export default {
     },
     SET_AUTHENTICATED: (state, payload) => {
       state.dataUser.data.forEach((item) => {
-        if (item.username == payload || item.nomor_hp == payload || item.email == payload) {
+        if (item.username == payload) {
           state.username = item.username
         }
       })
