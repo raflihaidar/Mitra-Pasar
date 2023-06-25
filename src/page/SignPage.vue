@@ -1,69 +1,57 @@
 <template>
-    <div class="font-openSans">
-        <NavbarComponent />
-        <div class=" w-3/5 my-10 mx-auto py-10 bg-lime-600 rounded-lg">
-            <div class="text-center text-2xl font-semibold leading-3 mb-10 text-white">
-                <p>Buat Akun Baru</p>
-            </div>
-            <div class="flex flex-col gap-y-5">
-                <div class="w-4/5 mx-auto">
-                    <label name="nama lengkap" class="text-white">Nama Lengkap</label>
-                    <div class="flex items-center justify-evenly py-2 px-3 bg-white">
-                        <input type="text" class="bg-white w-full outline-none" name="username" v-model="data.name"
-                            placeholder="Masukkan Nama Lengkap Anda">
-                    </div>
-                </div>
-                <div class="w-4/5 mx-auto">
-                    <label name="nama lengkap" class="text-white">Username</label>
-                    <div class="flex items-center justify-evenly py-2 px-3 bg-white">
-                        <input type="text" class="bg-white w-full outline-none" name="username" v-model="data.username"
-                            placeholder="Masukkan Nama Lengkap Anda">
-                    </div>
-                </div>
-                <div class="w-4/5 mx-auto">
-                    <label name="nama lengkap" class="text-white">Nomor HP</label>
-                    <div class="flex items-center justify-evenly py-2 px-3 bg-white">
-                        <input type="text" class="bg-white w-full outline-none" name="Alamat" v-model="data.nomor_hp"
-                            placeholder="Masukkan Nomor HP Anda">
-                    </div>
-                </div>
-                <div class="w-4/5 mx-auto">
-                    <label name="password" class="text-white">Password</label>
-                    <div class="flex items-center justify-evenly py-2 px-3 bg-white">
-                        <input type="password" class="bg-white w-full outline-none" name="password" v-model="data.password"
-                            placeholder="Masukkan Password">
-                    </div>
-                </div>
-                <div class="w-4/5 mx-auto">
-                    <label name="password" class="text-white">Konfigurasi Password</label>
-                    <div class="flex items-center justify-evenly py-2 px-3 bg-white">
-                        <input type="password" class="bg-white w-full outline-none" name="password" v-model="configure"
-                            placeholder="Masukkan Kembali Password">
-                    </div>
-                </div>
+    <div class="absolute z-20 w-[50%] left-10 top-2">
+        <LogoIcon />
+    </div>
+    <div class="flex">
+        <div class=" w-[50%] bg-white mt-20 flex flex-col gap-5">
+            <div class="text-center text-8xl font-bold text-black mb-10">
+                <p>Buat Akun</p>
             </div>
 
+            <div class="flex flex-col gap-y-5">
+                <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3">
+                    <input type="text" class="bg-white w-full outline-none" name="username" v-model="data.name"
+                        placeholder="Masukkan Nama">
+                </div>
+                <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3">
+                    <input type="password" class="bg-white w-full outline-none" name="password" v-model="data.password"
+                        placeholder="Masukkan Password">
+                </div>
+            </div>
 
             <div @click="handleSignUp"
-                class="bg-lime-700 w-56 py-4 mt-16 rounded-full mx-auto text-white text-center text-lg font-semibold cursor-pointer">
+                class="bg-lime-700 w-3/5 py-3 rounded-full mx-auto text-white text-center text-md font-semibold cursor-pointer">
                 Daftar
             </div>
 
-            <div class="text-center text-white mt-5">
-                <span>Sudah Punya Akun ?</span><router-link to="/login_user"> Masuk</router-link>
+            <div class="text-center font-semibold text-black mt-5">
+                <span>Sudah Punya Akun ? </span><router-link to="/login_user" class="text-lime-700">Masuk</router-link>
             </div>
 
+            <div class="flex items-center justify-center w-3/5 mx-auto">
+                <span class="border border-gray-400 w-1/4 mx-4"></span>
+                <span>or</span>
+                <span class="border border-gray-400 w-1/4 mx-4"></span>
+            </div>
+
+            <div class="w-3/5 border-2 mx-auto flex justify-center items-center gap-x-2 py-3 px-3 text-center rounded-md">
+                <img src="../assets/icon/google 24.png" alt="icon" class="w-[16px] h-[16px]">
+                <p>Log in with Google</p>
+            </div>
+        </div>
+        <div
+            class="w-[50%] h-screen bg-[url('../assets/img/img-5.jpg')] bg-cover bg-center flex flex-col justify-center items-center">
         </div>
     </div>
 </template>
 
 <script>
-import NavbarComponent from '../components/NavbarComponent.vue';
+import LogoIcon from '../assets/icon/LogoIcon.vue';
 import axios from 'axios';
 export default {
     name: 'SignPage',
     components: {
-        NavbarComponent
+        LogoIcon
     },
     data() {
         return {

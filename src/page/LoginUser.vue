@@ -1,60 +1,63 @@
 <template>
-    <NavbarComponent />
-    <div class="h-screen bg-white font-openSans">
-        <div
-            class="absolute left-[50%] top-[60%] -translate-x-1/2 -translate-y-1/2 w-[40%] h-[96] py-10 bg-lime-600 rounded-lg">
-            <div class="text-center text-2xl font-semibold leading-3 mb-10 text-white">
-                <lord-icon src="https://cdn.lordicon.com/vusrdugn.json" trigger="hover"
-                    colors="primary:#121331,secondary:#b26836,tertiary:#e8e230,quaternary:#f9c9c0,quinary:#ebe6ef"
-                    style="width:150px;height:150px">
-                </lord-icon>
-                <p>Login</p>
+    <div class="absolute z-20 w-[50%] left-10 top-2">
+        <LogoIcon />
+    </div>
+    <div class="flex justify-between items-center">
+        <div class="bg-white w-[50%] mt-20 flex flex-col gap-5">
+            <div class="text-center leading-3 mb-10">
+                <p class="text-8xl text-black font-bold">Halo Rek!</p>
+                <p class="text-gray-400 text-sm mt-5">Selamat Datang di Mitra Pasar</p>
+            </div>
+            <div class="w-3/5 border-2 mx-auto flex justify-center items-center gap-x-2 py-3 px-3 text-center rounded-md">
+                <img src="../assets/icon/google 24.png" alt="icon" class="w-[16px] h-[16px]">
+                <p>Log in with Google</p>
+            </div>
+            <div class="flex items-center justify-center w-3/5 mx-auto">
+                <span class="border border-gray-400 w-1/4 mx-4"></span>
+                <span>or</span>
+                <span class="border border-gray-400 w-1/4 mx-4"></span>
             </div>
             <div class="flex flex-col gap-y-5">
-                <div class="w-4/5 mx-auto">
-                    <label name="username" class="text-white">Masukkan username / email / nomor hp</label>
-                    <div class="flex items-center justify-evenly py-2 px-3 bg-white">
-                        <UserIcon />
-                        <span>|</span>
-                        <input type="text" class="bg-white w-full outline-none" name="username" placeholder="username"
+                <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3">
+                    <div class="flex items-center justify-evenly  bg-white">
+                        <input type="text" class="bg-white w-full outline-none" name="username" placeholder="Your email"
                             v-model="username">
                     </div>
                 </div>
-                <div class="w-4/5 mx-auto">
-                    <label name="password" class="text-white">Password</label>
-                    <div class="flex items-center justify-evenly py-2 px-3 bg-white">
-                        <LockIcon />
-                        <span>|</span>
-                        <input type="password" class="bg-white w-full outline-none" name="password" placeholder="password"
-                            v-model="password">
+                <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3">
+                    <div class="flex items-center justify-evenly bg-white">
+                        <input type="password" class="bg-white w-full outline-none" name="password"
+                            placeholder="Your password" v-model="password">
                     </div>
                 </div>
             </div>
-            <div class="bg-lime-700 w-56 py-4 mt-16 rounded-full mx-auto text-white text-center text-lg font-semibold cursor-pointer"
+            <div class="w-3/5 mx-auto text-right text-lime-700 font-semibold">
+                <p>Lupa Password ?</p>
+            </div>
+            <div class="bg-lime-700 w-3/5 py-3 rounded-full mx-auto text-white text-center text-md font-semibold cursor-pointer"
                 @click="handleLogin">
-                Login
+                Log in
             </div>
 
-            <div class="text-center text-white mt-5">
-                <span>Belum Punya Akun ?</span><router-link to="/sign"> Daftar</router-link>
+            <div class="text-center text-black font-semibold">
+                <span>Belum Punya Akun ?</span><router-link to="/sign" class="text-lime-700"> Daftar</router-link>
             </div>
+        </div>
+        <div
+            class="w-[50%] h-screen bg-[url('../assets/img/img-4.jpg')] bg-cover bg-center flex flex-col justify-end items-end">
         </div>
     </div>
 </template>
 
 <script>
-import UserIcon from '../assets/icon/UserIcon.vue'
-import LockIcon from '../assets/icon/LockIcon.vue'
-import NavbarComponent from '../components/NavbarComponent.vue'
 import swal from 'sweetalert'
 import { mapGetters } from 'vuex'
+import LogoIcon from '../assets/icon/LogoIcon.vue'
 export default {
-    name: 'AdminPage',
     components: {
-        UserIcon,
-        LockIcon,
-        NavbarComponent
+        LogoIcon,
     },
+    name: 'AdminPage',
     data() {
         return {
             username: "",
@@ -87,7 +90,7 @@ export default {
                     icon: 'warning'
                 })
             }
-        }
+        },
     },
     computed: {
         ...mapGetters(['dataUser', 'isAuthenticated'])
