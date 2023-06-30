@@ -8,7 +8,7 @@
                 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/510px-Default_pfp.svg.png?20220226140232"
                     alt="image profile" class="w-full h-full">
             </div>
-            <!-- <p>{{ dataFiltered.username }}</p> -->
+            <p>{{ dataFiltered.username }}</p>
         </div>
 
         <div class="bg-white mx-auto p-3 shadow-md w-3/5 border-b-8 border-lime-600">

@@ -1,7 +1,7 @@
 <template>
     <div>
         <NavbarComponent />
-        <main class="flex">
+        <main class="flex pt-20">
             <div class="bg-slate-100 text-center px-5 py-3 leading-10 h-screen w-1/5">
                 <ul class="cursor-pointer" v-for="(item, index) in category" :key="index">
                     <li @click="selectCategory(item)">{{ item.nama }}</li>

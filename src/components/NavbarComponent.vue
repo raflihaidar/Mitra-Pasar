@@ -1,5 +1,5 @@
 <template>
-    <router-link class="bg-lime-600 w-full py-3 flex justify-around items-center"
+    <router-link class="bg-lime-600 w-full py-3 flex justify-around items-center fixed top-0 z-30 shadow-lg"
         :to="isAuthenticated ? '/user/akun/profil' : ''">
         <LogoIcon />
         <div class='flex gap-x-2 text-white items-center font-semibold'>
