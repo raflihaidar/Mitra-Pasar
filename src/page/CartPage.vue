@@ -1,6 +1,6 @@
 <template>
     <NavbarComponent />
-    <div class="container my-5" v-if="cart.length !== 0">
+    <div class="container my-5 pt-20 bg-gray-100 w-full h-screen" v-if="cart.length !== 0">
         <table class="w-[80%] mx-auto my-10 px-3 py-4 text-left table-auto mb-10 shadow-lg">
             <thead class="bg-lime-500">
                 <tr class="text-white text-center">

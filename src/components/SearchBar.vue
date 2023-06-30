@@ -1,7 +1,8 @@
 <template>
-    <div class="relative mt-10">
+    <div class="relative mt-10 pt-20">
         <div class="w-[60%] mx-auto flex items-center px-3 py-5 rounded-lg border-2">
-            <input type="text" class="w-full border-none outline-none" placeholder="Mau Cari Apa ?" v-model="wordEntered">
+            <input type="text" class="w-full border-none outline-none bg-inherit" placeholder="Mau Cari Apa ?"
+                v-model="wordEntered">
             <div v-if="wordEntered !== ''" @click="handleDelete">
                 <CloseIcon />
             </div>
@@ -10,7 +11,7 @@
             </div>
         </div>
         <div v-if="filteredData.length !== 0"
-            class="w-[60%] mx-auto  text-center rounded-lg bg-white shadow-xl absolute overflow-hidden z-[999] left-[50%] -translate-x-1/2">
+            class="w-[60%] mx-auto  text-center rounded-lg bg-gray-100 shadow-xl absolute overflow-hidden z-[999] left-[50%] -translate-x-1/2">
             <div v-for="(item, index) in filteredData" :key="index">
                 <ul class="py-2">
                     <router-link :to="'/product/detail/' + item.id">
@@ -20,7 +21,7 @@
             </div>
         </div>
         <div v-else-if="filteredData.length === 0 && wordEntered !== ''"
-            class="w-[60%] mx-auto text-center py-2 rounded-lg bg-white shadow-xl absolute overflow-hidden z-[999] left-[50%] -translate-x-1/2">
+            class="w-[60%] mx-auto text-center py-2 rounded-lg bg-gray-100 shadow-xl absolute overflow-hidden z-[999] left-[50%] -translate-x-1/2">
             <p>
                 Tidak dapat menemukan "{{ wordEntered }}"
             </p>
