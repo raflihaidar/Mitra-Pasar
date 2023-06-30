@@ -10,7 +10,7 @@
                     <router-link to="/login_user" class="relative transition-all pointer">Login</router-link>
                 </div>
                 <div v-else>
-                    <p class="relative transition-all" @click="handleLogout">Log out</p>
+                    <p class="relative transition-all pointer" @click="handleLogout">Log out</p>
                 </div>
             </section>
         </nav>
