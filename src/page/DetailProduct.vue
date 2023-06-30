@@ -1,6 +1,6 @@
 <template>
     <NavbarComponent />
-    <div v-for="(item, index) in product" :key="index">
+    <!-- <div v-for="(item, index) in product" :key="index">
         <div class="w-[80%] mx-auto my-16 bg-lime-600 p-20 text-white font-semibold">
             <div class="flex gap-x-28">
                 <div class="w-[40%]">
@@ -27,7 +27,7 @@
         <span class="absolute bottom-7 -right-1 text-sm px-1  bg-red-600 text-white rounded-full">{{
             totalItems
         }}</span>
-    </router-link>
+    </router-link> -->
 </template>
 
 <script>
