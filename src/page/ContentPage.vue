@@ -14,9 +14,14 @@
                     </div>
                 </div>
                 <div class="grid grid-cols-4 gap-y-10 my-5" v-if="catalogs.length !== 0">
-                    <!-- <asyncComponent v-for="(item, index) in catalog" :key="index" class="group" :item="item">
-                    </asyncComponent> -->
-                    <CatalogComponent v-for="(item, index) in catalog" :key="index" class="group" :item="item" />
+                    <Suspense v-if="catalogs.length != 0">
+                        <template #default>
+                            <productComponent v-for="(item, index) in catalog" :key="index" class="group" :item="item" />
+                        </template>
+                        <template #fallback>
+                            <div class="text-8xl">Loading</div>
+                        </template>
+                    </Suspense>
 
                     <router-link to="/cart"
                         class="fixed w-[40px] h-[40px] p-1 z-10 bg-lime-700 rounded-full bottom-5 right-16">
@@ -38,23 +43,23 @@
 
 <script>
 import NavbarComponent from '../components/NavbarComponent.vue'
-import CatalogComponent from './CatalogComponent.vue';
 import CartIcon from '../assets/icon/CartIcon.vue'
 import FooterPage from './FooterPage.vue';
 import { mapGetters } from 'vuex';
 import SearchBar from '../components/SearchBar.vue';
 import { defineAsyncComponent } from 'vue';
 
-// const asyncComponent = defineAsyncComponent(() => import('./CatalogComponent.vue'))
+const productComponent = defineAsyncComponent({
+    loader: () => import('./CatalogComponent.vue' /* webpackChunkName: "productComponent" */),
+})
 
 export default {
     name: 'ContentPage',
     components: {
         NavbarComponent,
-        CatalogComponent,
         CartIcon,
         SearchBar,
-        // asyncComponent,
+        productComponent,
         FooterPage
     },
     data() {
