@@ -7,21 +7,14 @@
                 <p class="text-2xl font-semibold">Kategori Produk</p>
                 <div class="w-4/5 mx-auto grid grid-cols-5 text-sm text-center text-white font-semibold mb-20 mt-5">
                     <div v-for="(item, index) in category" :key="index" class="group">
-                        <div class="w-[100px] h-[100px] leading-[90px] px-2 py-3 mr-3 rounded-lg cursor-pointer shadow-lg group-hover:scale-110 transition-all"
+                        <div class="w-[100px] h-[100px] flex items-center justify-center px-2 py-3 mr-3 rounded-lg cursor-pointer shadow-lg group-hover:scale-110 transition-all"
                             :class="item.status ? 'bg-lime-500' : 'bg-lime-600'" @click="selectCategory(item)">
                             {{ item.name }}
                         </div>
                     </div>
                 </div>
                 <div class="grid grid-cols-4 gap-y-10 my-5" v-if="catalogs.length !== 0">
-                    <Suspense v-if="catalogs.length != 0">
-                        <template #default>
-                            <productComponent v-for="(item, index) in catalog" :key="index" class="group" :item="item" />
-                        </template>
-                        <template #fallback>
-                            <div class="text-8xl">Loading</div>
-                        </template>
-                    </Suspense>
+                    <productComponent v-for="(item, index) in catalog" :key="index" class="group" :item="item" />
 
                     <router-link to="/cart"
                         class="fixed w-[40px] h-[40px] p-1 z-10 bg-lime-700 rounded-full bottom-5 right-16">

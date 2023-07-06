@@ -18,13 +18,13 @@
                 <span class="border border-gray-400 w-1/4 mx-4"></span>
             </div>
             <div class="flex flex-col gap-y-5">
-                <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3">
+                <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3" :class="failed ? 'border-red-500' : 'border-2'">
                     <div class="flex items-center justify-evenly  bg-white">
                         <input type="text" class="bg-white w-full outline-none" name="username" placeholder="Your email"
                             v-model="username">
                     </div>
                 </div>
-                <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3">
+                <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3" :class="failed ? 'border-red-500' : 'border-2'">
                     <div class="flex items-center justify-evenly bg-white">
                         <input type="password" class="bg-white w-full outline-none" name="password"
                             placeholder="Your password" v-model="password">
@@ -62,6 +62,7 @@ export default {
         return {
             username: "",
             password: "",
+            failed: false
         }
     },
     methods: {
@@ -89,6 +90,7 @@ export default {
                 swal("Gagal Login", {
                     icon: 'warning'
                 })
+                this.failed = true
             }
         },
     },
