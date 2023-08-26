@@ -2,7 +2,7 @@
     <div class="relative w-full font-openSans">
         <div class="w-full flex items-center gap-x-4 bg-lime-600 py-5 text-white font-bold pl-16">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
-                class="w-8 h-8" @click="sideBarView">
+                class="w-8 h-8" @click="sideBar = !sideBar">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
             </svg>
             <LogoIcon />
@@ -29,7 +29,8 @@
 
         <div class="w-[80%] mx-auto my-10 flex justify-between text-white">
             <div class="w-1/5 flex flex-col px-3 py-6 rounded-lg shadow-xl"
-                :class="overallSale ? 'bg-lime-700' : 'bg-lime-600 '" @click="viewOverallSale">
+                :class="overallSale ? 'bg-lime-700' : 'bg-lime-600 '" @click="overallSale = !overallSale
+                    ">
                 <CartIcon />
                 <p class="font-semibold">Overall Sale</p>
                 <p>{{ catalog.length }}</p>
@@ -99,7 +100,7 @@
                         <p class="text-2xl">Yakin Ingin Menghapus</p>
                         <div class="mt-10 flex gap-x-10 justify-end text-lg">
                             <button class="bg-blue-300 p-3" @click="cancelButton">Batal</button>
-                            <button class="bg-red-500 p-3" @click="deleteData(modalContent)">Hapus</button>
+                            <button class="bg-red-500 p-3" @click="deleteData(modalContent.id)">Hapus</button>
                         </div>
                     </div>
                 </div>
@@ -145,71 +146,55 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import CartIcon from '../assets/icon/CartIcon.vue'
 import EditIconVue from '../assets/icon/EditIcon.vue'
 import LogoIcon from '../assets/icon/LogoIcon.vue';
 import DeleteIcon from '../assets/icon/DeleteIcon.vue';
-import { mapGetters } from 'vuex';
-import axios from 'axios'
-export default {
-    name: 'AdminPage',
-    data() {
-        return {
-            overallSale: true,
-            modalDelete: false,
-            modalModify: false,
-            sideBar: true,
-            modalContent: {
-                id: 0,
-                nama: '',
-                stok: 0,
-                deskripsi: '',
-                harga: 0,
-                gambar: ''
-            }
-        }
-    },
-    components: {
-        CartIcon,
-        EditIconVue,
-        DeleteIcon,
-        LogoIcon,
-    },
-    methods: {
-        viewOverallSale() {
-            this.overallSale = !this.overallSale
-        },
-        deleteData(id) {
-            this.$store.dispatch('deleteData', id)
-            this.modalDelete = false
-        },
-        async saveNewData(id) {
-            await axios.put(`http://localhost:8000/jajanan_pasar/${id}`, this.modalContent).then(() => {
-                this.modalModify = false
-            })
-        },
-        cancelButton() {
-            this.modalDelete = false
-            this.modalModify = false
-        },
-        modalsActive(item) {
-            this.modalDelete = true
-            this.modalContent = item
-        },
-        activyActive(item) {
-            this.modalModify = true
-            this.modalContent = item
-        },
-        sideBarView() {
-            this.sideBar = !this.sideBar
-        }
-    },
-    computed: {
-        ...mapGetters(['catalog'])
-    },
-    mounted() {
-        this.modalContent;
-    }
+import { useStore } from 'vuex';
+import axios from 'axios';
+import { reactive, ref, computed } from 'vue';
+
+const overallSale = ref(true);
+const modalDelete = ref(false);
+const modalModify = ref(false);
+const sideBar = ref(true);
+const store = useStore()
+let modalContent = reactive({
+    id: 0,
+    product_name: '',
+    stock: 0,
+    description: '',
+    price: 0,
+    img: ''
+})
+
+const catalog = computed(() => store.getters.catalog)
+
+const deleteData = (id) => {
+    store.dispatch('deleteData', id)
+    console.log(id)
+    modalDelete.value = false;
+}
+
+const saveNewData = async (id) => {
+    await axios.put(`http://localhost:8000/jajanan_pasar/${id}`, modalContent).then(() => {
+        modalModify.value = false
+    })
+}
+
+const cancelButton = () => {
+    modalDelete.value = false
+    modalModify.value = false
+}
+
+const modalsActive = (item) => {
+    modalDelete.value = true
+    modalContent = item
+}
+
+const activyActive = (item) => {
+    modalModify.value = true
+    modalContent = item
 }
 </script>

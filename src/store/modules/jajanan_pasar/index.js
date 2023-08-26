@@ -73,7 +73,7 @@ export default {
       state.cart[payload].status = !state.cart[payload].status //untuk mengubah status checklist pada products
     }, // untuk mengapdate state total
     DELETE_DATA: (state, payload) => {
-      let deletedItem = state.catalog.find((item) => item.id === payload.id)
+      let deletedItem = state.catalog.find((item) => item.id === payload)
       if (deletedItem) {
         const index = state.catalog.indexOf(deletedItem)
         state.catalog.splice(index, 1)
