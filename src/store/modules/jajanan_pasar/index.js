@@ -51,19 +51,26 @@ export default {
     checkOut({ commit }) {
       commit('CHECK_OUT')
     },
+    async removeItem(index, item) {
+      let result = item.stock + 1
+      await axios
+        .patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: result })
+        .then(() => {
+          this.setCatalog('jajanan_pasar')
+          this.removeCartProduct(index)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },
     async deleteData({ commit }, item) {
       try {
-        const response = await axios.delete(`http://localhost:8000/jajanan_pasar/${item.id}`)
+        await axios.delete(`http://localhost:8000/jajanan_pasar/${item.id}`)
         commit('DELETE_DATA', item)
-        return response.data
       } catch (error) {
+        console.log(item)
         console.log(error)
       }
-    },
-    async updateData({ commit }, id, newData) {
-      await axios.put(`http://localhost:8000/${id}`, newData).then((response) => {
-        commit('SET_CATALOG', response.data)
-      })
     }
   },
   mutations: {
@@ -74,6 +81,7 @@ export default {
     }, // untuk mengapdate state total
     DELETE_DATA: (state, payload) => {
       let deletedItem = state.catalog.find((item) => item.id === payload.id)
+      console.log(deletedItem)
       if (deletedItem) {
         const index = state.catalog.indexOf(deletedItem)
         state.catalog.splice(index, 1)
@@ -142,20 +150,28 @@ export default {
         return item
       })
       state.total -= product.price
-      state.cart[index].status = false
+      product.status = false
     },
     CLEAR_CART: (state, index) => {
       //untuk menghapus semua product dari keranjang
-      const product = state.cart[index]
+      let product = state.cart[index]
+      console.log(product)
       state.cart.splice(index, 1)
-      state.products.map((item) => {
+      state.catalog.data.map((item) => {
         if (item.id === product.id) {
           item.stock += product.quantity
         }
+
         return item
       })
       state.total -= product.priceUser
-      state.cart[index].status = false
+      product.status = false
     }
   }
 }
+
+// import { defineStore } from "pinia";
+
+// export const useJajananStore = defineStore('jajanan_pasar', () => {
+//   const
+// })

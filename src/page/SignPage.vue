@@ -9,11 +9,11 @@
             </div>
 
             <div class="flex flex-col gap-y-5">
-                <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3">
+                <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3" :class="failed ? 'border-red-500' : 'border-2'">
                     <input type="text" class="bg-white w-full outline-none" name="username" v-model="data.username"
                         placeholder="Masukkan Username">
                 </div>
-                <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3">
+                <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3" :class="failed ? 'border-red-500' : 'border-2'">
                     <input type="password" class="bg-white w-full outline-none" name="password" v-model="data.password"
                         placeholder="Masukkan Password">
                 </div>
@@ -54,6 +54,7 @@ import { useRouter } from 'vue-router';
 const data = {
     username: '',
     password: '',
+    failed: false
 }
 const router = useRouter()
 
