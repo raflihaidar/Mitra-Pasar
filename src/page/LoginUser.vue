@@ -49,56 +49,51 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import swal from 'sweetalert'
-import { mapGetters } from 'vuex'
+import { onMounted, ref } from "vue"
 import LogoIcon from '../assets/icon/LogoIcon.vue'
-export default {
-    components: {
-        LogoIcon,
-    },
-    name: 'AdminPage',
-    data() {
-        return {
-            username: "",
-            password: "",
-            failed: false
-        }
-    },
-    methods: {
-        handleLogin() {
-            const adminAuth = this.username == 'admin' && this.password == 'adminlogin'
-            this.dataUser.data.forEach(item => {
-                const userAuth = item.username == this.username && item.password == this.password
-                if (userAuth) {
-                    this.$store.dispatch('handleLogin', this.username)
-                }
-            })
-            if (this.$store.getters.isAuthenticated) {
+import { useUserStore } from '../store/modules/users';
+import router from '../router';
+
+const username = ref("")
+const password = ref("")
+const failed = ref(false)
+const store = useUserStore()
+const isAuthenticated = store.dataFiltered.length !== 0
+
+const handleLogin = () => {
+    const adminAuth = username.value == 'admin' && password.value == 'adminlogin'
+    console.log(username.value)
+    console.log(password.value)
+    store.dataUser.data.forEach(item => {
+        const userAuth = item.username === username.value && item.password === password.value
+        console.log(item.username)
+        if (userAuth) {
+            store.handleLogin(username.value)
+            if (isAuthenticated) {
                 swal('Berhasil Login', {
                     icon: 'success'
                 }).then(() => {
-                    this.$router.push({ name: 'content page' })
+                    router.push({ name: 'content page' })
                 })
             } else if (adminAuth) {
                 swal('Berhasil Login', {
                     icon: 'success'
                 }).then(() => {
-                    this.$router.push({ name: 'admin dashboard' })
+                    router.push({ name: 'admin dashboard' })
                 })
             } else {
                 swal("Gagal Login", {
                     icon: 'warning'
                 })
-                this.failed = true
+                failed.value = true
             }
-        },
-    },
-    computed: {
-        ...mapGetters(['dataUser', 'isAuthenticated'])
-    },
-    mounted() {
-        this.$store.dispatch('setDataUser')
-    }
+        }
+    })
 }
+
+onMounted(async () => {
+    await store.setDataUser()
+})
 </script>

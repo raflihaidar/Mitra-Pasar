@@ -6,12 +6,9 @@
     </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
-export default {
-    name: 'OverallSale',
-    computed: {
-        ...mapGetters(['catalog'])
-    }
-}
+<script setup>
+import { computed } from 'vue';
+import { useJajananStore } from '../store/modules/jajanan_pasar';
+const store = useJajananStore()
+const catalog = computed(() => store.catalog)
 </script>

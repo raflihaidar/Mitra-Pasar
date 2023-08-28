@@ -8,7 +8,7 @@ import AdminPage from '../page/AdminPage.vue'
 import NewDataPage from '../page/NewData.vue'
 import CartComponent from '../page/CartPage.vue'
 import UserProfile from '../page/UserProfile.vue'
-import Store from '../store/modules/users/index'
+import { useUserStore } from '../store/modules/users'
 import swal from 'sweetalert'
 
 const router = createRouter({
@@ -63,7 +63,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  let status = Store.state.isAuthenticated
+  const store = useUserStore()
+  let status = store.dataFiltered.length !== 0
   if (to.name === 'cart page' && !status) {
     swal('Anda Belum Login\nSilahkan Login Terlebih Dahulu', {
       buttons: {

@@ -21,9 +21,7 @@ const createNewUser = (body) => {
 
 const updateData = (body, id) => {
   const SQLquery = `UPDATE express_mitrapasar.user 
-                    SET username='${body.username}',
-                        password='${body.password}', 
-                        address='${body.address}'
+                    SET isAuthenticated=${body.isAuthenticated ? 1 : 0}
                         WHERE id=${id}`
   return dbPool.execute(SQLquery)
 }

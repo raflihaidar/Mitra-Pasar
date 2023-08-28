@@ -9,9 +9,9 @@
                 <div v-if="!isAuthenticated">
                     <router-link to="/login_user" class="relative transition-all pointer">Login</router-link>
                 </div>
-                <div v-else>
-                    <p class="relative transition-all pointer" @click="handleLogout">Log out</p>
-                </div>
+                <button v-else>
+                    <p class="relative transition-all" @click="handleLogout">Log out</p>
+                </button>
             </section>
         </nav>
         <div class="mt-56 text-center tracking-widest">
@@ -25,38 +25,22 @@
     </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
+<script setup>
 import LogoIcon from '../assets/icon/LogoIcon.vue'
 import swal from 'sweetalert'
-export default {
-    name: 'LandingPage',
-    components: {
-        LogoIcon
-    },
-    data() {
-        return {
-            isActive: false
+import { useUserStore } from '../store/modules/users';
+const store = useUserStore()
+const isAuthenticated = store.dataFiltered.length !== 0
+
+const handleLogout = () => {
+    swal("Apakah Anda Ingin Logout", {
+        icon: 'warning',
+        buttons: {
+            cancel: 'Batal',
+            confirm: 'Logout'
         }
-    },
-    methods: {
-        switchActive() {
-            this.isActive = !this.isActive
-        },
-        handleLogout() {
-            swal("Apakah Anda Ingin Logout", {
-                icon: 'warning',
-                buttons: {
-                    cancel: 'Batal',
-                    confirm: 'Logout'
-                }
-            }).then((confirm) => {
-                if (confirm) this.$store.dispatch('handleLogin')
-            })
-        }
-    },
-    computed: {
-        ...mapGetters(['isAuthenticated'])
-    }
+    }).then((confirm) => {
+        if (confirm) store.handleLogin()
+    })
 }
 </script>

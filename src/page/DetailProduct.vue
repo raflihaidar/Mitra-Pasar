@@ -47,94 +47,90 @@
     <FooterPage />
 </template>
 
-<script>
+<script setup>
 import axios from 'axios'
 import CartIcon from '../assets/icon/CartIcon.vue';
 import FavoriteIcon from '../assets/icon/favoriteIcon.vue';
 import FooterPage from './FooterPage.vue'
 import NavbarComponent from '../components/NavbarComponent.vue'
-import { mapGetters } from 'vuex';
 import router from '../router';
+import { useJajananStore } from '../store/modules/jajanan_pasar';
 import swal from 'sweetalert';
 import Swal from 'sweetalert2';
-export default {
-    name: "DetailProduct",
-    data() {
-        return {
-            product: [],
-            checkStock: this.catalog
-        };
-    },
-    components: {
-        NavbarComponent,
-        CartIcon,
-        FavoriteIcon,
-        FooterPage
-    },
-    methods: {
-        async getDetailProduct(id) {
-            try {
-                const response = await axios.get(`http://localhost:8000/jajanan_pasar/product/${id}`);
-                this.product = response.data;
-            }
-            catch (error) {
-                console.log(error);
-            }
-        },
-        addToCart(item) {
-            let data = this.catalog.find((p) => p.id === item.id)
-            if (data.stock !== 0 && this.isAuthenticated) {
-                this.$store.dispatch('addToCart', item)
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: 'Berhasil dimasukkan Keranjang',
-                    showConfirmButton: false,
-                    timer: 1500
-                })
-            } else if (data.stock === 0) {
-                swal('Mohon Maaf, Stock Habis', {
-                    icon: 'info'
-                })
-            } else if (!this.isAuthenticated) {
-                swal('Anda Belum Login\nSilahkan Login Terlebih Dahulu', {
-                    buttons: {
-                        cancel: 'Batal',
-                        confirm: 'Login'
-                    }
-                }).then(() => {
-                    router.push({ name: 'login user' })
-                })
-            }
-        },
-        likeButton(event) {
-            if (event.target.style.color != 'gold') {
-                event.target.style.color = 'gold'
-            } else {
-                event.target.style.color = ''
-            }
-        },
-        buyNow(item) {
-            let data = this.catalog.find((p) => p.id === item.id)
-            if (data.stock !== 0) {
-                this.$store.dispatch('handleBuy', item)
-                this.$store.dispatch("checkOut")
-            } else {
-                swal('Mohon Maaf, Stock Habis', {
-                    icon: 'info'
-                })
-            }
-        }
-    },
-    mounted() {
-        const { productId } = this.$route.params;
-        this.getDetailProduct(productId);
-    },
-    computed: {
-        ...mapGetters(['cart', 'catalog', 'isAuthenticated']),
-        totalItems() {
-            return this.cart.reduce((a, b) => a + b.quantity, 0)
-        }
-    },
+import { onMounted, reactive, ref } from 'vue';
+// import { storeToRefs } from 'pinia';
+import { useUserStore } from '../store/modules/users';
+import { useRoute } from 'vue-router';
+
+const storeJajanan = useJajananStore()
+const storeUsers = useUserStore()
+
+// const { catalog } = storeToRefs(storeJajanan)
+
+
+let product = reactive([])
+// const checkStock = ref(catalog)
+const isAuthenticated = storeUsers.dataFiltered.length !== 0
+
+const getDetailProduct = async (id) => {
+    try {
+        const response = await axios.get(`http://localhost:8000/jajanan_pasar/product/${id}`);
+        product = response.data;
+    }
+    catch (error) {
+        console.log(error);
+    }
 }
+
+const addToCart = (item) => {
+    let data = this.catalog.find((p) => p.id === item.id)
+    if (data.stock !== 0 && isAuthenticated.value) {
+        storeJajanan.addToCart(item)
+        Swal.fire({
+            position: 'top-end',
+            icon: 'success',
+            title: 'Berhasil dimasukkan Keranjang',
+            showConfirmButton: false,
+            timer: 1500
+        })
+    } else if (data.stock === 0) {
+        swal('Mohon Maaf, Stock Habis', {
+            icon: 'info'
+        })
+    } else if (!this.isAuthenticated) {
+        swal('Anda Belum Login\nSilahkan Login Terlebih Dahulu', {
+            buttons: {
+                cancel: 'Batal',
+                confirm: 'Login'
+            }
+        }).then(() => {
+            router.push({ name: 'login user' })
+        })
+    }
+}
+
+const likeButton = (event) => {
+    if (event.target.style.color != 'gold') {
+        event.target.style.color = 'gold'
+    } else {
+        event.target.style.color = ''
+    }
+}
+
+const buyNow = (item) => {
+    let data = this.catalog.find((p) => p.id === item.id)
+    if (data.stock !== 0) {
+        storeJajanan.handleBuy(item)
+        storeJajanan.checkOut()
+    } else {
+        swal('Mohon Maaf, Stock Habis', {
+            icon: 'info'
+        })
+    }
+}
+
+onMounted(() => {
+    const productId = useRoute().params
+    getDetailProduct(productId)
+})
 </script>

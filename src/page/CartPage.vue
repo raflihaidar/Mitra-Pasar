@@ -13,10 +13,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for=" (item, index) in cart" :key="item.id"
+                <tr v-for=" (item, index) in cart" :key="index"
                     class="text-sm font-semibold bg-lime-200 bg-opacity-25 text-center">
                     <td class="align-middle">
-                        <input type="checkbox" :name="item.product_name" :v-model="item.status" @click="setStatus(index)">
+                        <input type="checkbox" :checked="item.status" :name="item.product_name" :v-model="item.status"
+                            @click="setStatus(index)">
                     </td>
                     <td>
                         <div style="width: 200px;" class="m-auto">
@@ -34,13 +35,13 @@
                 </tr>
             </tbody>
         </table>
-        <div v-if="Total > 0"
+        <div v-if="total > 0"
             class="w-[80%] flex left-[10%] fixed justify-between items-center bottom-0 text-sm text-center font-semibold bg-lime-200  px-5">
             <div class="flex">
                 <p class="font-bold text-lg">Total : </p>
-                <p class="font-bold text-lg">Rp.{{ Total }}</p>
+                <p class="font-bold text-lg">Rp.{{ total }}</p>
             </div>
-            <div v-if="Total > 0" class="text-white text center px-5 py-3 whitespace-nowrap" @click="handleCheckOut">
+            <div v-if="total > 0" class="text-white text center px-5 py-3 whitespace-nowrap" @click="handleCheckOut">
                 <button class="bg-lime-600 px-2 py-1 text-cente rounded-md">Check Out</button>
             </div>
         </div>
@@ -54,43 +55,35 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import NavbarComponent from '../components/NavbarComponent.vue';
 import axios from 'axios'
-import { mapGetters } from 'vuex';
-export default {
-    name: 'CartComponent',
-    components: {
-        NavbarComponent
-    },
-    data() {
-        return {
-            selectedValues: [],
-        }
-    },
-    methods: {
-        async removeItem(index, item) {
-            let result = item.stock + 1;
-            await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: result })
-                .then(() => {
-                    this.$store.dispatch("setCatalog", "jajanan_pasar")
-                })
-            this.selectedValues.fill(0)
-            this.$store.dispatch("removeCartProduct", index);
-        },
-        clearAll(item) {
-            this.selectedValues.fill(0)
-            this.$store.dispatch("clearCart", item);
-        },
-        handleCheckOut() {
-            this.$store.dispatch("checkOut")
-        },
-        setStatus(index) {
-            this.$store.dispatch("handleStatus", index)
-        }
-    },
-    computed: {
-        ...mapGetters(["cart", "Total"]),
-    },
+import { computed, reactive } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore()
+const cart = computed(() => store.getters.cart)
+const total = computed(() => store.getters.Total)
+const selectedValues = reactive([])
+const removeItem = async (index, item) => {
+    let result = item.stock + 1;
+    await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: result })
+        .then(() => {
+            store.dispatch("setCatalog", "jajanan_pasar")
+        })
+    selectedValues.fill(0)
+    store.dispatch("removeCartProduct", index);
+}
+const clearAll = (item) => {
+    selectedValues.fill(0)
+    store.dispatch("clearCart", item);
+    console.log("item from cart", item)
+}
+
+const handleCheckOut = () => {
+    store.dispatch("checkOut")
+}
+const setStatus = (index) => {
+    store.dispatch("handleStatus", index)
 }
 </script>

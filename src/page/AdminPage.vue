@@ -91,6 +91,7 @@
                         </td>
                     </tr>
                 </tbody>
+
                 <!-- Modals -->
                 <div :class="modalDelete ? 'block' : 'hidden'"
                     class="fixed top-0 left-0 z-10 bg-black-rgba w-full h-full flex justify-center items-center"
@@ -100,7 +101,7 @@
                         <p class="text-2xl">Yakin Ingin Menghapus</p>
                         <div class="mt-10 flex gap-x-10 justify-end text-lg">
                             <button class="bg-blue-300 p-3" @click="cancelButton">Batal</button>
-                            <button class="bg-red-500 p-3" @click="deleteData(modalContent.id)">Hapus</button>
+                            <button class="bg-red-500 p-3" @click="deleteData">Hapus</button>
                         </div>
                     </div>
                 </div>
@@ -151,7 +152,7 @@ import CartIcon from '../assets/icon/CartIcon.vue'
 import EditIconVue from '../assets/icon/EditIcon.vue'
 import LogoIcon from '../assets/icon/LogoIcon.vue';
 import DeleteIcon from '../assets/icon/DeleteIcon.vue';
-import { useStore } from 'vuex';
+import { useJajananStore } from '../store/modules/jajanan_pasar';
 import axios from 'axios';
 import { reactive, ref, computed } from 'vue';
 
@@ -159,7 +160,7 @@ const overallSale = ref(true);
 const modalDelete = ref(false);
 const modalModify = ref(false);
 const sideBar = ref(true);
-const store = useStore()
+const store = useJajananStore()
 let modalContent = reactive({
     id: 0,
     product_name: '',
@@ -171,15 +172,15 @@ let modalContent = reactive({
 
 const catalog = computed(() => store.getters.catalog)
 
-const deleteData = (id) => {
-    store.dispatch('deleteData', id)
-    console.log(id)
+const deleteData = () => {
+    store.dispatch('deleteData', modalContent)
     modalDelete.value = false;
 }
 
 const saveNewData = async (id) => {
     await axios.put(`http://localhost:8000/jajanan_pasar/${id}`, modalContent).then(() => {
         modalModify.value = false
+        store.dispatch("jajanan_pasar")
     })
 }
 
@@ -190,11 +191,11 @@ const cancelButton = () => {
 
 const modalsActive = (item) => {
     modalDelete.value = true
-    modalContent = item
+    Object.assign(modalContent, item)
 }
 
 const activyActive = (item) => {
     modalModify.value = true
-    modalContent = item
+    Object.assign(modalContent, item)
 }
 </script>

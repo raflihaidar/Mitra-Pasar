@@ -1,96 +1,36 @@
+import { defineStore } from 'pinia'
 import axios from 'axios'
 import swal from 'sweetalert'
-export default {
-  state: {
-    catalog: [],
-    filteredCatalog: [],
-    cart: [],
-    total: 0
-  },
-  getters: {
-    catalog: (state) => state.catalog.data,
-    catalogs: (state) => state.catalog,
-    filteredCatalog: (state) => state.filteredCatalog,
-    cart: (state) => state.cart,
-    Total: (state) => {
-      return state.cart.reduce((amount, item) => {
-        if (item.status) {
-          amount += item.priceUser
-          state.total = amount
-        }
-        return amount
-      }, 0)
-    }
-  },
-  actions: {
-    async setCatalog({ commit }, url) {
-      await axios
-        .get(`http://localhost:8000/${url}`)
-        .then((response) => {
-          commit('SET_CATALOG', response.data)
-        })
-        .catch(() => {
-          commit('SET_CATALOG_ERR')
-        })
-    },
-    handleBuy({ commit }, payload) {
-      commit('BUY_NOW', payload)
-    },
-    addToCart({ commit }, payload) {
-      commit('UPDATE_CART', payload)
-    },
-    removeCartProduct({ commit }, index) {
-      commit('REMOVE_ITEM', index)
-    },
-    clearCart({ commit }, payload) {
-      commit('CLEAR_CART', payload)
-    },
-    handleStatus({ commit }, payload) {
-      commit('SET_STATUS', payload)
-    },
-    checkOut({ commit }) {
-      commit('CHECK_OUT')
-    },
-    async removeItem(index, item) {
-      let result = item.stock + 1
-      await axios
-        .patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: result })
-        .then(() => {
-          this.setCatalog('jajanan_pasar')
-          this.removeCartProduct(index)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    async deleteData({ commit }, item) {
+import { ref } from 'vue'
+
+export const useJajananStore = defineStore(
+  'jajanan_pasar',
+  () => {
+    const catalog = ref([])
+    const filteredCatalog = ref([])
+    const cart = ref([])
+    const total = ref(0)
+
+    // axios.defaults.baseURL = ''
+
+    const setCatalog = async (url) => {
       try {
-        await axios.delete(`http://localhost:8000/jajanan_pasar/${item.id}`)
-        commit('DELETE_DATA', item)
+        const response = await axios.get(`http://localhost:8000/${url}`)
+        catalog.value = response.data
+        console.log(response.data)
       } catch (error) {
-        console.log(item)
         console.log(error)
+        console.log(url)
       }
     }
-  },
-  mutations: {
-    SET_CATALOG: (state, payload) => (state.catalog = payload),
-    SET_CATALOG_ERR: (state) => (state.catalog = []),
-    SET_STATUS: (state, payload) => {
-      state.cart[payload].status = !state.cart[payload].status //untuk mengubah status checklist pada products
-    }, // untuk mengapdate state total
-    DELETE_DATA: (state, payload) => {
-      let deletedItem = state.catalog.find((item) => item.id === payload.id)
-      console.log(deletedItem)
-      if (deletedItem) {
-        const index = state.catalog.indexOf(deletedItem)
-        state.catalog.splice(index, 1)
-      }
-    },
-    UPDATE_CART: (state, payload) => {
-      //mutations untuk memasukkan product ke keranjang
-      const addedItem = state.cart.find((item) => item.id === payload.id)
-      const limitItem = payload.stock > 0
+
+    const handleBuy = (payload) => {
+      total.value = payload.price
+    }
+
+    const addToCart = (payload) => {
+      let addedItem = cart.value.find((item) => item.id === payload.id)
+      let limitItem = payload.stock > 0
       if (limitItem) {
         payload.stock -= 1
         if (addedItem) {
@@ -98,20 +38,51 @@ export default {
           addedItem.stock--
           addedItem.priceUser = payload.price * addedItem.quantity
         } else {
-          state.cart.push({
+          cart.value.push({
             ...payload,
             quantity: 1,
             priceUser: payload.price
           })
         }
       }
-    },
-    BUY_NOW: (state, payload) => {
-      state.total = payload.price
-    },
-    CHECK_OUT: (state) => {
-      //untuk menampilkan modal checkout
-      swal(`Total Belanjaan Anda Rp.${state.total}\nBayar Sekarang ? `, {
+    }
+
+    const removeCartProduct = (index) => {
+      let product = cart.value[index]
+      if (product.quantity === 1) {
+        cart.value.splice(index, 1)
+      } else {
+        product.quantity--
+        product.priceUser -= product.price
+      }
+
+      cart.value.forEach((item) => {
+        if (item.id === product.id) item.stock++
+        return item
+      })
+
+      total.value -= product.price
+      product.status = false
+    }
+
+    const clearCart = (index) => {
+      let product = cart.value[index]
+
+      cart.value.splice(index, 1)
+      catalog.value.forEach((item) => {
+        if (item.id === product.id) item.stock += product.quantity
+        return item
+      })
+      total.value -= product.priceUser
+      product.status = false
+    }
+
+    const handleStatus = (index) => {
+      cart.value[index].status = !cart.value[index].status
+    }
+
+    const checkOut = () => {
+      swal(`Total Belanjaan Anda Rp.${total.value}\nBayar Sekarang ? `, {
         buttons: {
           cancel: 'Batal',
           confirm: 'Bayar'
@@ -123,9 +94,9 @@ export default {
             button: false,
             timer: 2000
           }).then(() => {
-            state.total = null
-            const result = state.cart.filter((item) => !item.status)
-            state.cart = result
+            total.value = null
+            const result = cart.value.filter((item) => !item.status)
+            cart.value = result
           })
         } else {
           swal('Batal di Bayar', {
@@ -133,45 +104,48 @@ export default {
           })
         }
       })
-    },
-    REMOVE_ITEM: (state, index) => {
-      //untuk menghapus item product
-      let product = state.cart[index]
-      if (product.quantity === 1) {
-        state.cart.splice(index, 1)
-      } else {
-        product.quantity--
-        product.priceUser -= product.price
-      }
-      state.cart.map((item) => {
-        if (item.id === product.id) {
-          item.stock++
-        }
-        return item
-      })
-      state.total -= product.price
-      product.status = false
-    },
-    CLEAR_CART: (state, index) => {
-      //untuk menghapus semua product dari keranjang
-      let product = state.cart[index]
-      console.log(product)
-      state.cart.splice(index, 1)
-      state.catalog.data.map((item) => {
-        if (item.id === product.id) {
-          item.stock += product.quantity
-        }
-
-        return item
-      })
-      state.total -= product.priceUser
-      product.status = false
     }
+
+    const removeItem = async (index, item) => {
+      try {
+        let result = item.stock + 1
+        await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: result })
+        setCatalog('jajanan_pasar')
+        removeCartProduct(index)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+
+    const deleteData = async (payload) => {
+      try {
+        await axios.delete(`http://localhost:8000/jajanan_pasar/${payload.id}`)
+        let deletedItem = catalog.value.find((item) => item.id === payload.id)
+        if (deletedItem) {
+          const index = catalog.value.indexOf(deletedItem)
+          catalog.value.splice(index, 1)
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    return {
+      catalog,
+      filteredCatalog,
+      cart,
+      total,
+      setCatalog,
+      clearCart,
+      handleStatus,
+      handleBuy,
+      addToCart,
+      checkOut,
+      removeItem,
+      deleteData
+    }
+  },
+  {
+    persist: true
   }
-}
-
-// import { defineStore } from "pinia";
-
-// export const useJajananStore = defineStore('jajanan_pasar', () => {
-//   const
-// })
+)

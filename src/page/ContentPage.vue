@@ -13,8 +13,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-4 gap-y-10 my-5" v-if="catalogs.length !== 0">
-                    <productComponent v-for="(item, index) in catalog" :key="index" class="group" :item="item" />
+                <div class="grid grid-cols-4 gap-y-10 my-5" v-if="catalog.length !== 0">
+                    <productComponent v-for="(item, index) in catalog.data" :key="index" class="group" :item="item" />
 
                     <router-link to="/cart"
                         class="fixed w-[40px] h-[40px] p-1 z-10 bg-lime-700 rounded-full bottom-5 right-16">
@@ -34,75 +34,57 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import NavbarComponent from '../components/NavbarComponent.vue'
 import CartIcon from '../assets/icon/CartIcon.vue'
 import FooterPage from './FooterPage.vue';
-import { mapGetters } from 'vuex';
 import SearchBar from '../components/SearchBar.vue';
-import { defineAsyncComponent } from 'vue';
+import { useJajananStore } from '../store/modules/jajanan_pasar';
+import { computed, defineAsyncComponent, reactive } from 'vue';
+import { storeToRefs } from 'pinia';
 
 const productComponent = defineAsyncComponent({
     loader: () => import('./CatalogComponent.vue' /* webpackChunkName: "productComponent" */),
 })
 
-export default {
-    name: 'ContentPage',
-    components: {
-        NavbarComponent,
-        CartIcon,
-        SearchBar,
-        productComponent,
-        FooterPage
+
+const storeJajanan = useJajananStore()
+const { cart, catalog } = storeToRefs(storeJajanan)
+const category = reactive([
+    {
+        name: "Jajanan Pasar",
+        url: "jajanan_pasar",
+        status: true
     },
-    data() {
-        return {
-            category: [
-                {
-                    name: "Jajanan Pasar",
-                    url: "jajanan_pasar",
-                    status: true
-                },
-                {
-                    name: "Pakaian",
-                    url: "pakaian",
-                    status: false
-                },
-                {
-                    name: "Mainan",
-                    url: "mainan",
-                    status: false
-                },
-                {
-                    name: "Transportasi",
-                    url: "transportasi",
-                    status: false
-                },
-                {
-                    name: "E-Warteg",
-                    url: 'warteg',
-                    status: false
-                }
-            ],
-        }
+    {
+        name: "Pakaian",
+        url: "pakaian",
+        status: false
     },
-    methods: {
-        selectCategory(item) {
-            this.$store.dispatch('setCatalog', item.url)
-            this.category.forEach((data) => {
-                if (data == item) {
-                    data.status = true;
-                } else {
-                    data.status = false
-                }
-            })
-        }
+    {
+        name: "Mainan",
+        url: "mainan",
+        status: false
     },
-    computed: {
-        ...mapGetters(['catalog', 'catalogs', 'cart']),
-        totalItems() {
-            return this.cart.reduce((a, b) => a + b.quantity, 0)
-        }
+    {
+        name: "Transportasi",
+        url: "transportasi",
+        status: false
     },
+    {
+        name: "E-Warteg",
+        url: 'warteg',
+        status: false
+    }
+],)
+
+const selectCategory = (item) => {
+    storeJajanan.setCatalog(item.url)
+    category.forEach((data) => {
+        if (data === item) data.status = true
+        else data.status = false
+    })
 }
+
+const totalItems = computed(() => cart.value.reduce((a, b) => a + b.quantity, 0))
 </script>

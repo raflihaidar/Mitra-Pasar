@@ -18,43 +18,27 @@
     </div>
 </template>
   
-<script>
+<script setup>
 import NavbarComponent from '../components/NavbarComponent.vue'
 import ProfileComponent from '../components/ProfileComponent.vue';
 import WishlistComponent from '../components/WishlistComponent.vue';
-import { mapGetters } from 'vuex';
-
-export default {
-    name: 'UserProfile',
-    components: {
-        NavbarComponent
+import { ref } from 'vue';
+const category = ref([
+    {
+        nama: 'Profil Saya',
+        isActive: true,
+        component: ProfileComponent
     },
-    computed: {
-        ...mapGetters(['dataUser', 'dataFiltered'])
-    },
-    data() {
-        return {
-            title: '',
-            category: [
-                {
-                    nama: 'Profil Saya',
-                    isActive: true,
-                    component: ProfileComponent
-                },
-                {
-                    nama: 'Wishlist',
-                    isActive: false,
-                    component: WishlistComponent
-                }
-            ]
-        }
-    },
-    methods: {
-        selectCategory(item) {
-            this.category.forEach((data) => {
-                data.isActive = data === item;
-            })
-        }
+    {
+        nama: 'Wishlist',
+        isActive: false,
+        component: WishlistComponent
     }
+])
+
+const selectCategory = (item) => {
+    category.value.forEach((data) => {
+        data.isActive = data === item;
+    })
 }
 </script>

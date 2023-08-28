@@ -29,31 +29,22 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import axios from 'axios';
+import { reactive } from 'vue';
 import NavbarComponent from '../components/NavbarComponent.vue';
-export default {
-    name: 'NewDataPage',
-    data() {
-        return {
-            data: {
-                product_name: '',
-                description: '',
-                stock: '',
-                price: null,
-                img: ''
-            }
-        }
-    },
-    components: {
-        NavbarComponent
-    },
-    methods: {
-        async addData() {
-            await axios.post('http://localhost:8000/jajanan_pasar', this.data).then(() => {
-                this.$router.push({ name: 'admin dashboard' })
-            })
-        }
-    }
+import router from '../router';
+let data = reactive({
+    product_name: '',
+    description: '',
+    stock: '',
+    price: null,
+    img: ''
+})
+
+const addData = async () => {
+    await axios.post('http://localhost:8000/jajanan_pasar', data).then(() => {
+        router.push({ name: 'admin dashboard' })
+    })
 }
 </script>

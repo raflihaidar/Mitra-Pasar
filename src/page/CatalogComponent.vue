@@ -32,49 +32,38 @@
     </div>
 </template>
 
-<script>
+<script setup>
 import FavoriteIcon from '../assets/icon/favoriteIcon.vue';
-import { mapGetters } from 'vuex';
+import { useJajananStore } from '../store/modules/jajanan_pasar';
 import axios from 'axios';
 import swal from 'sweetalert';
 import router from '../router';
-export default {
-    name: "CatalogComponent",
-    props: {
-        item: Object
-    },
-    components: {
-        FavoriteIcon,
-    },
-    methods: {
-        async addToCart(item) {
-            if (this.isAuthenticated) {
-                await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: item.stock })
-                this.$store.dispatch('addToCart', item)
-            } else {
-                swal('Anda Belum Login\nSilahkan Login Terlebih Dahulu', {
-                    buttons: {
-                        cancel: 'Batal',
-                        confirm: 'Login'
-                    }
-                }).then((login) => {
-                    if (login) router.push({ name: 'login user' })
-                    else router.push({ name: 'content page' })
-                })
+import { storeToRefs } from 'pinia';
+
+const storeJajanan = useJajananStore()
+const { dataFiltered } = storeToRefs(storeJajanan)
+
+const addToCart = async (item) => {
+    if (dataFiltered.value) {
+        await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: item.stock })
+        storeJajanan.dispatch('addToCart', item)
+    } else {
+        swal('Anda Belum Login\nSilahkan Login Terlebih Dahulu', {
+            buttons: {
+                cancel: 'Batal',
+                confirm: 'Login'
             }
-        },
-        likeButton(event) {
-            if (event.target.style.color != 'gold') {
-                event.target.style.color = 'gold'
-            } else {
-                event.target.style.color = ''
-            }
-        },
-    },
-    computed: {
-        ...mapGetters(['isAuthenticated']),
+        }).then((login) => {
+            if (login) router.push({ name: 'login user' })
+            else router.push({ name: 'content page' })
+        })
+    }
+}
+const likeButton = (event) => {
+    if (event.target.style.color != 'gold') {
+        event.target.style.color = 'gold'
+    } else {
+        event.target.style.color = ''
     }
 }
 </script>
-
-<style></style>
