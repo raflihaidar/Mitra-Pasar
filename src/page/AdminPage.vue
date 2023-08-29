@@ -33,7 +33,7 @@
                     ">
                 <CartIcon />
                 <p class="font-semibold">Overall Sale</p>
-                <p>{{ catalog.length }}</p>
+                <p>{{ catalog.data.length }}</p>
             </div>
             <div class="w-1/5 flex flex-col  bg-lime-600 px-3 py-6 rounded-lg">
                 <lord-icon src="https://cdn.lordicon.com/hbvyhtse.json" trigger="hover" colors="primary:#ffffff">
@@ -73,7 +73,7 @@
                         <th class="px-5 py-3">Aksi</th>
                     </tr>
                 </thead>
-                <tbody v-for="(item, index) in catalog" :key="index" class="border-2 border-lime-700 relative">
+                <tbody v-for="(item, index) in catalog.data" :key="index" class="border-2 border-lime-700 relative">
                     <tr class="text-sm font-semibold bg-lime-200 bg-opacity-25">
                         <td class="px-5 py-3 whitespace-nowrap">{{ index + 1 }}</td>
                         <td class="px-5 py-3 whitespace-nowrap">{{ item.product_name }}</td>
@@ -154,7 +154,8 @@ import LogoIcon from '../assets/icon/LogoIcon.vue';
 import DeleteIcon from '../assets/icon/DeleteIcon.vue';
 import { useJajananStore } from '../store/modules/jajanan_pasar';
 import axios from 'axios';
-import { reactive, ref, computed } from 'vue';
+import { reactive, ref, computed, onMounted } from 'vue';
+import { storeToRefs } from 'pinia';
 
 const overallSale = ref(true);
 const modalDelete = ref(false);
@@ -170,17 +171,17 @@ let modalContent = reactive({
     img: ''
 })
 
-const catalog = computed(() => store.getters.catalog)
+const { catalog } = storeToRefs(store)
 
 const deleteData = () => {
-    store.dispatch('deleteData', modalContent)
+    store.deleteData(modalContent)
     modalDelete.value = false;
 }
 
 const saveNewData = async (id) => {
     await axios.put(`http://localhost:8000/jajanan_pasar/${id}`, modalContent).then(() => {
         modalModify.value = false
-        store.dispatch("jajanan_pasar")
+        store.setCatalog("jajanan_pasar")
     })
 }
 
@@ -198,4 +199,8 @@ const activyActive = (item) => {
     modalModify.value = true
     Object.assign(modalContent, item)
 }
+
+onMounted(() => {
+    store.setCatalog("jajanan_pasar")
+})
 </script>

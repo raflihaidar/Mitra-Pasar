@@ -35,13 +35,13 @@
                 </tr>
             </tbody>
         </table>
-        <div v-if="total > 0"
+        <div v-if="Total > 0"
             class="w-[80%] flex left-[10%] fixed justify-between items-center bottom-0 text-sm text-center font-semibold bg-lime-200  px-5">
             <div class="flex">
                 <p class="font-bold text-lg">Total : </p>
-                <p class="font-bold text-lg">Rp.{{ total }}</p>
+                <p class="font-bold text-lg">Rp.{{ Total }}</p>
             </div>
-            <div v-if="total > 0" class="text-white text center px-5 py-3 whitespace-nowrap" @click="handleCheckOut">
+            <div v-if="Total > 0" class="text-white text center px-5 py-3 whitespace-nowrap" @click="handleCheckOut">
                 <button class="bg-lime-600 px-2 py-1 text-cente rounded-md">Check Out</button>
             </div>
         </div>
@@ -58,32 +58,32 @@
 <script setup>
 import NavbarComponent from '../components/NavbarComponent.vue';
 import axios from 'axios'
-import { computed, reactive } from 'vue';
-import { useStore } from 'vuex';
+import { reactive } from 'vue';
+import { useJajananStore } from '../store/modules/jajanan_pasar';
+import { storeToRefs } from 'pinia';
 
-const store = useStore()
-const cart = computed(() => store.getters.cart)
-const total = computed(() => store.getters.Total)
+const store = useJajananStore()
+const { cart, Total } = storeToRefs(store)
 const selectedValues = reactive([])
 const removeItem = async (index, item) => {
     let result = item.stock + 1;
     await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: result })
         .then(() => {
-            store.dispatch("setCatalog", "jajanan_pasar")
+            store.setCatalog("jajanan_pasar")
         })
     selectedValues.fill(0)
-    store.dispatch("removeCartProduct", index);
+    store.removeCartProduct(index)
 }
 const clearAll = (item) => {
     selectedValues.fill(0)
-    store.dispatch("clearCart", item);
+    store.clearCart(item)
     console.log("item from cart", item)
 }
 
 const handleCheckOut = () => {
-    store.dispatch("checkOut")
+    store.checkOut()
 }
 const setStatus = (index) => {
-    store.dispatch("handleStatus", index)
+    store.handleStatus(index)
 }
 </script>

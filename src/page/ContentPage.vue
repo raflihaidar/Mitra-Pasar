@@ -13,8 +13,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-4 gap-y-10 my-5" v-if="catalog.length !== 0">
-                    <productComponent v-for="(item, index) in catalog.data" :key="index" class="group" :item="item" />
+                <div class="grid grid-cols-4 gap-y-10 my-5" v-if="catalog.data.length !== 0">
+                    <CatalogComponent v-for="(item, index) in catalog.data" :key="index" class="group" :item="item" />
 
                     <router-link to="/cart"
                         class="fixed w-[40px] h-[40px] p-1 z-10 bg-lime-700 rounded-full bottom-5 right-16">
@@ -43,7 +43,7 @@ import { useJajananStore } from '../store/modules/jajanan_pasar';
 import { computed, defineAsyncComponent, reactive } from 'vue';
 import { storeToRefs } from 'pinia';
 
-const productComponent = defineAsyncComponent({
+const CatalogComponent = defineAsyncComponent({
     loader: () => import('./CatalogComponent.vue' /* webpackChunkName: "productComponent" */),
 })
 

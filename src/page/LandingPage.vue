@@ -10,7 +10,7 @@
                     <router-link to="/login_user" class="relative transition-all pointer">Login</router-link>
                 </div>
                 <button v-else>
-                    <p class="relative transition-all" @click="handleLogout">Log out</p>
+                    <p class="relative transition-all" @click="handleLogOut">Log out</p>
                 </button>
             </section>
         </nav>
@@ -29,10 +29,14 @@
 import LogoIcon from '../assets/icon/LogoIcon.vue'
 import swal from 'sweetalert'
 import { useUserStore } from '../store/modules/users';
+import { computed } from 'vue';
 const store = useUserStore()
-const isAuthenticated = store.dataFiltered.length !== 0
+const isAuthenticated = computed(() => {
+    return store.dataFiltered.length !== 0 ? true : false
+})
+const idUser = store.dataFiltered.id
 
-const handleLogout = () => {
+const handleLogOut = () => {
     swal("Apakah Anda Ingin Logout", {
         icon: 'warning',
         buttons: {
@@ -40,7 +44,7 @@ const handleLogout = () => {
             confirm: 'Logout'
         }
     }).then((confirm) => {
-        if (confirm) store.handleLogin()
+        if (confirm) store.handleLogOut(idUser)
     })
 }
 </script>

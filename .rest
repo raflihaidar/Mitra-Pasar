@@ -1,0 +1,5 @@
+PUT https://localhost:8000/user/8
+Content-Type: : application/json
+body {
+  "isAuthenticated" : true
+}

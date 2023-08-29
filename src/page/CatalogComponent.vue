@@ -39,14 +39,20 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import router from '../router';
 import { storeToRefs } from 'pinia';
+import { toRefs } from 'vue';
 
 const storeJajanan = useJajananStore()
-const { dataFiltered } = storeToRefs(storeJajanan)
+const { filteredCatalog } = storeToRefs(storeJajanan)
+const props = defineProps({
+    item: Object
+})
+
+const { item } = toRefs(props)
 
 const addToCart = async (item) => {
-    if (dataFiltered.value) {
+    if (filteredCatalog.value) {
         await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: item.stock })
-        storeJajanan.dispatch('addToCart', item)
+        storeJajanan.addToCart(item)
     } else {
         swal('Anda Belum Login\nSilahkan Login Terlebih Dahulu', {
             buttons: {

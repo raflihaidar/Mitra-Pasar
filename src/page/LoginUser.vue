@@ -60,15 +60,12 @@ const username = ref("")
 const password = ref("")
 const failed = ref(false)
 const store = useUserStore()
-const isAuthenticated = store.dataFiltered.length !== 0
+const isAuthenticated = store.dataFiltered
 
 const handleLogin = () => {
     const adminAuth = username.value == 'admin' && password.value == 'adminlogin'
-    console.log(username.value)
-    console.log(password.value)
     store.dataUser.data.forEach(item => {
         const userAuth = item.username === username.value && item.password === password.value
-        console.log(item.username)
         if (userAuth) {
             store.handleLogin(username.value)
             if (isAuthenticated) {
@@ -77,18 +74,18 @@ const handleLogin = () => {
                 }).then(() => {
                     router.push({ name: 'content page' })
                 })
-            } else if (adminAuth) {
-                swal('Berhasil Login', {
-                    icon: 'success'
-                }).then(() => {
-                    router.push({ name: 'admin dashboard' })
-                })
             } else {
                 swal("Gagal Login", {
                     icon: 'warning'
                 })
                 failed.value = true
             }
+        } else if (adminAuth) {
+            swal('Berhasil Login', {
+                icon: 'success'
+            }).then(() => {
+                router.push({ name: 'admin dashboard' })
+            })
         }
     })
 }

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
-import { reactive, ref } from 'vue'
+import { ref } from 'vue'
 
 axios.defaults.baseURL = 'http://localhost:8000/user'
 
@@ -25,7 +25,6 @@ export const useUserStore = defineStore(
       try {
         for (const item of dataUser.value.data) {
           if (item.username === payload) {
-            console.log(item)
             await axios.put(`/${item.id}`, { isAuthenticated: true })
             dataFiltered.value = item
           }
@@ -35,11 +34,21 @@ export const useUserStore = defineStore(
       }
     }
 
+    const handleLogOut = async (item) => {
+      try {
+        await axios.put(`${item}`, { isAuthenticated: false })
+        dataFiltered.value = []
+      } catch (err) {
+        console.log(err.message)
+      }
+    }
+
     return {
       dataUser,
       dataFiltered,
       setDataUser,
-      handleLogin
+      handleLogin,
+      handleLogOut
     }
   },
   {

@@ -40,40 +40,35 @@
     </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex'
-export default {
-    data() {
-        return {
-            title: "Profil Saya",
-            content: [
-                { nama: 'Nama', data: '', inputType: 'text' },
-                { nama: 'Alamat', data: '', inputType: 'text' },
-                { nama: 'Email', data: '', inputType: 'email' },
-                { nama: 'Nomor HP', data: '', inputType: 'text' }
-            ]
+<script setup>
+import { useUserStore } from '../store/modules/users';
+import { onMounted, ref } from 'vue';
+const title = "Profil Saya"
+const store = useUserStore()
+const content = ref([
+    { nama: 'Nama', data: '', inputType: 'text' },
+    { nama: 'Alamat', data: '', inputType: 'text' },
+    { nama: 'Email', data: '', inputType: 'email' },
+    { nama: 'Nomor HP', data: '', inputType: 'text' }
+])
+const dataFiltered = store.dataFiltered
+
+onMounted(() => {
+    content.value.forEach((value) => {
+        switch (value.nama) {
+            case 'Nama':
+                value.data = dataFiltered.name;
+                break;
+            case 'Alamat':
+                value.data = dataFiltered.address;
+                break;
+            case 'Email':
+                value.data = dataFiltered.email;
+                break;
+            case 'Nomor HP':
+                value.data = dataFiltered.nomor_hp;
+                break;
         }
-    },
-    computed: {
-        ...mapGetters(['dataFiltered'])
-    },
-    created() {
-        this.content.forEach((value) => {
-            switch (value.nama) {
-                case 'Nama':
-                    value.data = this.dataFiltered.name;
-                    break;
-                case 'Alamat':
-                    value.data = this.dataFiltered.address;
-                    break;
-                case 'Email':
-                    value.data = this.dataFiltered.email;
-                    break;
-                case 'Nomor HP':
-                    value.data = this.dataFiltered.nomor_hp;
-                    break;
-            }
-        })
-    }
-}
+    })
+})
 </script>

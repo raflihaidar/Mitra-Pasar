@@ -10,7 +10,7 @@
                 <SearchIcon />
             </div>
         </div>
-        <div v-if="filteredData.length !== 0"
+        <div v-if="filteredData.length !== 0 && wordEntered !== ''"
             class="w-[60%] mx-auto  text-center rounded-lg bg-gray-100 shadow-xl absolute overflow-hidden z-[999] left-[50%] -translate-x-1/2">
             <div v-for="(item, index) in filteredData" :key="index">
                 <ul class="py-2">
@@ -30,45 +30,35 @@
 </template>
 
 
-<script>
-import { mapGetters } from 'vuex'
+<script setup>
 import CloseIcon from '../assets/icon/CloseIcon.vue'
 import SearchIcon from '../assets/icon/SearchIcon.vue'
-export default {
-    name: 'SearchBar',
-    data() {
-        return {
-            filteredData: [],
-            wordEntered: "",
-        }
-    },
-    components: {
-        SearchIcon,
-        CloseIcon
-    },
-    watch: {
-        wordEntered(newVal) {
-            this.handleFilter(newVal);
-        }
-    },
-    methods: {
-        handleFilter(wordEntered) {
-            const dataFilter = this.catalog.filter((item) => {
-                return item.product_name.toLowerCase().includes(wordEntered.toLowerCase())
-            })
+import { ref, watch } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useJajananStore } from '../store/modules/jajanan_pasar';
 
-            if (wordEntered === "") {
-                this.filteredData = []
-            } else {
-                this.filteredData = dataFilter
-            }
-        },
-        handleDelete() {
-            this.wordEntered = ''
-        }
-    },
-    computed: {
-        ...mapGetters(['catalog'])
-    },
+const storeJajanan = useJajananStore()
+const { catalog } = storeToRefs(storeJajanan)
+const filteredData = ref([])
+const wordEntered = ref('')
+
+watch(wordEntered, (newVal) => {
+    handleFiltered(newVal)
+})
+
+const handleFiltered = (wordEntered) => {
+    let dataFilter = catalog.value.data.filter((item) => {
+        return item.product_name.toLowerCase().includes(wordEntered.toLowerCase())
+    })
+
+
+    if (wordEntered.value === "") {
+        filteredData.value = []
+    } else {
+        filteredData.value = dataFilter
+    }
+}
+const handleDelete = () => {
+    wordEntered.value = ''
 }
 </script>

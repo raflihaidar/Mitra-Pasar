@@ -57,19 +57,18 @@ import router from '../router';
 import { useJajananStore } from '../store/modules/jajanan_pasar';
 import swal from 'sweetalert';
 import Swal from 'sweetalert2';
-import { onMounted, reactive, ref } from 'vue';
-// import { storeToRefs } from 'pinia';
+import { onMounted, reactive } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useUserStore } from '../store/modules/users';
 import { useRoute } from 'vue-router';
 
 const storeJajanan = useJajananStore()
 const storeUsers = useUserStore()
 
-// const { catalog } = storeToRefs(storeJajanan)
+const { catalog } = storeToRefs(storeJajanan)
 
 
 let product = reactive([])
-// const checkStock = ref(catalog)
 const isAuthenticated = storeUsers.dataFiltered.length !== 0
 
 const getDetailProduct = async (id) => {
@@ -83,8 +82,8 @@ const getDetailProduct = async (id) => {
 }
 
 const addToCart = (item) => {
-    let data = this.catalog.find((p) => p.id === item.id)
-    if (data.stock !== 0 && isAuthenticated.value) {
+    let data = catalog.find((p) => p.id === item.id)
+    if (data.stock !== 0 && isAuthenticated) {
         storeJajanan.addToCart(item)
         Swal.fire({
             position: 'top-end',
@@ -97,7 +96,7 @@ const addToCart = (item) => {
         swal('Mohon Maaf, Stock Habis', {
             icon: 'info'
         })
-    } else if (!this.isAuthenticated) {
+    } else if (!isAuthenticated) {
         swal('Anda Belum Login\nSilahkan Login Terlebih Dahulu', {
             buttons: {
                 cancel: 'Batal',

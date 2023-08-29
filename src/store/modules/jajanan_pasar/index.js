@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import swal from 'sweetalert'
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 
 export const useJajananStore = defineStore(
   'jajanan_pasar',
@@ -10,6 +10,15 @@ export const useJajananStore = defineStore(
     const filteredCatalog = ref([])
     const cart = ref([])
     const total = ref(0)
+    const Total = computed(() => {
+      return cart.value.reduce((amount, item) => {
+        if (item.status) {
+          amount += item.priceUser
+          total.value = amount
+        }
+        return amount
+      }, 0)
+    })
 
     // axios.defaults.baseURL = ''
 
@@ -69,8 +78,10 @@ export const useJajananStore = defineStore(
       let product = cart.value[index]
 
       cart.value.splice(index, 1)
-      catalog.value.forEach((item) => {
-        if (item.id === product.id) item.stock += product.quantity
+      catalog.value.data.forEach((item) => {
+        if (item.id === product.id) {
+          item.stock += product.quantity
+        }
         return item
       })
       total.value -= product.priceUser
@@ -135,6 +146,7 @@ export const useJajananStore = defineStore(
       filteredCatalog,
       cart,
       total,
+      Total,
       setCatalog,
       clearCart,
       handleStatus,
@@ -142,6 +154,7 @@ export const useJajananStore = defineStore(
       addToCart,
       checkOut,
       removeItem,
+      removeCartProduct,
       deleteData
     }
   },

@@ -9,7 +9,7 @@
                     clip-rule="evenodd" />
             </svg>
 
-            <p class="text-lg" v-if="isAuthenticated">{{ username }}</p>
+            <p class="text-lg" v-if="isAuthenticated">{{ user }}</p>
             <div v-else class="flex gap-x-2">
                 <router-link to="/sign">Daftar</router-link>
                 <span>|</span>
@@ -19,21 +19,11 @@
     </router-link>
 </template>
   
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
 import LogoIcon from '../assets/icon/LogoIcon.vue';
-export default {
-    name: 'NavbarComponent',
-    props: {
-        user: {
-            type: String
-        }
-    },
-    components: {
-        LogoIcon
-    },
-    computed: {
-        ...mapGetters(['setDataUser', 'username', 'isAuthenticated'])
-    },
-}
+import { useUserStore } from '../store/modules/users';
+
+const store = useUserStore()
+const user = store.dataFiltered.username
+const isAuthenticated = store.dataFiltered.length !== 0
 </script>
