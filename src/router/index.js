@@ -1,13 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import DetailProduct from '../page/DetailProduct.vue'
-import LandingPage from '../page/LandingPage.vue'
-import LoginUser from '../page/LoginUser.vue'
-import SignPage from '../page/SignPage.vue'
-import ContentPage from '../page/ContentPage.vue'
-import AdminPage from '../page/AdminPage.vue'
-import NewDataPage from '../page/NewData.vue'
-import CartComponent from '../page/CartPage.vue'
-import UserProfile from '../page/UserProfile.vue'
 import { useUserStore } from '../store/modules/users'
 import swal from 'sweetalert'
 
@@ -17,47 +8,47 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: LandingPage
+      component: () => import('../page/LandingPage.vue')
     },
     {
       path: '/login_user',
       name: 'login user',
-      component: LoginUser
+      component: () => import('../page/LoginUser.vue')
     },
     {
       path: '/sign',
       name: 'sign',
-      component: SignPage
+      component: () => import('../page/SignPage.vue')
     },
     {
       path: '/admin',
       name: 'admin dashboard',
-      component: AdminPage
+      component: () => import('../page/AdminPage.vue')
     },
     {
       path: '/admin/new_data',
       name: 'add data',
-      component: NewDataPage
+      component: () => import('../page/NewData.vue')
     },
     {
       path: '/content',
       name: 'content page',
-      component: ContentPage
+      component: () => import('../page/ContentPage.vue')
     },
     {
       path: '/product/detail/:productId',
       name: 'detail product',
-      component: DetailProduct
+      component: () => import('../page/DetailProduct.vue')
     },
     {
       path: '/cart',
       name: 'cart page',
-      component: CartComponent
+      component: () => import('../page/CartPage.vue')
     },
     {
       path: '/user/akun/profil',
       name: 'user profile',
-      component: UserProfile
+      component: () => import('../page/UserProfile.vue')
     }
   ]
 })

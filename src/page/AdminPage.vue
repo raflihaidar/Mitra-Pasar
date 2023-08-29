@@ -154,7 +154,7 @@ import LogoIcon from '../assets/icon/LogoIcon.vue';
 import DeleteIcon from '../assets/icon/DeleteIcon.vue';
 import { useJajananStore } from '../store/modules/jajanan_pasar';
 import axios from 'axios';
-import { reactive, ref, computed, onMounted } from 'vue';
+import { reactive, ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 
 const overallSale = ref(true);
