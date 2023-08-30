@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 import axios from 'axios'
 import { ref } from 'vue'
+import swal from 'sweetalert'
+import router from '../../../router/index'
 
 axios.defaults.baseURL = 'http://localhost:8000/user'
 
@@ -27,6 +29,11 @@ export const useUserStore = defineStore(
           if (item.username === payload) {
             await axios.put(`/${item.id}`, { isAuthenticated: true })
             dataFiltered.value = item
+            swal('Berhasil Login', {
+              icon: 'success'
+            }).then(() => {
+              router.push({ name: 'content page' })
+            })
           }
         }
       } catch (err) {

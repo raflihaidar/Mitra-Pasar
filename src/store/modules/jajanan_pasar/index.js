@@ -130,12 +130,26 @@ export const useJajananStore = defineStore(
 
     const deleteData = async (payload) => {
       try {
-        await axios.delete(`http://localhost:8000/jajanan_pasar/${payload.id}`)
-        let deletedItem = catalog.value.find((item) => item.id === payload.id)
-        if (deletedItem) {
-          const index = catalog.value.indexOf(deletedItem)
-          catalog.value.splice(index, 1)
-        }
+        swal('Apakah anda ingin menghapus ?', {
+          icon: 'warning',
+          buttons: {
+            cancel: 'Batal',
+            confirm: 'Hapus'
+          }
+        }).then(async (bayar) => {
+          if (bayar) {
+            await axios.delete(`http://localhost:8000/jajanan_pasar/${payload.id}`).then(() => {
+              setCatalog('jajanan_pasar')
+            })
+            let deletedItem = catalog.value.data.find((item) => item.id === payload.id)
+            if (deletedItem) {
+              const index = catalog.value.data.indexOf(deletedItem)
+              catalog.value.splice(index, 1)
+            }
+          } else {
+            swal('batal')
+          }
+        })
       } catch (error) {
         console.log(error)
       }

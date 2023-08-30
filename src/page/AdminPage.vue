@@ -10,19 +10,19 @@
 
         <div class="absolute z-10 w-[250px] h-screen bg-lime-500 text-center text-white font-semibold"
             :class="sideBar ? '-translate-x-[250px]' : ''">
-            <div class=" py-5 px-2">
+            <div class="py-5 px-2 cursor-pointer" @click="$router.push({ name: 'dashboard' })">
                 <p>Dashboard</p>
             </div>
-            <div class="py-5">
-                <p>Event</p>
+            <div class="py-5 cursor-pointer" @click="$router.push({ name: 'user' })">
+                <p>Manage Users</p>
             </div>
-            <div class="py-5">
+            <div class="py-5 cursor-pointer">
                 <p>Customer</p>
             </div>
-            <div class="py-5">
+            <div class="py-5 cursor-pointer">
                 <p>Transfer</p>
             </div>
-            <div class="py-5">
+            <div class="py-5 cursor-pointer">
                 <p>Settings</p>
             </div>
         </div>
@@ -55,152 +55,29 @@
             </div>
         </div>
 
-        <div :class="overallSale ? 'block' : 'hidden'" class="w-[80%] mx-auto">
-            <p class="text-3xl text-center font-semibold text-black">Overall Sale</p>
-            <router-link to="/admin/new_data">
-                <button class="bg-lime-500 px-2 py-2 text-sm rounded-md text-white font-semibold my-2">Tambah Data</button>
-            </router-link>
-
-
-            <!-- Table -->
-            <table class="border-2 border-lime-700 table-auto mb-10">
-                <thead class="border-2 border-lime-700 bg-lime-500">
-                    <tr class="text-white">
-                        <th class="px-5 py-3">No</th>
-                        <th class="px-5 py-3">Nama</th>
-                        <th class="px-5 py-3 text-center">Deskripsi</th>
-                        <th class="px-5 py-3">Harga</th>
-                        <th class="px-5 py-3">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody v-for="(item, index) in catalog.data" :key="index" class="border-2 border-lime-700 relative">
-                    <tr class="text-sm font-semibold bg-lime-200 bg-opacity-25">
-                        <td class="px-5 py-3 whitespace-nowrap">{{ index + 1 }}</td>
-                        <td class="px-5 py-3 whitespace-nowrap">{{ item.product_name }}</td>
-                        <td class="px-5 py-3 whitespace-nowrap">{{ item.description }}</td>
-                        <td class="px-5 py-3 whitespace-nowrap">Rp.{{ item.price }}</td>
-                        <td>
-                            <div class="flex items-center justify-center gap-x-1">
-                                <span class="cursor-pointer" @click="activyActive(item)">
-                                    <EditIconVue />
-                                </span>
-                                <span class="cursor-pointer" @click="modalsActive(item)">
-                                    <DeleteIcon />
-                                </span>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-
-                <!-- Modals -->
-                <div :class="modalDelete ? 'block' : 'hidden'"
-                    class="fixed top-0 left-0 z-10 bg-black-rgba w-full h-full flex justify-center items-center"
-                    @click="cancelButton">
-                    <div
-                        class="bg-white w-2/5 px-10 py-5 absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 opacity-100 font-semibold text-center">
-                        <p class="text-2xl">Yakin Ingin Menghapus</p>
-                        <div class="mt-10 flex gap-x-10 justify-end text-lg">
-                            <button class="bg-blue-300 p-3" @click="cancelButton">Batal</button>
-                            <button class="bg-red-500 p-3" @click="deleteData">Hapus</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="fixed top-0 left-0 z-10 bg-black-rgba w-full h-full flex justify-center items-center"
-                    :class="modalModify ? 'block' : 'hidden'">
-                    <div
-                        class="bg-white w-2/5 px-10 py-5 absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 opacity-100 font-semibold border-4 border-lime-600">
-                        <section class="flex flex-col gap-y-1 mb-5">
-                            <label>Nama Produk</label>
-                            <input type="text" class="border-2 border-black px-2 py-1 rounded-md"
-                                v-model="modalContent.product_name">
-                        </section>
-                        <section class="flex flex-col gap-y-1 mb-5">
-                            <label>Stok</label>
-                            <input type="text" class="border-2 border-black px-2 py-1 rounded-md"
-                                v-model="modalContent.stock">
-                        </section>
-                        <section class="flex flex-col mb-5">
-                            <label>Harga</label>
-                            <input type="text" class="border-2 border-black px-2 py-1 rounded-md"
-                                v-model="modalContent.price">
-                        </section>
-                        <section class="flex flex-col mb-5">
-                            <label>Url Gambar</label>
-                            <input type="text" v-model="modalContent.img"
-                                class="border-2 border-black px-2 py-1 rounded-md">
-                        </section>
-                        <section class=" flex flex-col mb-5">
-                            <label>Deskripsi</label>
-                            <textarea name="" id="" cols="25" rows="8" class="border-2 border-black px-2 py-1 rounded-md"
-                                v-model="modalContent.description"></textarea>
-                        </section>
-                        <section class="flex justify-end gap-x-5">
-                            <button class="bg-blue-300 rounded-md px-3 py-2" @click="cancelButton">Batal</button>
-                            <button class="bg-green-600 rounded-md px-3 py-2"
-                                @click="saveNewData(modalContent.id)">Simpan</button>
-                        </section>
-                    </div>
-                </div>
-            </table>
+        <div :class="overallSale ? 'block' : 'hidden'" class="w-[80%] mx-auto bg-gray-100 p-7" id="content">
+            <router-view />
         </div>
     </div>
 </template>
 
 <script setup>
 import CartIcon from '../assets/icon/CartIcon.vue'
-import EditIconVue from '../assets/icon/EditIcon.vue'
-import LogoIcon from '../assets/icon/LogoIcon.vue';
-import DeleteIcon from '../assets/icon/DeleteIcon.vue';
 import { useJajananStore } from '../store/modules/jajanan_pasar';
-import axios from 'axios';
-import { reactive, ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
+import LogoIcon from '../assets/icon/LogoIcon.vue';
+import { ref } from 'vue';
 
-const overallSale = ref(true);
-const modalDelete = ref(false);
-const modalModify = ref(false);
-const sideBar = ref(true);
 const store = useJajananStore()
-let modalContent = reactive({
-    id: 0,
-    product_name: '',
-    stock: 0,
-    description: '',
-    price: 0,
-    img: ''
-})
-
 const { catalog } = storeToRefs(store)
-
-const deleteData = () => {
-    store.deleteData(modalContent)
-    modalDelete.value = false;
-}
-
-const saveNewData = async (id) => {
-    await axios.put(`http://localhost:8000/jajanan_pasar/${id}`, modalContent).then(() => {
-        modalModify.value = false
-        store.setCatalog("jajanan_pasar")
-    })
-}
-
-const cancelButton = () => {
-    modalDelete.value = false
-    modalModify.value = false
-}
-
-const modalsActive = (item) => {
-    modalDelete.value = true
-    Object.assign(modalContent, item)
-}
-
-const activyActive = (item) => {
-    modalModify.value = true
-    Object.assign(modalContent, item)
-}
-
-onMounted(() => {
-    store.setCatalog("jajanan_pasar")
-})
+const overallSale = ref(true);
+const sideBar = ref(true);
 </script>
+
+<style>
+#content {
+    box-shadow: -1px 1px 6px -2px rgba(36, 36, 36, 0.58);
+    -webkit-box-shadow: -1px 1px 6px -2px rgba(36, 36, 36, 0.58);
+    -moz-box-shadow: -1px 1px 6px -2px rgba(36, 36, 36, 0.58);
+}
+</style>

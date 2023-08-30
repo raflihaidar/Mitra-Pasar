@@ -72,6 +72,4 @@ const likeButton = (event) => {
         event.target.style.color = ''
     }
 }
-
-storeJajanan.setCatalog("jajanan_store")
 </script>

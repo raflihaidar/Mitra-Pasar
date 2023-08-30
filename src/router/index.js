@@ -23,7 +23,19 @@ const router = createRouter({
     {
       path: '/admin',
       name: 'admin dashboard',
-      component: () => import('../page/AdminPage.vue')
+      component: () => import('../page/AdminPage.vue'),
+      children: [
+        {
+          path: '',
+          name: 'dashboard',
+          component: () => import('../page/DashboradPage.vue')
+        },
+        {
+          path: 'user',
+          name: 'user',
+          component: () => import('../page/UserPage.vue')
+        }
+      ]
     },
     {
       path: '/admin/new_data',

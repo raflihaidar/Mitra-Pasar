@@ -25,6 +25,7 @@
     "mysql2": "^3.2.1",
     "pinia": "^2.1.6",
     "pinia-plugin-persistedstate": "^3.2.0",
+    "sass": "^1.66.1",
     "sweetalert": "^2.1.2",
     "sweetalert2": "^11.7.12",
     "vue": "^3.2.47",

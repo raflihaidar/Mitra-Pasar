@@ -60,7 +60,6 @@ const username = ref("")
 const password = ref("")
 const failed = ref(false)
 const store = useUserStore()
-const isAuthenticated = store.dataFiltered
 
 const handleLogin = () => {
     const adminAuth = username.value == 'admin' && password.value == 'adminlogin'
@@ -68,24 +67,18 @@ const handleLogin = () => {
         const userAuth = item.username === username.value && item.password === password.value
         if (userAuth) {
             store.handleLogin(username.value)
-            if (isAuthenticated) {
-                swal('Berhasil Login', {
-                    icon: 'success'
-                }).then(() => {
-                    router.push({ name: 'content page' })
-                })
-            } else {
-                swal("Gagal Login", {
-                    icon: 'warning'
-                })
-                failed.value = true
-            }
         } else if (adminAuth) {
             swal('Berhasil Login', {
                 icon: 'success'
             }).then(() => {
                 router.push({ name: 'admin dashboard' })
             })
+        }
+        else {
+            swal('Gagal Login', {
+                icon: 'warning'
+            })
+            failed.value = false
         }
     })
 }

@@ -3,3 +3,7 @@ Content-Type: : application/json
 body {
   "isAuthenticated" : true
 }
+
+#####
+
+GET http://localhost:8000/jajanan_pasar/product/4

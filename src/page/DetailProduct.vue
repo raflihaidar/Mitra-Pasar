@@ -57,24 +57,25 @@ import router from '../router';
 import { useJajananStore } from '../store/modules/jajanan_pasar';
 import swal from 'sweetalert';
 import Swal from 'sweetalert2';
-import { onMounted, reactive } from 'vue';
+import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useUserStore } from '../store/modules/users';
 import { useRoute } from 'vue-router';
 
 const storeJajanan = useJajananStore()
 const storeUsers = useUserStore()
+const productId = useRoute()
 
 const { catalog } = storeToRefs(storeJajanan)
 
 
-let product = reactive([])
+let product = ref([])
 const isAuthenticated = storeUsers.dataFiltered.length !== 0
 
-const getDetailProduct = async (id) => {
+const getDetailProduct = async () => {
     try {
-        const response = await axios.get(`http://localhost:8000/jajanan_pasar/product/${id}`);
-        product = response.data;
+        const response = await axios.get(`http://localhost:8000/jajanan_pasar/product/${productId.params.productId}`);
+        product.value = response.data;
     }
     catch (error) {
         console.log(error);
@@ -128,8 +129,14 @@ const buyNow = (item) => {
     }
 }
 
+// watch(
+//     () => productId.params,
+//     async newId => {
+//         getDetailProduct(newId)
+//     }
+// )
+
 onMounted(() => {
-    const productId = useRoute().params
-    getDetailProduct(productId)
 })
+getDetailProduct()
 </script>

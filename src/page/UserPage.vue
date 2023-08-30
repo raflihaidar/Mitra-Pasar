@@ -1,0 +1,3 @@
+<template>
+  Halo User
+</template>
