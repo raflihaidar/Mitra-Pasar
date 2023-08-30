@@ -28,9 +28,7 @@
         </div>
 
         <div class="w-[80%] mx-auto my-10 flex justify-between text-white">
-            <div class="w-1/5 flex flex-col px-3 py-6 rounded-lg shadow-xl"
-                :class="overallSale ? 'bg-lime-700' : 'bg-lime-600 '" @click="overallSale = !overallSale
-                    ">
+            <div class="w-1/5 flex flex-col px-3 py-6 rounded-lg shadow-xl bg-lime-600">
                 <CartIcon />
                 <p class="font-semibold">Overall Sale</p>
                 <p>{{ catalog.data.length }}</p>
@@ -38,8 +36,8 @@
             <div class="w-1/5 flex flex-col  bg-lime-600 px-3 py-6 rounded-lg">
                 <lord-icon src="https://cdn.lordicon.com/hbvyhtse.json" trigger="hover" colors="primary:#ffffff">
                 </lord-icon>
-                <p>Overall Visited</p>
-                <p>3,925</p>
+                <p>Overall User</p>
+                <p>{{ dataUser.data.length }}</p>
             </div>
             <div class=" w-1/5 flex flex-col  bg-lime-600 px-3 py-6 rounded-lg">
                 <lord-icon src="https://cdn.lordicon.com/zchxlapl.json" trigger="hover" colors="primary:#ffffff">
@@ -55,8 +53,8 @@
             </div>
         </div>
 
-        <div :class="overallSale ? 'block' : 'hidden'" class="w-[80%] mx-auto bg-gray-100 p-7" id="content">
-            <router-view />
+        <div class="w-[80%] mx-auto bg-gray-100 p-7" id="content">
+            <router-view></router-view>
         </div>
     </div>
 </template>
@@ -64,14 +62,20 @@
 <script setup>
 import CartIcon from '../assets/icon/CartIcon.vue'
 import { useJajananStore } from '../store/modules/jajanan_pasar';
+import { useUserStore } from '../store/modules/users';
 import { storeToRefs } from 'pinia';
 import LogoIcon from '../assets/icon/LogoIcon.vue';
 import { ref } from 'vue';
+import router from '../router';
 
-const store = useJajananStore()
-const { catalog } = storeToRefs(store)
-const overallSale = ref(true);
+const jajananStore = useJajananStore()
+const userStore = useUserStore()
+const { dataUser } = storeToRefs(userStore)
+const { catalog } = storeToRefs(jajananStore)
 const sideBar = ref(true);
+
+
+router.push({ name: "dashboard" })
 </script>
 
 <style>

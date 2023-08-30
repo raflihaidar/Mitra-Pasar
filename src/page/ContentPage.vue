@@ -37,14 +37,14 @@
 <script setup>
 import NavbarComponent from '../components/NavbarComponent.vue'
 import CartIcon from '../assets/icon/CartIcon.vue'
-import FooterPage from './FooterPage.vue';
+import FooterPage from '../components/FooterPage.vue';
 import SearchBar from '../components/SearchBar.vue';
 import { useJajananStore } from '../store/modules/jajanan_pasar';
 import { computed, defineAsyncComponent, reactive } from 'vue';
 import { storeToRefs } from 'pinia';
 
 const CatalogComponent = defineAsyncComponent({
-    loader: () => import('./CatalogComponent.vue' /* webpackChunkName: "productComponent" */),
+    loader: () => import('../components/CatalogComponent.vue' /* webpackChunkName: "productComponent" */),
 })
 
 

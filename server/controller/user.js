@@ -46,6 +46,22 @@ const updateData = async (req, res) => {
     })
   }
 }
+const updateProfileUser = async (req, res) => {
+  const { id } = req.params
+  const { body } = req
+  try {
+    await userModels.updateProfileUser(body, id)
+    res.json({
+      message: 'Update User Success',
+      data: body
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: 'server error',
+      serverMessage: error
+    })
+  }
+}
 
 const deleteUser = async (req, res) => {
   const { id } = req.params
@@ -71,5 +87,6 @@ module.exports = {
   getUser,
   createNewUser,
   updateData,
+  updateProfileUser,
   deleteUser
 }

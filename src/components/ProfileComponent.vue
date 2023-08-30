@@ -18,8 +18,15 @@
                     <label :for="index" class="text-right text-md text-gray-500 w-full">
                         {{ item.nama }}
                     </label>
-                    <div class="w-full h-auto border-b-2 border-black bg-white text-lg py-2">
-                        {{ item.data }}
+                    <div class="w-full flex justify-between h-auto border-b-2 border-black bg-white text-sm py-2">
+                        <input type="text" :value="item.data" :disabled="item.edit"
+                            class="w-[90%] bg-inherit outline-none p-2" />
+                        <button v-if="item.edit">
+                            <EditIcon @click="handleModify(item)" />
+                        </button>
+                        <button v-else>
+                            <SaveIcon @click="handleModify(item)" />
+                        </button>
                     </div>
                 </div>
             </div>
@@ -31,8 +38,15 @@
                     <label :for="index" class="text-right text-md text-gray-500 w-full">
                         {{ item.nama }}
                     </label>
-                    <div class="w-full h-auto border-b-2 border-black bg-white text-lg py-2">
-                        {{ item.data }}
+                    <div class="w-full h-auto border-b-2 border-black bg-white text-sm py-2">
+                        <input type="text" :value="item.data" :disabled="item.edit"
+                            class="w-[90%] bg-inherit outline-none p-2" />
+                        <button v-if="item.edit">
+                            <EditIcon @click="handleModify(item)" />
+                        </button>
+                        <button v-else>
+                            <SaveIcon @click="handleModify(item)" />
+                        </button>
                     </div>
                 </div>
             </div>
@@ -42,31 +56,53 @@
 
 <script setup>
 import { useUserStore } from '../store/modules/users';
-import { onMounted, ref } from 'vue';
+import EditIcon from '../assets/icon/EditIcon.vue';
+import SaveIcon from "../assets/icon/SaveIcon.vue"
+import { onMounted, reactive, ref } from 'vue';
 const title = "Profil Saya"
 const store = useUserStore()
+
+const payload = reactive({
+    username: '',
+    email: '',
+    address: '',
+    nomor_hp: '',
+})
+
 const content = ref([
-    { nama: 'Nama', data: '', inputType: 'text' },
-    { nama: 'Alamat', data: '', inputType: 'text' },
-    { nama: 'Email', data: '', inputType: 'email' },
-    { nama: 'Nomor HP', data: '', inputType: 'text' }
+    { nama: 'Nama', data: '', edit: true },
+    { nama: 'Alamat', data: '', edit: true },
+    { nama: 'Email', data: '', edit: true },
+    { nama: 'Nomor HP', data: '', edit: true }
 ])
+
 const dataFiltered = store.dataFiltered
 
+const handleModify = (item) => {
+    item.edit = !item.edit
+    console.log(item.edit)
+}
+const handleSave = async () => {
+    store.editProfileUser()
+}
 onMounted(() => {
     content.value.forEach((value) => {
         switch (value.nama) {
             case 'Nama':
                 value.data = dataFiltered.name;
+                payload.username = dataFiltered.username;
                 break;
             case 'Alamat':
                 value.data = dataFiltered.address;
+                payload.address = dataFiltered.address
                 break;
             case 'Email':
                 value.data = dataFiltered.email;
+                payload.email = dataFiltered.email
                 break;
             case 'Nomor HP':
                 value.data = dataFiltered.nomor_hp;
+                payload.nomor_hp = dataFiltered.nomor_hp
                 break;
         }
     })

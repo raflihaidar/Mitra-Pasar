@@ -7,3 +7,15 @@ body {
 #####
 
 GET http://localhost:8000/jajanan_pasar/product/4
+
+
+####
+PATCH  http://localhost:8000/user/8
+Head : Content-Type: 
+Content-Type:  : application/json
+body {
+  "username" : "Zaky Chandra Muhammad"
+  "address" : "Jember, Jawa Timur",
+  "email" : "zakychandra@gmail",
+  "nomor_hp" : "082121291256"
+}

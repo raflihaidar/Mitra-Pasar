@@ -25,6 +25,15 @@ const updateData = (body, id) => {
                         WHERE id=${id}`
   return dbPool.execute(SQLquery)
 }
+const updateProfileUser = (body, id) => {
+  const SQLquery = `UPDATE express_mitrapasar.user 
+                    SET username='${body.username}',
+                        email='${body.email}',
+                        nomor_hp='${body.nomor_hp}',
+                        address='${body.address}'
+                        WHERE id=${id}`
+  return dbPool.execute(SQLquery)
+}
 
 const deleteUser = (id) => {
   const SQLquery = `DELETE FROM express_mitrapasar.user WHERE id=${id} `
@@ -35,5 +44,6 @@ module.exports = {
   getUser,
   createNewUser,
   updateData,
+  updateProfileUser,
   deleteUser
 }

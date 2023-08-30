@@ -50,10 +50,43 @@ export const useUserStore = defineStore(
       }
     }
 
+    const editProfileUser = async (item, id) => {
+      try {
+        await axios.patch(`/${id}`, {
+          username: item.username,
+          address: item.address,
+          email: item.email,
+          nomor_hp: item.nomor_hp
+        })
+        alert('success')
+      } catch (error) {
+        console.log(error)
+        console.log(item)
+      }
+    }
+
+    const deleteDataUser = (id) => {
+      swal('Hapus Data User', {
+        icon: 'warning',
+        buttons: {
+          confirm: 'Hapus',
+          cancel: 'Batal'
+        }
+      }).then(async (hapus) => {
+        if (hapus) {
+          await axios.delete(`/${id}`).then(() => setDataUser())
+        } else {
+          swal('Batal')
+        }
+      })
+    }
+
     return {
       dataUser,
       dataFiltered,
       setDataUser,
+      deleteDataUser,
+      editProfileUser,
       handleLogin,
       handleLogOut
     }

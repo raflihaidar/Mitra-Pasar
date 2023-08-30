@@ -51,7 +51,7 @@
 import axios from 'axios'
 import CartIcon from '../assets/icon/CartIcon.vue';
 import FavoriteIcon from '../assets/icon/favoriteIcon.vue';
-import FooterPage from './FooterPage.vue'
+import FooterPage from '../components/FooterPage.vue'
 import NavbarComponent from '../components/NavbarComponent.vue'
 import router from '../router';
 import { useJajananStore } from '../store/modules/jajanan_pasar';

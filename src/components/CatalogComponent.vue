@@ -50,7 +50,7 @@ const props = defineProps({
 const { item } = toRefs(props)
 
 const addToCart = async (item) => {
-    if (filteredCatalog.value) {
+    if (filteredCatalog.value.length !== 0) {
         await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: item.stock })
         storeJajanan.addToCart(item)
     } else {
