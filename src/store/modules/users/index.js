@@ -53,12 +53,20 @@ export const useUserStore = defineStore(
     const editProfileUser = async (item, id) => {
       try {
         await axios.patch(`/${id}`, {
+          name: item.name,
           username: item.username,
-          address: item.address,
           email: item.email,
-          nomor_hp: item.nomor_hp
+          nomor_hp: item.nomor_hp,
+          address: item.address
         })
-        alert('success')
+        dataFiltered.value = item
+        swal('Berhasil Mengubah Profil', {
+          icon: 'success',
+          buttons: {
+            confirm: 'OK'
+          }
+        })
+        setDataUser()
       } catch (error) {
         console.log(error)
         console.log(item)

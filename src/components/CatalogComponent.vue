@@ -35,6 +35,7 @@
 <script setup>
 import FavoriteIcon from '../assets/icon/favoriteIcon.vue';
 import { useJajananStore } from '../store/modules/jajanan_pasar';
+import { useUserStore } from '../store/modules/users';
 import axios from 'axios';
 import swal from 'sweetalert';
 import router from '../router';
@@ -42,7 +43,8 @@ import { storeToRefs } from 'pinia';
 import { toRefs } from 'vue';
 
 const storeJajanan = useJajananStore()
-const { filteredCatalog } = storeToRefs(storeJajanan)
+const userStore = useUserStore()
+const { dataFiltered } = storeToRefs(userStore)
 const props = defineProps({
     item: Object
 })
@@ -50,7 +52,7 @@ const props = defineProps({
 const { item } = toRefs(props)
 
 const addToCart = async (item) => {
-    if (filteredCatalog.value.length !== 0) {
+    if (dataFiltered.value.length !== 0) {
         await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: item.stock })
         storeJajanan.addToCart(item)
     } else {

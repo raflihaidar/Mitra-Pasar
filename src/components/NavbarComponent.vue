@@ -20,10 +20,11 @@
 </template>
   
 <script setup>
+import { computed } from 'vue';
 import LogoIcon from '../assets/icon/LogoIcon.vue';
 import { useUserStore } from '../store/modules/users';
 
 const store = useUserStore()
-const user = store.dataFiltered.username
+const user = computed(() => store.dataFiltered.username)
 const isAuthenticated = store.dataFiltered.length !== 0
 </script>

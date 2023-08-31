@@ -21,13 +21,16 @@
                 <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3" :class="failed ? 'border-red-500' : 'border-2'">
                     <div class="flex items-center justify-evenly  bg-white">
                         <input type="text" class="bg-white w-full outline-none" name="username" placeholder="Your email"
-                            v-model="username">
+                            v-model="username" autocomplete="off">
                     </div>
                 </div>
                 <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3" :class="failed ? 'border-red-500' : 'border-2'">
                     <div class="flex items-center justify-evenly bg-white">
-                        <input type="password" class="bg-white w-full outline-none" name="password"
+                        <input :type="show ? 'text' : 'password'" class="bg-white w-full outline-none" name="password"
                             placeholder="Your password" v-model="password">
+                        <span>
+                            <component :is="EyeIcon" :show="show" @click="show = !show" />
+                        </span>
                     </div>
                 </div>
             </div>
@@ -53,20 +56,20 @@
 import swal from 'sweetalert'
 import { onMounted, ref } from "vue"
 import LogoIcon from '../assets/icon/LogoIcon.vue'
+import EyeIcon from "../assets/icon/EyeIcon.vue"
 import { useUserStore } from '../store/modules/users';
 import router from '../router';
 
 const username = ref("")
 const password = ref("")
 const failed = ref(false)
+const show = ref(false)
 const store = useUserStore()
 
 const handleLogin = () => {
     const adminAuth = username.value == 'admin' && password.value == 'adminlogin'
     store.dataUser.data.forEach(item => {
         const userAuth = item.username === username.value && item.password === password.value
-        console.log(item)
-        console.log(userAuth)
         if (userAuth) {
             store.handleLogin(username.value)
         } else if (adminAuth) {
@@ -75,12 +78,10 @@ const handleLogin = () => {
             }).then(() => {
                 router.push({ name: 'admin dashboard' })
             })
-        }
-        else {
+        } else {
             swal('Gagal Login', {
                 icon: 'warning'
-            })
-            failed.value = false
+            }).then(() => failed.value = true)
         }
     })
 }

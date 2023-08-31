@@ -27,7 +27,8 @@ const updateData = (body, id) => {
 }
 const updateProfileUser = (body, id) => {
   const SQLquery = `UPDATE express_mitrapasar.user 
-                    SET username='${body.username}',
+                    SET name='${body.name}',
+                        username='${body.username}',
                         email='${body.email}',
                         nomor_hp='${body.nomor_hp}',
                         address='${body.address}'
