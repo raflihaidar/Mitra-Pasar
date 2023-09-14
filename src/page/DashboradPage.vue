@@ -42,27 +42,26 @@
           class="bg-white w-2/5 px-10 py-5 absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 opacity-100 font-semibold border-4 border-lime-600 rounded-xl">
           <section class="flex flex-col gap-y-1 mb-5">
             <label>Nama Produk</label>
-            <input type="text" class="border-2 border-lime-600 px-2 py-2 rounded-lg outline-none"
+            <input type="text" name="product_name" class="border-2 border-lime-600 px-2 py-2 rounded-lg outline-none"
               v-model="modalContent.product_name">
           </section>
           <section class="flex flex-col gap-y-1 mb-5">
             <label>Stok</label>
-            <input type="text" class="border-2 border-lime-600 px-2 py-2 rounded-lg outline-none"
+            <input type="text" name="stock" class="border-2 border-lime-600 px-2 py-2 rounded-lg outline-none"
               v-model="modalContent.stock">
           </section>
           <section class="flex flex-col mb-5">
             <label>Harga</label>
-            <input type="text" class="border-2 border-lime-600 px-2 py-2 rounded-lg outline-none"
+            <input type="text" name="price" class="border-2 border-lime-600 px-2 py-2 rounded-lg outline-none"
               v-model="modalContent.price">
           </section>
           <section class="flex flex-col mb-5">
             <label>Url Gambar</label>
-            <input type="text" v-model="modalContent.img"
-              class="border-2 border-lime-600 px-2 py-2 rounded-lg outline-none">
+            <input type="file" name="image" @change="uploadImage($event)">
           </section>
           <section class="flex flex-col mb-5">
             <label>Deskripsi</label>
-            <textarea name="" id="" cols="25" rows="8"
+            <textarea name="description" id="" cols="25" rows="8"
               class="border-2 border-lime-600 px-2 py-2 rounded-lg resize-none outline-none"
               v-model="modalContent.description"></textarea>
           </section>
@@ -80,7 +79,7 @@
 import { useJajananStore } from '../store/modules/jajanan_pasar';
 import EditIconVue from '../assets/icon/EditIcon.vue'
 import DeleteIcon from '../assets/icon/DeleteIcon.vue';
-import { reactive, ref, watchEffect } from 'vue';
+import { reactive, ref, watch, watchEffect } from 'vue';
 import { storeToRefs } from 'pinia';
 import axios from 'axios';
 
@@ -93,7 +92,7 @@ let modalContent = reactive({
   stock: 0,
   description: '',
   price: 0,
-  img: ''
+  image: ''
 })
 
 const { catalog } = storeToRefs(store)
@@ -103,11 +102,23 @@ const deleteData = (item) => {
   modalDelete.value = false;
 }
 
+const uploadImage = (e) => {
+  modalContent.image = e.target.files[0]
+}
+
 const saveNewData = async (id) => {
-  await axios.put(`http://localhost:8000/jajanan_pasar/${id}`, modalContent).then(() => {
+  try {
     modalModify.value = false
-    store.setCatalog("jajanan_pasar")
-  })
+    await axios.put(`http://localhost:8000/jajanan_pasar/${id}`,
+      modalContent,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 const cancelButton = () => {
@@ -121,6 +132,10 @@ const activyActive = (item) => {
 }
 
 watchEffect(() => {
+  store.setCatalog("jajanan_pasar")
+})
+
+watch(catalog, () => {
   store.setCatalog("jajanan_pasar")
 })
 </script>

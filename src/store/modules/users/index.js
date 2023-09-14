@@ -42,12 +42,12 @@ export const useUserStore = defineStore(
     }
 
     const handleLogOut = async (item) => {
-      try {
-        await axios.put(`${item}`, { isAuthenticated: false })
-        dataFiltered.value = []
-      } catch (err) {
-        console.log(err.message)
-      }
+      // try {
+      //   await axios.put(`${item}`, { isAuthenticated: false })
+      // } catch (err) {
+      //   console.log(err.message)
+      // }
+      dataFiltered.value = []
     }
 
     const editProfileUser = async (item, id) => {

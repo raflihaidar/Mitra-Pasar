@@ -1,8 +1,15 @@
-const jajananPasarModules = require('../models/jajanan_pasar')
+import {
+  getAllProducts,
+  getSingleProduct,
+  addNewProduct,
+  updateProduct,
+  updateSingleProduct,
+  deleteProduct
+} from '../models/jajanan_pasar.js'
 
-const getJajanan_pasar = async (req, res) => {
+export const getAllData = async (req, res) => {
   try {
-    const [data] = await jajananPasarModules.getJajanan_pasar()
+    const [data] = await getAllProducts()
     res.json({
       data: data
     })
@@ -14,13 +21,12 @@ const getJajanan_pasar = async (req, res) => {
   }
 }
 
-const getDetailProducts = async (req, res) => {
+export const getDetailProducts = async (req, res) => {
   const { id } = req.params
   try {
-    const [data] = await jajananPasarModules.getJajanan_pasar()
-    const product = data.find((item) => item.id.toString() === id)
+    const [data] = await getSingleProduct(id)
     res.json({
-      data: product
+      data
     })
   } catch (error) {
     res.status(500).json({
@@ -30,14 +36,11 @@ const getDetailProducts = async (req, res) => {
   }
 }
 
-const createNewProduct = async (req, res) => {
-  const { body } = req
+export const addNewData = async (req, res) => {
+  const { body, file } = req
   try {
-    await jajananPasarModules.createNewProduct(body)
-    res.status(201).json({
-      message: 'CREATE NEW PRODUCT SUCCESS',
-      data: body
-    })
+    await addNewProduct(body, file)
+    res.redirect('http://127.0.0.1:5173/admin')
   } catch (error) {
     res.status(500).json({
       message: 'server error',
@@ -46,15 +49,12 @@ const createNewProduct = async (req, res) => {
   }
 }
 
-const updateData = async (req, res) => {
+export const updateData = async (req, res) => {
   const { id } = req.params
-  const { body } = req
+  const { body, file } = req
   try {
-    await jajananPasarModules.updateData(body, id)
-    res.json({
-      message: 'Update Products Success',
-      data: body
-    })
+    await updateProduct(body, file, id)
+    console.log(file)
   } catch (error) {
     res.status(500).json({
       message: 'server error',
@@ -62,11 +62,11 @@ const updateData = async (req, res) => {
     })
   }
 }
-const updateSingleData = async (req, res) => {
+export const updateSingleData = async (req, res) => {
   const { id } = req.params
   const { body } = req
   try {
-    await jajananPasarModules.updateSingleData(body, id)
+    await updateSingleProduct(body, id)
     res.json({
       message: 'Update Products Success',
       data: body
@@ -79,10 +79,10 @@ const updateSingleData = async (req, res) => {
   }
 }
 
-const deleteProducts = async (req, res) => {
+export const deleteData = async (req, res) => {
   const { id } = req.params
   try {
-    await jajananPasarModules.deleteProducts(id)
+    await deleteProduct(id)
     res.json({
       message: 'Delete Products Success',
       data: {
@@ -97,13 +97,4 @@ const deleteProducts = async (req, res) => {
       serverMessage: error
     })
   }
-}
-
-module.exports = {
-  getJajanan_pasar,
-  getDetailProducts,
-  createNewProduct,
-  updateData,
-  updateSingleData,
-  deleteProducts
 }

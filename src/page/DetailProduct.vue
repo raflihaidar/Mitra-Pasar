@@ -1,9 +1,9 @@
 <template>
     <div class="bg-gray-100 w-full h-screen">
         <NavbarComponent />
-        <div class="flex justify-evenly mt-20 py-20" v-for="(item, index) in product" :key="index">
+        <div class="flex justify-evenly mt-20 py-20" v-for="(item, index) in product.data" :key="index">
             <div class="w-[40%] h-[40%]">
-                <img :src="item.img" alt="gambar" class="w-[80%] h-[80%]">
+                <img :src="`data:image/png;base64,${item.image}`" alt="gambar" class="w-[80%] h-[80%]">
             </div>
             <div class="flex flex-col gap-y-5 w-[40%]">
                 <p class="text-5xl font-bold capitalize">{{ item.product_name }}</p>
@@ -73,8 +73,10 @@ let product = ref([])
 const isAuthenticated = storeUsers.dataFiltered.length !== 0
 
 const getDetailProduct = async () => {
+    console.log(productId.params.productId)
     try {
         const response = await axios.get(`http://localhost:8000/jajanan_pasar/product/${productId.params.productId}`);
+        console.log(response.data)
         product.value = response.data;
     }
     catch (error) {

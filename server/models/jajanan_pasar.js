@@ -1,57 +1,54 @@
-const dbPool = require('../config/database')
+import { dbPool } from '../config/database.js'
 
-const getJajanan_pasar = () => {
-  const SQLquery = 'SELECT * FROM express_mitrapasar.jajanan_pasar'
+export const getAllProducts = () => {
+  const SQLquery = 'SELECT * FROM mitrapasar_db.products'
   return dbPool.execute(SQLquery)
 }
 
-const createNewProduct = (body) => {
-  const SQLquery = `INSERT INTO express_mitrapasar.jajanan_pasar 
+export const getSingleProduct = (id) => {
+  const SQLquery = `SELECT * FROM mitrapasar_db.products WHERE id = ${id} `
+  return dbPool.execute(SQLquery)
+}
+
+export const addNewProduct = (body, file) => {
+  const SQLquery = `INSERT INTO mitrapasar_db.products 
                     (
                       product_name, 
-                      description, 
-                      price, 
                       stock, 
-                      img
+                      price, 
+                      image,
+                      description
                     )
                     VALUES (  
                       '${body.product_name}', 
-                      '${body.description}', 
-                      ${body.price}, 
                       ${body.stock},
-                      '${body.img}'
+                      ${body.price}, 
+                      '${file.buffer.toString('base64')}',
+                      '${body.description}'
                     )`
 
   return dbPool.execute(SQLquery)
 }
 
-const updateData = (body, id) => {
-  const SQLquery = `UPDATE express_mitrapasar.jajanan_pasar 
+export const updateProduct = (body, file, id) => {
+  const SQLquery = `UPDATE mitrapasar_db.products 
                     SET product_name='${body.product_name}',
-                        description='${body.description}', 
-                        price=${body.price}, 
-                        stock=${body.stock}, 
-                        img='${body.img}' 
+                    stock=${body.stock}, 
+                    price=${body.price}, 
+                    image='${file.buffer.toString('base64')}',
+                    description='${body.description}'
                         WHERE id=${id}`
   return dbPool.execute(SQLquery)
 }
 
-const updateSingleData = (body, id) => {
-  const SQLquery = `UPDATE express_mitrapasar.jajanan_pasar 
+export const updateSingleProduct = (body, id) => {
+  const SQLquery = `UPDATE mitrapasar_db.products 
                     SET stock=${body.stock}
                         WHERE id=${id}`
   return dbPool.execute(SQLquery)
 }
 
-const deleteProducts = (id) => {
-  const SQLquery = `DELETE FROM express_mitrapasar.jajanan_pasar WHERE id=${id} `
+export const deleteProduct = (id) => {
+  const SQLquery = `DELETE FROM mitrapasar_db.products WHERE id=${id} `
   return dbPool.execute(SQLquery)
-}
-
-module.exports = {
-  getJajanan_pasar,
-  createNewProduct,
-  updateData,
-  updateSingleData,
-  deleteProducts
 }
