@@ -34,7 +34,7 @@
 
 <script setup>
 import FavoriteIcon from '../assets/icon/favoriteIcon.vue';
-import { useJajananStore } from '../store/modules/jajanan_pasar';
+import { useJajananStore } from '../store/modules/products';
 import { useUserStore } from '../store/modules/users';
 import axios from 'axios';
 import swal from 'sweetalert';
@@ -52,7 +52,7 @@ const { item } = toRefs(props)
 
 const addToCart = async (item) => {
     if (dataFiltered.value.length !== 0) {
-        await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: item.stock })
+        await axios.patch(`http://localhost:8000/products/${item.id}`, { stock: item.stock })
         storeJajanan.addToCart(item)
     } else {
         swal('Anda Belum Login\nSilahkan Login Terlebih Dahulu', {

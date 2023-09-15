@@ -4,14 +4,22 @@ import {
   addNewProduct,
   updateProduct,
   updateSingleProduct,
-  deleteProduct
-} from '../models/jajanan_pasar.js'
+  deleteProduct,
+  getProductByCategory
+} from '../models/products.js'
 
 export const getAllData = async (req, res) => {
+  const { query } = req
   try {
-    const [data] = await getAllProducts()
+    console.log(query)
+    let data
+    if (Object.keys(query).length === 0) {
+      ;[data] = await getAllProducts()
+    } else {
+      ;[data] = await getProductByCategory(query)
+    }
     res.json({
-      data: data
+      data
     })
   } catch (error) {
     res.status(500).json({

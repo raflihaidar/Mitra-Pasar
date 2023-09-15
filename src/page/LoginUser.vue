@@ -70,6 +70,9 @@ const handleLogin = () => {
     const adminAuth = username.value == 'admin' && password.value == 'adminlogin'
     store.dataUser.data.forEach(item => {
         const userAuth = item.username === username.value && item.password === password.value
+        console.log(userAuth)
+        console.log(item.username)
+        console.log(item.password)
         if (userAuth) {
             store.handleLogin(username.value)
         } else if (adminAuth) {

@@ -7,7 +7,7 @@ import {
   getDetailProducts,
   updateData,
   updateSingleData
-} from '../controller/jajanan_pasar.js'
+} from '../controller/products.js'
 
 const upload = multer({ storage: multer.memoryStorage() })
 export const router = express.Router()
@@ -16,7 +16,7 @@ export const router = express.Router()
 router.get('/', getAllData)
 
 //READ - GET DETAIL PRODUCTS
-router.get('/product/:id', getDetailProducts)
+router.get('/detail/:id', getDetailProducts)
 
 // CREATE - POST
 router.post('/', upload.single('image'), addNewData)

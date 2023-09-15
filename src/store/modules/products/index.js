@@ -4,7 +4,7 @@ import swal from 'sweetalert'
 import { computed, ref } from 'vue'
 
 export const useJajananStore = defineStore(
-  'jajanan_pasar',
+  'products',
   () => {
     const catalog = ref([])
     const filteredCatalog = ref([])
@@ -20,11 +20,20 @@ export const useJajananStore = defineStore(
       }, 0)
     })
 
-    // axios.defaults.baseURL = ''
-
     const setCatalog = async (url) => {
       try {
         const response = await axios.get(`http://localhost:8000/${url}`)
+        catalog.value = response.data
+        console.log(response.data)
+      } catch (error) {
+        console.log(error)
+        console.log(url)
+      }
+    }
+
+    const setCatalogByCategory = async (url) => {
+      try {
+        const response = await axios.get(`http://localhost:8000/products?category=${url}`)
         catalog.value = response.data
         console.log(response.data)
       } catch (error) {
@@ -120,8 +129,8 @@ export const useJajananStore = defineStore(
     const removeItem = async (index, item) => {
       try {
         let result = item.stock + 1
-        await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: result })
-        setCatalog('jajanan_pasar')
+        await axios.patch(`http://localhost:8000/products/${item.id}`, { stock: result })
+        setCatalog('products')
         removeCartProduct(index)
       } catch (err) {
         console.log(err)
@@ -138,8 +147,8 @@ export const useJajananStore = defineStore(
           }
         }).then(async (bayar) => {
           if (bayar) {
-            await axios.delete(`http://localhost:8000/jajanan_pasar/${payload.id}`).then(() => {
-              setCatalog('jajanan_pasar')
+            await axios.delete(`http://localhost:8000/products/${payload.id}`).then(() => {
+              setCatalog('products')
             })
             let deletedItem = catalog.value.data.find((item) => item.id === payload.id)
             if (deletedItem) {
@@ -162,6 +171,7 @@ export const useJajananStore = defineStore(
       total,
       Total,
       setCatalog,
+      setCatalogByCategory,
       clearCart,
       handleStatus,
       handleBuy,

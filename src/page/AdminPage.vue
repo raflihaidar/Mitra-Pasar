@@ -61,7 +61,7 @@
 
 <script setup>
 import CartIcon from '../assets/icon/CartIcon.vue'
-import { useJajananStore } from '../store/modules/jajanan_pasar';
+import { useJajananStore } from '../store/modules/products';
 import { useUserStore } from '../store/modules/users';
 import { storeToRefs } from 'pinia';
 import LogoIcon from '../assets/icon/LogoIcon.vue';

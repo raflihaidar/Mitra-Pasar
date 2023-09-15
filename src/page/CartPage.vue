@@ -59,7 +59,7 @@
 import NavbarComponent from '../components/NavbarComponent.vue';
 import axios from 'axios'
 import { reactive } from 'vue';
-import { useJajananStore } from '../store/modules/jajanan_pasar';
+import { useJajananStore } from '../store/modules/products';
 import { storeToRefs } from 'pinia';
 
 const store = useJajananStore()
@@ -67,9 +67,9 @@ const { cart, Total } = storeToRefs(store)
 const selectedValues = reactive([])
 const removeItem = async (index, item) => {
     let result = item.stock + 1;
-    await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: result })
+    await axios.patch(`http://localhost:8000/products/${item.id}`, { stock: result })
         .then(() => {
-            store.setCatalog("jajanan_pasar")
+            store.setCatalog("products")
         })
     selectedValues.fill(0)
     store.removeCartProduct(index)

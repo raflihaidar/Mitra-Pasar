@@ -11,10 +11,18 @@
     <div class="flex justify-between gap-x-7 mt-10">
         <div class="shadow-md w-1/5 flex flex-col justify-center items-center gap-y-2 border-b-8 border-lime-600">
             <div class="bg-gray-200 w-32 h-32 rounded-full">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/510px-Default_pfp.svg.png?20220226140232"
-                    alt="image profile" class="w-full h-full">
+                <div v-if="payload.image === null">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/510px-Default_pfp.svg.png?20220226140232"
+                        alt="image profile" class="w-full h-full">
+                </div>
+                <div v-else class="w-32 h-32">
+                    <img :src="`data:image/jpg;base64,${payload.image}`" alt="gambar" class="w-full h-full rounded-full">
+                </div>
             </div>
-            <!-- <p>{{ payload.username }}</p> -->
+            <div v-if="!editStatus">
+                <input type="file" name="image" lass="w-full text-sm" @change="uploadImage($event)">
+            </div>
+
             <input type="text" v-model="payload.username" class="w-full text-center bg-inherit outline-none p-2"
                 :disabled="editStatus" />
         </div>
@@ -59,7 +67,7 @@
                         Nomor HP
                     </label>
                     <div class="w-full h-auto border-b-2 border-black bg-white text-sm py-2">
-                        <input type="text" v-model="payload.nomor_hp" class="w-[90%] bg-inherit outline-none p-2"
+                        <input type="text" v-model="payload.telephone" class="w-[90%] bg-inherit outline-none p-2"
                             :disabled="editStatus" />
                     </div>
                 </div>
@@ -72,19 +80,26 @@
 import { useUserStore } from '../store/modules/users';
 import EditIcon from '../assets/icon/EditIcon.vue';
 import SaveIcon from "../assets/icon/SaveIcon.vue"
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watchEffect } from 'vue';
+import { storeToRefs } from 'pinia';
 const store = useUserStore()
+const { dataFiltered } = storeToRefs(store)
 const editStatus = ref(true)
-
-const dataFiltered = store.dataFiltered
 
 const payload = ref({})
 
+const uploadImage = (e) => {
+    payload.value.image = e.target.files[0]
+    console.log(e.target.files[0])
+}
+
 const handleSave = async () => {
-    store.editProfileUser(payload.value, payload.value.id)
+    await store.editProfileUser(payload.value, payload.value.id)
     editStatus.value = true
 }
-onMounted(() => {
-    payload.value = Object.assign({}, dataFiltered)
+
+watchEffect(() => {
+    payload.value = { ...dataFiltered.value }
 })
+
 </script>

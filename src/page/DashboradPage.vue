@@ -76,7 +76,7 @@
 </template>
 
 <script setup>
-import { useJajananStore } from '../store/modules/jajanan_pasar';
+import { useJajananStore } from '../store/modules/products';
 import EditIconVue from '../assets/icon/EditIcon.vue'
 import DeleteIcon from '../assets/icon/DeleteIcon.vue';
 import { reactive, ref, watch, watchEffect } from 'vue';
@@ -109,7 +109,7 @@ const uploadImage = (e) => {
 const saveNewData = async (id) => {
   try {
     modalModify.value = false
-    await axios.put(`http://localhost:8000/jajanan_pasar/${id}`,
+    await axios.put(`http://localhost:8000/products/${id}`,
       modalContent,
       {
         headers: {
@@ -132,10 +132,10 @@ const activyActive = (item) => {
 }
 
 watchEffect(() => {
-  store.setCatalog("jajanan_pasar")
+  store.setCatalog("products")
 })
 
 watch(catalog, () => {
-  store.setCatalog("jajanan_pasar")
+  store.setCatalog("products")
 })
 </script>

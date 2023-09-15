@@ -54,7 +54,7 @@ import FavoriteIcon from '../assets/icon/favoriteIcon.vue';
 import FooterPage from '../components/FooterPage.vue'
 import NavbarComponent from '../components/NavbarComponent.vue'
 import router from '../router';
-import { useJajananStore } from '../store/modules/jajanan_pasar';
+import { useJajananStore } from '../store/modules/products';
 import swal from 'sweetalert';
 import Swal from 'sweetalert2';
 import { ref, onMounted } from 'vue';
@@ -75,7 +75,7 @@ const isAuthenticated = storeUsers.dataFiltered.length !== 0
 const getDetailProduct = async () => {
     console.log(productId.params.productId)
     try {
-        const response = await axios.get(`http://localhost:8000/jajanan_pasar/product/${productId.params.productId}`);
+        const response = await axios.get(`http://localhost:8000/products/detail/${productId.params.productId}`);
         console.log(response.data)
         product.value = response.data;
     }

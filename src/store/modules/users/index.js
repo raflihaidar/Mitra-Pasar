@@ -4,7 +4,7 @@ import { ref } from 'vue'
 import swal from 'sweetalert'
 import router from '../../../router/index'
 
-axios.defaults.baseURL = 'http://localhost:8000/user'
+axios.defaults.baseURL = 'http://localhost:8000/users'
 
 export const useUserStore = defineStore(
   'users',
@@ -42,31 +42,34 @@ export const useUserStore = defineStore(
     }
 
     const handleLogOut = async (item) => {
-      // try {
-      //   await axios.put(`${item}`, { isAuthenticated: false })
-      // } catch (err) {
-      //   console.log(err.message)
-      // }
+      try {
+        await axios.put(`${item}`, { isAuthenticated: false })
+      } catch (err) {
+        console.log(err.message)
+      }
       dataFiltered.value = []
     }
 
     const editProfileUser = async (item, id) => {
       try {
-        await axios.patch(`/${id}`, {
-          name: item.name,
-          username: item.username,
-          email: item.email,
-          nomor_hp: item.nomor_hp,
-          address: item.address
-        })
-        dataFiltered.value = item
-        swal('Berhasil Mengubah Profil', {
-          icon: 'success',
-          buttons: {
-            confirm: 'OK'
+        await axios.patch(`/${id}`, item, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
           }
         })
-        setDataUser()
+
+        await setDataUser()
+        for (const data of dataUser.value.data) {
+          if (data.username === item.username) {
+            dataFiltered.value = data
+            swal('Berhasil Mengubah Profil', {
+              icon: 'success',
+              buttons: {
+                confirm: 'OK'
+              }
+            })
+          }
+        }
       } catch (error) {
         console.log(error)
         console.log(item)

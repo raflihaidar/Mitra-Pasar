@@ -59,7 +59,7 @@ const data = {
 const router = useRouter()
 
 const handleSignUp = async () => {
-    await axios.post('http://localhost:8000/user', data).then(() => {
+    await axios.post('http://localhost:8000/users', data).then(() => {
         swal('Berhasil Sign Up', {
             icon: 'success'
         }).then(() => {

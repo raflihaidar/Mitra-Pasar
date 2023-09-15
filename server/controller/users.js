@@ -1,8 +1,15 @@
-const userModels = require('../models/user')
+import {
+  getUser,
+  createNewUser,
+  updateData,
+  updateProfileUser,
+  deleteUser
+} from '../models/users.js'
+import { v4 as uuid } from 'uuid'
 
-const getUser = async (req, res) => {
+export const getAllData = async (req, res) => {
   try {
-    const [data] = await userModels.getUser()
+    const [data] = await getUser()
     res.json({
       data: data
     })
@@ -14,10 +21,11 @@ const getUser = async (req, res) => {
   }
 }
 
-const createNewUser = async (req, res) => {
+export const addNewData = async (req, res) => {
   const { body } = req
+  const id = uuid()
   try {
-    await userModels.createNewUser(body)
+    await createNewUser(body, id)
     res.status(201).json({
       message: 'CREATE NEW USER SUCCESS',
       data: body
@@ -30,11 +38,11 @@ const createNewUser = async (req, res) => {
   }
 }
 
-const updateData = async (req, res) => {
+export const updateDataUser = async (req, res) => {
   const { id } = req.params
   const { body } = req
   try {
-    await userModels.updateData(body, id)
+    await updateData(body, id)
     res.json({
       message: 'Update User Success',
       data: body
@@ -46,14 +54,15 @@ const updateData = async (req, res) => {
     })
   }
 }
-const updateProfileUser = async (req, res) => {
+export const updateDetailUser = async (req, res) => {
   const { id } = req.params
-  const { body } = req
+  const { body, file } = req
   try {
-    await userModels.updateProfileUser(body, id)
+    await updateProfileUser(body, file, id)
     res.json({
       message: 'Update User Success',
-      data: body
+      body,
+      file
     })
   } catch (error) {
     res.status(500).json({
@@ -63,10 +72,10 @@ const updateProfileUser = async (req, res) => {
   }
 }
 
-const deleteUser = async (req, res) => {
+export const deleteData = async (req, res) => {
   const { id } = req.params
   try {
-    await userModels.deleteUser(id)
+    await deleteUser(id)
     res.json({
       message: 'Delete User Success',
       data: {
@@ -81,12 +90,4 @@ const deleteUser = async (req, res) => {
       serverMessage: error
     })
   }
-}
-
-module.exports = {
-  getUser,
-  createNewUser,
-  updateData,
-  updateProfileUser,
-  deleteUser
 }

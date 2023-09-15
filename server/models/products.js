@@ -5,6 +5,11 @@ export const getAllProducts = () => {
   return dbPool.execute(SQLquery)
 }
 
+export const getProductByCategory = (query) => {
+  const SQLquery = `SELECT * FROM mitrapasar_db.products WHERE category = '${query.category}'`
+  return dbPool.execute(SQLquery)
+}
+
 export const getSingleProduct = (id) => {
   const SQLquery = `SELECT * FROM mitrapasar_db.products WHERE id = ${id} `
   return dbPool.execute(SQLquery)
@@ -13,7 +18,8 @@ export const getSingleProduct = (id) => {
 export const addNewProduct = (body, file) => {
   const SQLquery = `INSERT INTO mitrapasar_db.products 
                     (
-                      product_name, 
+                      product_name,
+                      category, 
                       stock, 
                       price, 
                       image,
@@ -21,6 +27,7 @@ export const addNewProduct = (body, file) => {
                     )
                     VALUES (  
                       '${body.product_name}', 
+                      '${body.category}',
                       ${body.stock},
                       ${body.price}, 
                       '${file.buffer.toString('base64')}',
@@ -33,6 +40,7 @@ export const addNewProduct = (body, file) => {
 export const updateProduct = (body, file, id) => {
   const SQLquery = `UPDATE mitrapasar_db.products 
                     SET product_name='${body.product_name}',
+                    '${body.category}',
                     stock=${body.stock}, 
                     price=${body.price}, 
                     image='${file.buffer.toString('base64')}',
