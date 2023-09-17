@@ -42,6 +42,16 @@ export const useJajananStore = defineStore(
       }
     }
 
+    const getCartByIdUser = async (id) => {
+      try {
+        const response = await axios.get(`http://localhost:8000/cart?id=${id}`)
+        const { data } = response.data
+        cart.value = data
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     const handleBuy = (payload) => {
       total.value = payload.price
     }
@@ -170,6 +180,7 @@ export const useJajananStore = defineStore(
       cart,
       total,
       Total,
+      getCartByIdUser,
       setCatalog,
       setCatalogByCategory,
       clearCart,

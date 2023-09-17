@@ -21,12 +21,12 @@
                     </td>
                     <td>
                         <div style="width: 200px;" class="m-auto">
-                            <img :src="item.img" alt="gambar produk" style="width: inherit;">
+                            <img :src="`data:image/png;base64,${item.image}`" alt="gambar produk" style="width: inherit;">
                         </div>
                     </td>
                     <td class="px-5 py-3 whitespace-nowrap">{{ item.product_name }}</td>
                     <td class="px-5 py-3 whitespace-nowrap">{{ item.quantity }}</td>
-                    <td class="px-5 py-3 whitespace-nowrap">Rp.{{ item.priceUser }}</td>
+                    <td class="px-5 py-3 whitespace-nowrap">Rp.{{ item.amount }}</td>
                     <td class="text-white text center px-5 py-3 whitespace-nowrap">
                         <button class="bg-red-500 py-1 px-2 mr-3 rounded-md"
                             @click="removeItem(index, item)">Delete</button>
@@ -58,9 +58,10 @@
 <script setup>
 import NavbarComponent from '../components/NavbarComponent.vue';
 import axios from 'axios'
-import { reactive } from 'vue';
+import { reactive, watchEffect } from 'vue';
 import { useJajananStore } from '../store/modules/products';
 import { storeToRefs } from 'pinia';
+import { useRoute } from 'vue-router';
 
 const store = useJajananStore()
 const { cart, Total } = storeToRefs(store)
@@ -80,10 +81,14 @@ const clearAll = (item) => {
     console.log("item from cart", item)
 }
 
+const router = useRoute()
+
 const handleCheckOut = () => {
     store.checkOut()
 }
 const setStatus = (index) => {
     store.handleStatus(index)
 }
+console.log(cart)
+watchEffect(() => store.getCartByIdUser(router.query.id))
 </script>

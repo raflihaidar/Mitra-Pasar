@@ -1,14 +1,17 @@
-const dbPool = require('../config/database')
+import { dbPool } from '../config/database.js'
 
-const getCart = (id) => {
-  const SQLquery = `  SELECT c.id, c.id_jajanan_pasar, j.product_name, j.priceUser, j.quantity, j.img
-                          FROM express_mitrapasar.cart AS c
-                          JOIN express_mitrapasar.jajanan_pasar AS j ON (j.id = c.id_jajanan_pasar)
-                          JOIN express_mitrapasar.user AS u ON (u.id = c.id_user)
-                          WHERE u.id = ${id}`
+export const getData = (id) => {
+  const SQLquery = `SELECT c.id AS id_cart,
+                           c.amount,
+                           c.quantity,
+                           p.id AS id_product, 
+                           p.product_name,
+                           p.image,
+                           p.price,
+                           u.id as id_user, 
+                           u.username FROM cart as c
+                          JOIN products as p ON (p.id = c.id_product)
+                          JOIN users as u ON (u.id = c.id_user)
+                          WHERE id_user = '${id}'`
   return dbPool.execute(SQLquery)
-}
-
-module.exports = {
-  getCart
 }

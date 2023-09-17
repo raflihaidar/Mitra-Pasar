@@ -13,14 +13,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-4 gap-y-10 my-5" v-if="catalog.data.length !== 0">
+                <div class="grid grid-cols-4 gap-y-10 my-5" v-if="catalog.length !== 0">
                     <CatalogComponent v-for="(item, index) in catalog.data" :key="index" class="group" :item="item" />
 
-                    <router-link to="/cart"
+                    <router-link :to="`/cart?id=${dataFiltered.id}`"
                         class="fixed w-[40px] h-[40px] p-1 z-10 bg-lime-700 rounded-full bottom-5 right-16">
                         <CartIcon />
                         <span class="absolute bottom-7 -right-1 text-sm px-1  bg-red-600 text-white rounded-full">{{
-                            totalItems
+                            cart.length
                         }}</span>
                     </router-link>
 
@@ -39,6 +39,7 @@ import NavbarComponent from '../components/NavbarComponent.vue'
 import CartIcon from '../assets/icon/CartIcon.vue'
 import FooterPage from '../components/FooterPage.vue';
 import SearchBar from '../components/SearchBar.vue';
+import { useUserStore } from '../store/modules/users';
 import { useJajananStore } from '../store/modules/products';
 import { computed, defineAsyncComponent, reactive } from 'vue';
 import { storeToRefs } from 'pinia';
@@ -46,10 +47,10 @@ import { storeToRefs } from 'pinia';
 const CatalogComponent = defineAsyncComponent({
     loader: () => import('../components/CatalogComponent.vue' /* webpackChunkName: "productComponent" */),
 })
-
-
 const storeJajanan = useJajananStore()
+const storeUsers = useUserStore()
 const { cart, catalog } = storeToRefs(storeJajanan)
+const { dataFiltered } = storeToRefs(storeUsers)
 const category = reactive([
     {
         name: "Semua Produk",
@@ -89,6 +90,4 @@ const selectCategory = (item) => {
         else data.status = false
     })
 }
-
-const totalItems = computed(() => cart.value.reduce((a, b) => a + b.quantity, 0))
 </script>

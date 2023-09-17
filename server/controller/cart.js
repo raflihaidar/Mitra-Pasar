@@ -1,9 +1,9 @@
-const cartModels = require('../models/cart')
+import { getData } from '../models/cart.js'
 
-const getCart = async (req, res) => {
-  const { id } = req.params
+export const getCart = async (req, res) => {
+  const { id } = req.query
   try {
-    const [data] = await cartModels.getCart(id)
+    const [data] = await getData(id)
     res.json({
       data: data
     })
@@ -13,8 +13,4 @@ const getCart = async (req, res) => {
       serverMessage: error
     })
   }
-}
-
-module.exports = {
-  getCart
 }
