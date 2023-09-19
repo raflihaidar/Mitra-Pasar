@@ -6,7 +6,8 @@
                 <img :src="`data:image/png;base64,${item.image}`" :alt="item.product_name" class="w-full h-full rounded-xl">
             </div>
             <div class="text-left font-semibold py-2 px-3">
-                <p class="text-lg">{{ item.product_name }}</p>
+                <p class="text-sm" v-if="item.product_name.length > 20">{{ truncatedText }}</p>
+                <p class="text-sm" v-else>{{ item.product_name }}</p>
                 <p>Rp.{{ item.price }}</p>
             </div>
         </div>
@@ -40,7 +41,7 @@ import axios from 'axios';
 import swal from 'sweetalert';
 import router from '../router';
 import { storeToRefs } from 'pinia';
-import { toRefs } from 'vue';
+import { toRefs, ref } from 'vue';
 
 const storeJajanan = useJajananStore()
 const userStore = useUserStore()
@@ -49,6 +50,12 @@ const props = defineProps({
     item: Object
 })
 const { item } = toRefs(props)
+let truncatedText = ref("")
+let maxLength = 20;
+let productName = item.value.product_name
+truncatedText.value = productName.substring(0, maxLength) + "...";
+
+console.log(item.value.product_name.length)
 
 const addToCart = async (item) => {
     if (dataFiltered.value.length !== 0) {
@@ -66,6 +73,7 @@ const addToCart = async (item) => {
         })
     }
 }
+
 const likeButton = (event) => {
     if (event.target.style.color != 'gold') {
         event.target.style.color = 'gold'

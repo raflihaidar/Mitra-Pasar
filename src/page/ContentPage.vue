@@ -16,7 +16,7 @@
                 <div class="grid grid-cols-4 gap-y-10 my-5" v-if="catalog.length !== 0">
                     <CatalogComponent v-for="(item, index) in catalog.data" :key="index" class="group" :item="item" />
 
-                    <router-link :to="`/cart?id=${dataFiltered.id}`"
+                    <router-link :to="`/cart?id=${dataFiltered.id}`" v-if="dataFiltered.length !== 0"
                         class="fixed w-[40px] h-[40px] p-1 z-10 bg-lime-700 rounded-full bottom-5 right-16">
                         <CartIcon />
                         <span class="absolute bottom-7 -right-1 text-sm px-1  bg-red-600 text-white rounded-full">{{
@@ -41,7 +41,7 @@ import FooterPage from '../components/FooterPage.vue';
 import SearchBar from '../components/SearchBar.vue';
 import { useUserStore } from '../store/modules/users';
 import { useJajananStore } from '../store/modules/products';
-import { computed, defineAsyncComponent, reactive } from 'vue';
+import { defineAsyncComponent, reactive } from 'vue';
 import { storeToRefs } from 'pinia';
 
 const CatalogComponent = defineAsyncComponent({

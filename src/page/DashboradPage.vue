@@ -55,6 +55,15 @@
             <input type="text" name="price" class="border-2 border-lime-600 px-2 py-2 rounded-lg outline-none"
               v-model="modalContent.price">
           </section>
+          <section class="flex flex-col mb-5 w-2/5">
+            <label>Category</label>
+            <select name="category" class="border-lime-600 px-2 py-2 rounded-lg outline-none">
+              <option value="Minuman dan Makanan">Makanan dan Minuman</option>
+              <option value="Sembako">Sembako</option>
+              <option value="Elektronik">Elektronik</option>
+              <option value="Minuman dan Makanan">Pakaian</option>
+            </select>
+          </section>
           <section class="flex flex-col mb-5">
             <label>Url Gambar</label>
             <input type="file" name="image" @change="uploadImage($event)">

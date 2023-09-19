@@ -26,8 +26,8 @@ export const addNewProduct = (body, file) => {
                       description
                     )
                     VALUES (  
-                      '${body.product_name}', 
-                      '${body.category}',
+                     '${body.product_name}', 
+                     '${body.category}',
                       ${body.stock},
                       ${body.price}, 
                       '${file.buffer.toString('base64')}',
@@ -40,7 +40,7 @@ export const addNewProduct = (body, file) => {
 export const updateProduct = (body, file, id) => {
   const SQLquery = `UPDATE mitrapasar_db.products 
                     SET product_name='${body.product_name}',
-                    '${body.category}',
+                    category ='${body.category}',
                     stock=${body.stock}, 
                     price=${body.price}, 
                     image='${file.buffer.toString('base64')}',

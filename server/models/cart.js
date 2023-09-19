@@ -15,3 +15,22 @@ export const getData = (id) => {
                           WHERE id_user = '${id}'`
   return dbPool.execute(SQLquery)
 }
+
+export const addData = (data) => {
+  let SQLquery = `INSERT INTO cart 
+                    (
+                    id, 
+                    id_product, 
+                    id_user, 
+                    amount, 
+                    quantity
+                    ) 
+                    VALUES (
+                      '${data.id}',
+                      ${data.id_product},
+                      '${data.id_user}',
+                      ${data.quantity},
+                      ${data.amount}
+                    )`
+  return dbPool.execute(SQLquery)
+}

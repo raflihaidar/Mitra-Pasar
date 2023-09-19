@@ -49,11 +49,13 @@ export const addNewData = async (req, res) => {
   try {
     await addNewProduct(body, file)
     res.redirect('http://127.0.0.1:5173/admin')
+    console.log(body)
   } catch (error) {
     res.status(500).json({
       message: 'server error',
       serverMessage: error
     })
+    console.log(body)
   }
 }
 
