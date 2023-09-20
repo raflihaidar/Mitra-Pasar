@@ -59,22 +59,22 @@ const category = reactive([
     },
     {
         name: "Makanan dan Minuman",
-        url: "Makanan dan Minuman",
+        url: 1,
         status: false
     },
     {
         name: "Bahan Pokok",
-        url: "Bahan Pokok",
+        url: 2,
         status: false
     },
     {
         name: "Elektronik",
-        url: "Elektronik",
+        url: 3,
         status: false
     },
     {
         name: "Pakaian",
-        url: "Pakaian",
+        url: 4,
         status: false
     }
 ],)

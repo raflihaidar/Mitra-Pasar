@@ -57,11 +57,9 @@
           </section>
           <section class="flex flex-col mb-5 w-2/5">
             <label>Category</label>
-            <select name="category" class="border-lime-600 px-2 py-2 rounded-lg outline-none">
-              <option value="Minuman dan Makanan">Makanan dan Minuman</option>
-              <option value="Sembako">Sembako</option>
-              <option value="Elektronik">Elektronik</option>
-              <option value="Minuman dan Makanan">Pakaian</option>
+            <select name="category" class="border-lime-600 px-2 py-2 rounded-lg outline-none"
+              v-model="modalContent.id_category">
+              <option :value="item.id" v-for="(item, index) in category" :key="index">{{ item.name }}</option>
             </select>
           </section>
           <section class="flex flex-col mb-5">
@@ -104,7 +102,7 @@ let modalContent = reactive({
   image: ''
 })
 
-const { catalog } = storeToRefs(store)
+const { catalog, category } = storeToRefs(store)
 
 const deleteData = (item) => {
   store.deleteData(item)
@@ -142,9 +140,10 @@ const activyActive = (item) => {
 
 watchEffect(() => {
   store.setCatalog("products")
+  store.setCategory()
 })
 
-watch(catalog, () => {
-  store.setCatalog("products")
-})
+// watch(catalog, () => {
+//   store.setCatalog("products")
+// })
 </script>

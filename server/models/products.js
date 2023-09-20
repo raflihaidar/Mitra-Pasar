@@ -6,7 +6,7 @@ export const getAllProducts = () => {
 }
 
 export const getProductByCategory = (query) => {
-  const SQLquery = `SELECT * FROM mitrapasar_db.products WHERE category = '${query.category}'`
+  const SQLquery = `SELECT * FROM mitrapasar_db.products WHERE id_category = ${query.category}`
   return dbPool.execute(SQLquery)
 }
 
@@ -19,7 +19,7 @@ export const addNewProduct = (body, file) => {
   const SQLquery = `INSERT INTO mitrapasar_db.products 
                     (
                       product_name,
-                      category, 
+                      id_category, 
                       stock, 
                       price, 
                       image,
@@ -27,7 +27,7 @@ export const addNewProduct = (body, file) => {
                     )
                     VALUES (  
                      '${body.product_name}', 
-                     '${body.category}',
+                     ${body.id_category},
                       ${body.stock},
                       ${body.price}, 
                       '${file.buffer.toString('base64')}',
@@ -38,14 +38,16 @@ export const addNewProduct = (body, file) => {
 }
 
 export const updateProduct = (body, file, id) => {
-  const SQLquery = `UPDATE mitrapasar_db.products 
-                    SET product_name='${body.product_name}',
-                    category ='${body.category}',
-                    stock=${body.stock}, 
-                    price=${body.price}, 
-                    image='${file.buffer.toString('base64')}',
-                    description='${body.description}'
-                        WHERE id=${id}`
+  let SQLquery = `UPDATE mitrapasar_db.products 
+                  SET product_name='${body.product_name}',
+                  id_category ='${body.id_category}',
+                  stock=${body.stock}, 
+                  price=${body.price}, 
+                  description='${body.description}'`
+  if (file) {
+    SQLquery += `, image='${file.buffer.toString('base64')}'`
+  }
+  SQLquery += ` WHERE id=${id}`
   return dbPool.execute(SQLquery)
 }
 

@@ -8,6 +8,7 @@ export const useJajananStore = defineStore(
   () => {
     const catalog = ref([])
     const filteredCatalog = ref([])
+    const category = ref([])
     const cart = ref([])
     const total = ref(0)
     const Total = computed(() => {
@@ -19,6 +20,16 @@ export const useJajananStore = defineStore(
         return amount
       }, 0)
     })
+
+    const setCategory = async () => {
+      try {
+        const response = await axios.get('http://localhost:8000/category')
+        const { data } = response.data
+        category.value = data
+      } catch (error) {
+        console.log(error)
+      }
+    }
 
     const setCatalog = async (url) => {
       try {
@@ -180,6 +191,8 @@ export const useJajananStore = defineStore(
       cart,
       total,
       Total,
+      category,
+      setCategory,
       getCartByIdUser,
       setCatalog,
       setCatalogByCategory,

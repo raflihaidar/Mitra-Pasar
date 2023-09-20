@@ -64,12 +64,13 @@ export const updateData = async (req, res) => {
   const { body, file } = req
   try {
     await updateProduct(body, file, id)
-    console.log(file)
+    console.log(body)
   } catch (error) {
     res.status(500).json({
       message: 'server error',
       serverMessage: error
     })
+    console.log(body)
   }
 }
 export const updateSingleData = async (req, res) => {

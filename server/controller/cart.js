@@ -1,4 +1,4 @@
-import { getData } from '../models/cart.js'
+import { addData, getData } from '../models/cart.js'
 
 export const getCart = async (req, res) => {
   const { id } = req.query
@@ -12,5 +12,17 @@ export const getCart = async (req, res) => {
       message: 'server error',
       serverMessage: error
     })
+  }
+}
+
+export const addToCart = async (req, res) => {
+  const { body } = req
+  try {
+    await addData(body)
+    res.json({
+      body
+    })
+  } catch (error) {
+    console.log(error)
   }
 }

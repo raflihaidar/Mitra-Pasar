@@ -29,14 +29,16 @@ export const updateData = (body, id) => {
 }
 
 export const updateProfileUser = (body, file, id) => {
-  const SQLquery = `UPDATE mitrapasar_db.users 
+  let SQLquery = `UPDATE mitrapasar_db.users 
                     SET name='${body.name}',
                         username='${body.username}',
                         email='${body.email}',
                         telephone='${body.telephone}',
-                        address='${body.address}',
-                        image='${file.buffer.toString('base64')}'
-                        WHERE id='${id}'`
+                        address='${body.address}'`
+  if (file) {
+    SQLquery += `, image='${file.buffer.toString('base64')}'`
+  }
+  SQLquery += ` WHERE id='${id}'`
   return dbPool.execute(SQLquery)
 }
 

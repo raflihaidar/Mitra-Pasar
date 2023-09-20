@@ -1,36 +1,35 @@
 import { dbPool } from '../config/database.js'
 
 export const getData = (id) => {
-  const SQLquery = `SELECT c.id AS id_cart,
-                           c.amount,
-                           c.quantity,
+  const SQLquery = `SELECT 
                            p.id AS id_product, 
                            p.product_name,
                            p.image,
-                           p.price,
-                           u.id as id_user, 
-                           u.username FROM cart as c
+                           p.price
+                           FROM cart_item as c
                           JOIN products as p ON (p.id = c.id_product)
-                          JOIN users as u ON (u.id = c.id_user)
-                          WHERE id_user = '${id}'`
+                          WHERE id_cart = '${id}'`
   return dbPool.execute(SQLquery)
 }
 
 export const addData = (data) => {
-  let SQLquery = `INSERT INTO cart 
-                    (
-                    id, 
-                    id_product, 
-                    id_user, 
-                    amount, 
-                    quantity
-                    ) 
-                    VALUES (
-                      '${data.id}',
-                      ${data.id_product},
-                      '${data.id_user}',
-                      ${data.quantity},
-                      ${data.amount}
-                    )`
-  return dbPool.execute(SQLquery)
+  const cartQuery = `INSERT INTO mitrapasar_db.cart (
+                    id_user
+                  )
+                  VALUES
+                  (
+                    '${data.id_user}'
+                  )`
+  const cartitemQuery = `INSERT INTO mitrapasar_db.cart_item 
+                  (
+                   id_cart,
+                   id_product,
+                   quantity
+                  ) 
+                  VALUES (
+                    ${data.id_cart},
+                    ${data.id_product},
+                    ${data.quantity}
+                  )`
+  return dbPool.execute(cartQuery), dbPool.execute(cartitemQuery)
 }
