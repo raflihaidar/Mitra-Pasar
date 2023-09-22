@@ -1,22 +1,36 @@
 import { dbPool } from '../config/database.js'
 
 export const getUser = () => {
-  const SQLquery = 'SELECT * FROM mitrapasar_db.users'
+  const SQLquery = `
+  SELECT c.id as id_cart,
+        u.id,
+        u.username,
+        u.password,
+        u.name,
+        u.image,
+        u.email,
+        u.telephone,
+        u.address,
+        u.isAuthenticated
+FROM mitrapasar_db.cart as c 
+JOIN users as u ON c.id_user= u.id
+  `
+
   return dbPool.execute(SQLquery)
 }
 
-export const createNewUser = (body, id) => {
+export const createNewUser = async (body, id) => {
   const SQLquery = `INSERT INTO mitrapasar_db.users
                     (
                       id,
                       username, 
                       password 
-                    )
-                    VALUES (  
-                      '${id}',
-                      '${body.username}',
-                      '${body.password}'
-                    )`
+                      )
+                      VALUES (  
+                        '${id}',
+                        '${body.username}',
+                        '${body.password}'
+                        )`
 
   return dbPool.execute(SQLquery)
 }

@@ -41,7 +41,7 @@ import FooterPage from '../components/FooterPage.vue';
 import SearchBar from '../components/SearchBar.vue';
 import { useUserStore } from '../store/modules/users';
 import { useJajananStore } from '../store/modules/products';
-import { defineAsyncComponent, reactive } from 'vue';
+import { defineAsyncComponent, reactive, watchEffect } from 'vue';
 import { storeToRefs } from 'pinia';
 
 const CatalogComponent = defineAsyncComponent({
@@ -90,4 +90,8 @@ const selectCategory = (item) => {
         else data.status = false
     })
 }
+
+watchEffect(() => {
+    storeJajanan.getCartByIdUser(dataFiltered.value.id)
+})
 </script>

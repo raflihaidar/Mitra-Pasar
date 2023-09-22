@@ -1,4 +1,4 @@
-import { addData, getData } from '../models/cart.js'
+import { addData, createData, getData, updateData } from '../models/cart.js'
 
 export const getCart = async (req, res) => {
   const { id } = req.query
@@ -15,6 +15,21 @@ export const getCart = async (req, res) => {
   }
 }
 
+export const createCart = async (req, res) => {
+  const { id } = req.params
+  try {
+    await createData(id)
+    res.status(200)
+  } catch (error) {
+    console.log(error)
+    console.log(id)
+    res.status(500).json({
+      message: 'server error',
+      serverMessage: error
+    })
+  }
+}
+
 export const addToCart = async (req, res) => {
   const { body } = req
   try {
@@ -24,5 +39,25 @@ export const addToCart = async (req, res) => {
     })
   } catch (error) {
     console.log(error)
+    res.status(500).json({
+      message: 'server error',
+      serverMessage: error
+    })
+  }
+}
+
+export const updateCart = async (req, res) => {
+  const { body } = req
+  try {
+    await updateData(body)
+    res.json({
+      message: 'Update data success'
+    })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      message: 'server error',
+      serverMessage: error
+    })
   }
 }

@@ -41,6 +41,20 @@ export const useUserStore = defineStore(
       }
     }
 
+    const handleSignUp = async (payload) => {
+      try {
+        await axios.post('/', payload)
+        swal('Berhasil Sign Up', {
+          icon: 'success'
+        }).then(() => {
+          router.push({ name: 'login user' })
+        })
+      } catch (error) {
+        console.log(error.message)
+        console.log(payload)
+      }
+    }
+
     const handleLogOut = async (item) => {
       try {
         await axios.put(`${item}`, { isAuthenticated: false })
@@ -99,6 +113,7 @@ export const useUserStore = defineStore(
       deleteDataUser,
       editProfileUser,
       handleLogin,
+      handleSignUp,
       handleLogOut
     }
   },

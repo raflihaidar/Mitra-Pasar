@@ -67,22 +67,31 @@ export const useJajananStore = defineStore(
       total.value = payload.price
     }
 
-    const addToCart = (payload) => {
-      let addedItem = cart.value.find((item) => item.id === payload.id)
-      let limitItem = payload.stock > 0
-      if (limitItem) {
-        payload.stock -= 1
-        if (addedItem) {
-          addedItem.quantity++
-          addedItem.stock--
-          addedItem.priceUser = payload.price * addedItem.quantity
-        } else {
-          cart.value.push({
-            ...payload,
-            quantity: 1,
-            priceUser: payload.price
-          })
+    const addToCart = async (payload, id_cart) => {
+      try {
+        let addedItem = cart.value.find((item) => item.id === payload.id)
+        let limitItem = payload.stock > 0
+        let quantity = 0
+        if (limitItem) {
+          payload.stock -= 1
+          if (addedItem) {
+            quantity++
+            await axios.patch(`http://localhost:8000/cart`, {
+              quantity,
+              id_cart,
+              id_product: payload.id
+            })
+          } else {
+            const response = await axios.put(`http://localhost:8000/cart`, {
+              id_cart,
+              id_product: payload.id,
+              total: payload.price
+            })
+            cart.value.push(response.data)
+          }
         }
+      } catch (error) {
+        console.log(error)
       }
     }
 

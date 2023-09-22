@@ -37,7 +37,6 @@
 import FavoriteIcon from '../assets/icon/favoriteIcon.vue';
 import { useJajananStore } from '../store/modules/products';
 import { useUserStore } from '../store/modules/users';
-import axios from 'axios';
 import swal from 'sweetalert';
 import router from '../router';
 import { storeToRefs } from 'pinia';
@@ -55,12 +54,10 @@ let maxLength = 20;
 let productName = item.value.product_name
 truncatedText.value = productName.substring(0, maxLength) + "...";
 
-console.log(item.value.product_name.length)
-
 const addToCart = async (item) => {
     if (dataFiltered.value.length !== 0) {
-        await axios.patch(`http://localhost:8000/products/${item.id}`, { stock: item.stock })
-        storeJajanan.addToCart(item)
+        storeJajanan.addToCart(item, dataFiltered.value.id_cart)
+        console.log(item)
     } else {
         swal('Anda Belum Login\nSilahkan Login Terlebih Dahulu', {
             buttons: {

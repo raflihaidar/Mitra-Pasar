@@ -47,24 +47,16 @@
 
 <script setup>
 import LogoIcon from '../assets/icon/LogoIcon.vue';
-import swal from 'sweetalert';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
+import { useUserStore } from '../store/modules/users';
 
+const userStore = useUserStore()
 const data = {
     username: '',
     password: '',
     failed: false
 }
-const router = useRouter()
 
 const handleSignUp = async () => {
-    await axios.post('http://localhost:8000/users', data).then(() => {
-        swal('Berhasil Sign Up', {
-            icon: 'success'
-        }).then(() => {
-            router.push({ name: 'login user' })
-        })
-    })
+    await userStore.handleSignUp(data)
 }
 </script>

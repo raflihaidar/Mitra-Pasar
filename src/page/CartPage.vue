@@ -26,7 +26,7 @@
                     </td>
                     <td class="px-5 py-3 whitespace-nowrap">{{ item.product_name }}</td>
                     <td class="px-5 py-3 whitespace-nowrap">{{ item.quantity }}</td>
-                    <td class="px-5 py-3 whitespace-nowrap">Rp.{{ item.amount }}</td>
+                    <td class="px-5 py-3 whitespace-nowrap">Rp.{{ item.total }}</td>
                     <td class="text-white text center px-5 py-3 whitespace-nowrap">
                         <button class="bg-red-500 py-1 px-2 mr-3 rounded-md"
                             @click="removeItem(index, item)">Delete</button>
@@ -89,6 +89,5 @@ const handleCheckOut = () => {
 const setStatus = (index) => {
     store.handleStatus(index)
 }
-console.log(cart)
 watchEffect(() => store.getCartByIdUser(router.query.id))
 </script>

@@ -7,6 +7,8 @@ import {
 } from '../models/users.js'
 import { v4 as uuid } from 'uuid'
 
+import { createData } from '../models/cart.js'
+
 export const getAllData = async (req, res) => {
   try {
     const [data] = await getUser()
@@ -26,9 +28,11 @@ export const addNewData = async (req, res) => {
   const id = uuid()
   try {
     await createNewUser(body, id)
+    await createData(id)
     res.status(201).json({
       message: 'CREATE NEW USER SUCCESS',
-      data: body
+      data: body,
+      id
     })
   } catch (error) {
     res.status(500).json({
