@@ -28,7 +28,7 @@
                     <div class="flex items-center justify-evenly bg-white">
                         <input :type="show ? 'text' : 'password'" class="bg-white w-full outline-none" name="password"
                             placeholder="Your password" v-model="password">
-                        <span>
+                        <span class="cursor-pointer">
                             <component :is="EyeIcon" :show="show" @click="show = !show" />
                         </span>
                     </div>

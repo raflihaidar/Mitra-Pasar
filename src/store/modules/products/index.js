@@ -10,6 +10,7 @@ export const useJajananStore = defineStore(
     const filteredCatalog = ref([])
     const category = ref([])
     const cart = ref([])
+    const cartAmount = ref(0)
     const total = ref(0)
     const Total = computed(() => {
       return cart.value.reduce((amount, item) => {
@@ -24,8 +25,18 @@ export const useJajananStore = defineStore(
     const setCategory = async () => {
       try {
         const response = await axios.get('http://localhost:8000/category')
-        const { data } = response.data
-        category.value = data
+        category.value = response.data.data
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
+    const getCartAmount = async (id) => {
+      try {
+        const response = await axios.get(`http://localhost:8000/cart/totalData?id=${id}`)
+        const { amount } = response.data.data[0]
+        if (amount) cartAmount.value = amount
+        else cartAmount.value = 0
       } catch (error) {
         console.log(error)
       }
@@ -34,8 +45,7 @@ export const useJajananStore = defineStore(
     const setCatalog = async (url) => {
       try {
         const response = await axios.get(`http://localhost:8000/${url}`)
-        catalog.value = response.data
-        console.log(response.data)
+        catalog.value = response.data.data
       } catch (error) {
         console.log(error)
         console.log(url)
@@ -45,7 +55,7 @@ export const useJajananStore = defineStore(
     const setCatalogByCategory = async (url) => {
       try {
         const response = await axios.get(`http://localhost:8000/products?category=${url}`)
-        catalog.value = response.data
+        catalog.value = response.data.data
         console.log(response.data)
       } catch (error) {
         console.log(error)
@@ -56,8 +66,7 @@ export const useJajananStore = defineStore(
     const getCartByIdUser = async (id) => {
       try {
         const response = await axios.get(`http://localhost:8000/cart?id=${id}`)
-        const { data } = response.data
-        cart.value = data
+        cart.value = response.data.data
       } catch (error) {
         console.log(error)
       }
@@ -69,26 +78,30 @@ export const useJajananStore = defineStore(
 
     const addToCart = async (payload, id_cart) => {
       try {
-        let addedItem = cart.value.find((item) => item.id === payload.id)
-        let limitItem = payload.stock > 0
-        let quantity = 0
+        const addedItem = cart.value.find((item) => item.id === payload.id)
+        const limitItem = payload.stock > 0
+
         if (limitItem) {
-          payload.stock -= 1
           if (addedItem) {
-            quantity++
             await axios.patch(`http://localhost:8000/cart`, {
-              quantity,
+              quantity: 1,
               id_cart,
               id_product: payload.id
             })
           } else {
-            const response = await axios.put(`http://localhost:8000/cart`, {
+            const response = await axios.post(`http://localhost:8000/cart`, {
               id_cart,
               id_product: payload.id,
               total: payload.price
             })
-            cart.value.push(response.data)
+            cart.value.push(response.data.body)
           }
+
+          await axios.patch(`http://localhost:8000/products/${payload.id}`, {
+            stock: payload.stock - 1
+          })
+
+          payload.stock -= 1
         }
       } catch (error) {
         console.log(error)
@@ -101,30 +114,24 @@ export const useJajananStore = defineStore(
         cart.value.splice(index, 1)
       } else {
         product.quantity--
-        product.priceUser -= product.price
       }
-
-      cart.value.forEach((item) => {
-        if (item.id === product.id) item.stock++
-        return item
-      })
-
-      total.value -= product.price
-      product.status = false
     }
 
-    const clearCart = (index) => {
-      let product = cart.value[index]
-
-      cart.value.splice(index, 1)
-      catalog.value.data.forEach((item) => {
-        if (item.id === product.id) {
-          item.stock += product.quantity
-        }
-        return item
-      })
-      total.value -= product.priceUser
-      product.status = false
+    const clearCart = async (index) => {
+      try {
+        let product = cart.value[index]
+        await axios.delete(`http://localhost:8000/cart/${product.id_cart}&${product.id}`)
+        cart.value.splice(index, 1)
+        catalog.value.forEach(async (item) => {
+          if (item.id === product.id) {
+            await axios.patch(`http://localhost:8000/products/${product.id}`, {
+              stock: (item.stock += product.quantity)
+            })
+          }
+        })
+      } catch (error) {
+        console.log(error)
+      }
     }
 
     const handleStatus = (index) => {
@@ -158,10 +165,17 @@ export const useJajananStore = defineStore(
 
     const removeItem = async (index, item) => {
       try {
-        let result = item.stock + 1
-        await axios.patch(`http://localhost:8000/products/${item.id}`, { stock: result })
-        setCatalog('products')
+        let product = catalog.value.find((data) => data.product_name === item.product_name)
+        await axios.patch(`http://localhost:8000/products/${item.id}`, { stock: product.stock + 1 })
+        if (item.quantity === 1) {
+          await axios.delete(`http://localhost:8000/cart/${item.id_cart}&${item.id}`)
+        } else {
+          await axios.patch(`http://localhost:8000/cart/${item.id_cart}&${item.id}`, {
+            quantity: item.quantity
+          })
+        }
         removeCartProduct(index)
+        setCatalog('products')
       } catch (err) {
         console.log(err)
       }
@@ -201,8 +215,10 @@ export const useJajananStore = defineStore(
       total,
       Total,
       category,
+      cartAmount,
       setCategory,
       getCartByIdUser,
+      getCartAmount,
       setCatalog,
       setCatalogByCategory,
       clearCart,

@@ -27,7 +27,7 @@ export const addNewProduct = (body, file) => {
                     )
                     VALUES (  
                      '${body.product_name}', 
-                     ${body.id_category},
+                      ${body.id_category},
                       ${body.stock},
                       ${body.price}, 
                       '${file.buffer.toString('base64')}',

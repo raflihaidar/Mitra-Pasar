@@ -16,7 +16,7 @@
           <th class="px-5 py-3">Aksi</th>
         </tr>
       </thead>
-      <tbody v-for="(item, index) in catalog.data" :key="index" class="border-2 border-lime-700 relative mx-auto">
+      <tbody v-for="(item, index) in catalog" :key="index" class="border-2 border-lime-700 relative mx-auto">
         <tr
           class="text-sm font-semibold bg-lime-200 bg-opacity-25 w-screen text-left hover:bg-lime-100 transition-colors">
           <td class="px-5 py-3 whitespace-nowrap">{{ index + 1 }}</td>
@@ -86,7 +86,7 @@
 import { useJajananStore } from '../store/modules/products';
 import EditIconVue from '../assets/icon/EditIcon.vue'
 import DeleteIcon from '../assets/icon/DeleteIcon.vue';
-import { reactive, ref, watch, watchEffect } from 'vue';
+import { reactive, ref, } from 'vue';
 import { storeToRefs } from 'pinia';
 import axios from 'axios';
 
@@ -137,13 +137,4 @@ const activyActive = (item) => {
   modalModify.value = true
   Object.assign(modalContent, item)
 }
-
-watchEffect(() => {
-  store.setCatalog("products")
-  store.setCategory()
-})
-
-// watch(catalog, () => {
-//   store.setCatalog("products")
-// })
 </script>

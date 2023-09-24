@@ -56,8 +56,9 @@ truncatedText.value = productName.substring(0, maxLength) + "...";
 
 const addToCart = async (item) => {
     if (dataFiltered.value.length !== 0) {
-        storeJajanan.addToCart(item, dataFiltered.value.id_cart)
-        console.log(item)
+        await storeJajanan.addToCart(item, dataFiltered.value.id_cart)
+        await storeJajanan.getCartAmount(dataFiltered.value.id)
+        await storeJajanan.getCartByIdUser(dataFiltered.value.id)
     } else {
         swal('Anda Belum Login\nSilahkan Login Terlebih Dahulu', {
             buttons: {

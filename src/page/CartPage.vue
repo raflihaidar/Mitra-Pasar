@@ -1,6 +1,6 @@
 <template>
     <NavbarComponent />
-    <div class="container my-5 pt-20 bg-gray-100 w-full h-screen" v-if="cart.length !== 0">
+    <div class="container my-5 pt-20 bg-gray-100 w-full h-full" v-if="cart.length !== 0">
         <table class="w-[80%] mx-auto my-10 px-3 py-4 text-left table-auto mb-10 shadow-lg">
             <thead class="bg-lime-500">
                 <tr class="text-white text-center">
@@ -14,13 +14,13 @@
             </thead>
             <tbody>
                 <tr v-for=" (item, index) in cart" :key="index"
-                    class="text-sm font-semibold bg-lime-200 bg-opacity-25 text-center">
+                    class="text-sm font-semibold bg-lime-200 bg-opacity-25 text-center border-b-2">
                     <td class="align-middle">
                         <input type="checkbox" :checked="item.status" :name="item.product_name" :v-model="item.status"
                             @click="setStatus(index)">
                     </td>
                     <td>
-                        <div style="width: 200px;" class="m-auto">
+                        <div class="m-auto w-[200px]">
                             <img :src="`data:image/png;base64,${item.image}`" alt="gambar produk" style="width: inherit;">
                         </div>
                     </td>
@@ -57,7 +57,6 @@
 
 <script setup>
 import NavbarComponent from '../components/NavbarComponent.vue';
-import axios from 'axios'
 import { reactive, watchEffect } from 'vue';
 import { useJajananStore } from '../store/modules/products';
 import { storeToRefs } from 'pinia';
@@ -66,19 +65,14 @@ import { useRoute } from 'vue-router';
 const store = useJajananStore()
 const { cart, Total } = storeToRefs(store)
 const selectedValues = reactive([])
+
 const removeItem = async (index, item) => {
-    let result = item.stock + 1;
-    await axios.patch(`http://localhost:8000/products/${item.id}`, { stock: result })
-        .then(() => {
-            store.setCatalog("products")
-        })
-    selectedValues.fill(0)
-    store.removeCartProduct(index)
+    store.removeItem(index, item)
 }
+
 const clearAll = (item) => {
     selectedValues.fill(0)
     store.clearCart(item)
-    console.log("item from cart", item)
 }
 
 const router = useRoute()
@@ -89,5 +83,7 @@ const handleCheckOut = () => {
 const setStatus = (index) => {
     store.handleStatus(index)
 }
-watchEffect(() => store.getCartByIdUser(router.query.id))
+watchEffect(() => {
+    store.getCartByIdUser(router.query.id)
+})
 </script>

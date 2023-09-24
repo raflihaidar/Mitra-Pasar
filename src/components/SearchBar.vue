@@ -47,7 +47,7 @@ watch(wordEntered, (newVal) => {
 })
 
 const handleFiltered = (wordEntered) => {
-    let dataFilter = catalog.value.data.filter((item) => {
+    let dataFilter = catalog.value.filter((item) => {
         return item.product_name.toLowerCase().includes(wordEntered.toLowerCase())
     })
 

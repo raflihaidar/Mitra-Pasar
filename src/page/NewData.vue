@@ -17,11 +17,14 @@
             </section>
             <section class="flex flex-col gap-y-1 w-2/5">
                 <label class="text-white" name="price">Category</label>
-                <select name="category" class="py-2 outline-none border-none">
+                <!-- <select name="category" class="py-2 outline-none border-none">
                     <option value="Minuman dan Makanan">Makanan dan Minuman</option>
                     <option value="Sembako">Sembako</option>
                     <option value="Elektronik">Elektronik</option>
                     <option value="Minuman dan Makanan">Pakaian</option>
+                </select> -->
+                <select name="id_category" class="border-lime-600 px-2 py-2 rounded-lg outline-none">
+                    <option :value="item.id" v-for="(item, index) in category" :key="index">{{ item.name }}</option>
                 </select>
             </section>
             <section class="flex flex-col gap-y-1">
@@ -38,5 +41,11 @@
 </template>
 
 <script setup>
+import { storeToRefs } from 'pinia';
 import NavbarComponent from '../components/NavbarComponent.vue';
+import { useJajananStore } from '../store/modules/products';
+
+const store = useJajananStore()
+
+const { category } = storeToRefs(store)
 </script>

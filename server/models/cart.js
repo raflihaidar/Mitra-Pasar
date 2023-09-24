@@ -17,6 +17,11 @@ export const getData = (id) => {
   return dbPool.execute(SQLquery)
 }
 
+export const getTotalData = (id) => {
+  const cartItemQuery = `SELECT SUM(quantity) AS amount FROM cart_item JOIN cart ON cart_item.id_cart = cart.id WHERE cart.id_user = '${id}'`
+  return dbPool.execute(cartItemQuery)
+}
+
 export const createData = (id) => {
   const cartQuery = `INSERT INTO mitrapasar_db.cart (
                       id_user
@@ -54,7 +59,24 @@ export const updateData = (body) => {
   return dbPool.execute(cartItemQuery)
 }
 
-export const deleteAllData = (body) => {
-  const cartItemQuery = `DELETE FROM cart_item WHERE id_product = ${body.id_product} AND id_cart = ${body.id_cart}`
+export const updateQuantity = (id_cart, id_product) => {
+  const cartItemQuery = `UPDATE cart_item
+                      SET quantity = quantity - 1
+                      WHERE id_cart = ${id_cart} AND id_product = ${id_product}`
+  return dbPool.execute(cartItemQuery)
+}
+
+export const deleteAllData = (id_cart, id_product) => {
+  const cartItemQuery = `DELETE FROM cart_item WHERE id_product = ${id_product} AND id_cart = ${id_cart}`
+  return dbPool.execute(cartItemQuery)
+}
+
+export const deleteData = (id_cart, id_product) => {
+  const cartItemQuery = `DELETE FROM cart_item 
+                            AND 
+                            id_cart = ${id_cart}
+                            AND 
+                            id_product = ${id_product}`
+
   return dbPool.execute(cartItemQuery)
 }
