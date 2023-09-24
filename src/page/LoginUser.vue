@@ -28,7 +28,7 @@
                     <div class="flex items-center justify-evenly bg-white">
                         <input :type="show ? 'text' : 'password'" class="bg-white w-full outline-none" name="password"
                             placeholder="Your password" v-model="password">
-                        <span>
+                        <span class="cursor-pointer">
                             <component :is="EyeIcon" :show="show" @click="show = !show" />
                         </span>
                     </div>
@@ -70,6 +70,9 @@ const handleLogin = () => {
     const adminAuth = username.value == 'admin' && password.value == 'adminlogin'
     store.dataUser.data.forEach(item => {
         const userAuth = item.username === username.value && item.password === password.value
+        console.log(userAuth)
+        console.log(item.username)
+        console.log(item.password)
         if (userAuth) {
             store.handleLogin(username.value)
         } else if (adminAuth) {

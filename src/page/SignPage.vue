@@ -11,11 +11,15 @@
             <div class="flex flex-col gap-y-5">
                 <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3" :class="failed ? 'border-red-500' : 'border-2'">
                     <input type="text" class="bg-white w-full outline-none" name="username" v-model="data.username"
-                        placeholder="Masukkan Username">
+                        placeholder="Masukkan Username" autocomplete="off">
                 </div>
-                <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3" :class="failed ? 'border-red-500' : 'border-2'">
-                    <input type="password" class="bg-white w-full outline-none" name="password" v-model="data.password"
-                        placeholder="Masukkan Password">
+                <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3 flex"
+                    :class="failed ? 'border-red-500' : 'border-2'">
+                    <input :type="show ? 'text' : 'password'" class="bg-white w-full outline-none" name="password"
+                        v-model="data.password" placeholder="Masukkan Password">
+                    <span class="cursor-pointer">
+                        <component :is="EyeIcon" :show="show" @click="show = !show" />
+                    </span>
                 </div>
             </div>
 
@@ -47,24 +51,19 @@
 
 <script setup>
 import LogoIcon from '../assets/icon/LogoIcon.vue';
-import swal from 'sweetalert';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
+import { useUserStore } from '../store/modules/users';
+import EyeIcon from "../assets/icon/EyeIcon.vue"
+import { ref } from 'vue';
 
+const userStore = useUserStore()
+const show = ref(false)
 const data = {
     username: '',
     password: '',
     failed: false
 }
-const router = useRouter()
 
 const handleSignUp = async () => {
-    await axios.post('http://localhost:8000/user', data).then(() => {
-        swal('Berhasil Sign Up', {
-            icon: 'success'
-        }).then(() => {
-            router.push({ name: 'login user' })
-        })
-    })
+    await userStore.handleSignUp(data)
 }
 </script>

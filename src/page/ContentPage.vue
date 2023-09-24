@@ -13,14 +13,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-4 gap-y-10 my-5" v-if="catalog.data.length !== 0">
-                    <CatalogComponent v-for="(item, index) in catalog.data" :key="index" class="group" :item="item" />
+                <div class="grid grid-cols-4 gap-y-10 my-5" v-if="catalog.length !== 0">
+                    <CatalogComponent v-for="(item, index) in catalog" :key="index" class="group" :item="item" />
 
-                    <router-link to="/cart"
+                    <router-link :to="`/cart?id=${dataFiltered.id}`" v-if="dataFiltered.length !== 0"
                         class="fixed w-[40px] h-[40px] p-1 z-10 bg-lime-700 rounded-full bottom-5 right-16">
                         <CartIcon />
                         <span class="absolute bottom-7 -right-1 text-sm px-1  bg-red-600 text-white rounded-full">{{
-                            totalItems
+                            cartAmount
                         }}</span>
                     </router-link>
 
@@ -39,52 +39,60 @@ import NavbarComponent from '../components/NavbarComponent.vue'
 import CartIcon from '../assets/icon/CartIcon.vue'
 import FooterPage from '../components/FooterPage.vue';
 import SearchBar from '../components/SearchBar.vue';
-import { useJajananStore } from '../store/modules/jajanan_pasar';
-import { computed, defineAsyncComponent, reactive } from 'vue';
+import { useUserStore } from '../store/modules/users';
+import { useJajananStore } from '../store/modules/products';
+import { defineAsyncComponent, reactive, watchEffect } from 'vue';
 import { storeToRefs } from 'pinia';
 
 const CatalogComponent = defineAsyncComponent({
     loader: () => import('../components/CatalogComponent.vue' /* webpackChunkName: "productComponent" */),
 })
-
-
 const storeJajanan = useJajananStore()
-const { cart, catalog } = storeToRefs(storeJajanan)
+const storeUsers = useUserStore()
+const { catalog, cartAmount } = storeToRefs(storeJajanan)
+const { dataFiltered } = storeToRefs(storeUsers)
 const category = reactive([
     {
-        name: "Jajanan Pasar",
-        url: "jajanan_pasar",
+        name: "Semua Produk",
+        url: "products",
         status: true
     },
     {
+        name: "Makanan dan Minuman",
+        url: 1,
+        status: false
+    },
+    {
+        name: "Bahan Pokok",
+        url: 2,
+        status: false
+    },
+    {
+        name: "Elektronik",
+        url: 3,
+        status: false
+    },
+    {
         name: "Pakaian",
-        url: "pakaian",
-        status: false
-    },
-    {
-        name: "Mainan",
-        url: "mainan",
-        status: false
-    },
-    {
-        name: "Transportasi",
-        url: "transportasi",
-        status: false
-    },
-    {
-        name: "E-Warteg",
-        url: 'warteg',
+        url: 4,
         status: false
     }
 ],)
 
 const selectCategory = (item) => {
-    storeJajanan.setCatalog(item.url)
+    if (item.name === "Semua Produk") {
+        storeJajanan.setCatalog(item.url)
+    } else {
+        storeJajanan.setCatalogByCategory(item.url)
+    }
     category.forEach((data) => {
         if (data === item) data.status = true
         else data.status = false
     })
 }
+watchEffect(async () => {
+    await storeJajanan.getCartByIdUser(dataFiltered.value.id)
+    await storeJajanan.getCartAmount(dataFiltered.value.id)
+})
 
-const totalItems = computed(() => cart.value.reduce((a, b) => a + b.quantity, 0))
 </script>

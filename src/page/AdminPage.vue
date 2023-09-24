@@ -31,7 +31,7 @@
             <div class="w-1/5 flex flex-col px-3 py-6 rounded-lg shadow-xl bg-lime-600">
                 <CartIcon />
                 <p class="font-semibold">Overall Sale</p>
-                <p>{{ catalog.data.length }}</p>
+                <p>{{ catalog.length }}</p>
             </div>
             <div class="w-1/5 flex flex-col  bg-lime-600 px-3 py-6 rounded-lg">
                 <lord-icon src="https://cdn.lordicon.com/hbvyhtse.json" trigger="hover" colors="primary:#ffffff">
@@ -61,11 +61,11 @@
 
 <script setup>
 import CartIcon from '../assets/icon/CartIcon.vue'
-import { useJajananStore } from '../store/modules/jajanan_pasar';
+import { useJajananStore } from '../store/modules/products';
 import { useUserStore } from '../store/modules/users';
 import { storeToRefs } from 'pinia';
 import LogoIcon from '../assets/icon/LogoIcon.vue';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import router from '../router';
 
 const jajananStore = useJajananStore()
@@ -74,8 +74,12 @@ const { dataUser } = storeToRefs(userStore)
 const { catalog } = storeToRefs(jajananStore)
 const sideBar = ref(true);
 
-
 router.push({ name: "dashboard" })
+
+watch(catalog, () => {
+    jajananStore.setCatalog("products")
+    jajananStore.setCategory()
+})
 </script>
 
 <style>

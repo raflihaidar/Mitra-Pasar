@@ -8,7 +8,7 @@
 
 <script setup>
 import { computed } from 'vue';
-import { useJajananStore } from '../store/modules/jajanan_pasar';
+import { useJajananStore } from '../store/modules/products';
 const store = useJajananStore()
 const catalog = computed(() => store.catalog)
 </script>

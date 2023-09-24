@@ -1,8 +1,22 @@
-const express = require('express')
-const cartController = require('../controller/cart')
+import express from 'express'
+import {
+  addToCart,
+  deleteAllCartItem,
+  deleteCartItem,
+  getCart,
+  updateCart,
+  createCart,
+  getTotalQuantity,
+  updateItemQuantity
+} from '../controller/cart.js'
 
-const router = express.Router()
+export const router = express.Router()
 
-router.get('/:id', cartController.getCart)
-
-module.exports = router
+router.get('/', getCart)
+router.get('/totalData', getTotalQuantity)
+router.post('/', addToCart)
+router.patch('/', updateCart)
+router.patch('/:id_cart&:id_product', updateItemQuantity)
+router.put('/:id', createCart)
+router.delete('/:id_cart&:id_product', deleteAllCartItem)
+router.delete('/:id_cart&:id_product', deleteCartItem)

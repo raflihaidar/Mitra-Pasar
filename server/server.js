@@ -1,22 +1,25 @@
-const express = require('express')
-const cors = require('cors')
-require('dotenv').config()
+import express from 'express'
+import cors from 'cors'
+import 'dotenv/config'
 const PORT = process.env.PORT || 4000
-const jajanan_pasar_routes = require('./routes/jajanan_pasar.js')
-const user_routes = require('./routes/user.js')
-const wishlist_routes = require('./routes/wishlist.js')
-const cart_routes = require('./routes/cart.js')
-const logsMiddleware = require('./middleware/logs.js')
+import { router as jajanan_pasar_routes } from './routes/products.js'
+import { router as users_routes } from './routes/users.js'
+import { router as cart_routes } from './routes/cart.js'
+import { router as category_router } from './routes/category.js'
+import { logRequest } from './middleware/logs.js'
+// const user_routes = require('./routes/user.js')
+// const wishlist_routes = require('./routes/wishlist.js')
+// const cart_routes = require('./routes/cart.js')
 
 const app = express()
-
 app.use(cors({ methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'] }))
-app.use(logsMiddleware)
+app.use(logRequest)
 app.use(express.json())
-app.use('/jajanan_pasar', jajanan_pasar_routes)
-app.use('/user', user_routes)
-app.use('/wishlist', wishlist_routes)
+app.use('/products', jajanan_pasar_routes)
+app.use('/users', users_routes)
 app.use('/cart', cart_routes)
+app.use('/category', category_router)
+// app.use('/wishlist', wishlist_routes)
 
 app.listen(PORT, () => {
   console.log(`server ready di localhost ${PORT}`)

@@ -35,7 +35,7 @@ import CloseIcon from '../assets/icon/CloseIcon.vue'
 import SearchIcon from '../assets/icon/SearchIcon.vue'
 import { ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useJajananStore } from '../store/modules/jajanan_pasar';
+import { useJajananStore } from '../store/modules/products';
 
 const storeJajanan = useJajananStore()
 const { catalog } = storeToRefs(storeJajanan)
@@ -47,7 +47,7 @@ watch(wordEntered, (newVal) => {
 })
 
 const handleFiltered = (wordEntered) => {
-    let dataFilter = catalog.value.data.filter((item) => {
+    let dataFilter = catalog.value.filter((item) => {
         return item.product_name.toLowerCase().includes(wordEntered.toLowerCase())
     })
 

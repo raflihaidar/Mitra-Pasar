@@ -1,12 +1,13 @@
 <template>
     <div class="z-10 capitalize w-[200px] h-[300px] bg-lime-600 text-white rounded-xl cursor-pointer shadow-xl group-hover:ring-4 ring-offset-1 ring-lime-600 transition-all"
         :class="item.stock === 0 ? 'grayscale' : null">
-        <div class="h-[75%] flex flex-col justify-between">
+        <div class="h-[75%] grid">
             <div class="w-full h-auto rounded-lg">
-                <img :src="item.img" :alt="item.product_name" class="w-full h-full rounded-xl">
+                <img :src="`data:image/png;base64,${item.image}`" :alt="item.product_name" class="w-full h-full rounded-xl">
             </div>
             <div class="text-left font-semibold py-2 px-3">
-                <p class="text-lg">{{ item.product_name }}</p>
+                <p class="text-sm" v-if="item.product_name.length > 20">{{ truncatedText }}</p>
+                <p class="text-sm" v-else>{{ item.product_name }}</p>
                 <p>Rp.{{ item.price }}</p>
             </div>
         </div>
@@ -34,13 +35,12 @@
 
 <script setup>
 import FavoriteIcon from '../assets/icon/favoriteIcon.vue';
-import { useJajananStore } from '../store/modules/jajanan_pasar';
+import { useJajananStore } from '../store/modules/products';
 import { useUserStore } from '../store/modules/users';
-import axios from 'axios';
 import swal from 'sweetalert';
 import router from '../router';
 import { storeToRefs } from 'pinia';
-import { toRefs } from 'vue';
+import { toRefs, ref } from 'vue';
 
 const storeJajanan = useJajananStore()
 const userStore = useUserStore()
@@ -48,13 +48,17 @@ const { dataFiltered } = storeToRefs(userStore)
 const props = defineProps({
     item: Object
 })
-
 const { item } = toRefs(props)
+let truncatedText = ref("")
+let maxLength = 20;
+let productName = item.value.product_name
+truncatedText.value = productName.substring(0, maxLength) + "...";
 
 const addToCart = async (item) => {
     if (dataFiltered.value.length !== 0) {
-        await axios.patch(`http://localhost:8000/jajanan_pasar/${item.id}`, { stock: item.stock })
-        storeJajanan.addToCart(item)
+        await storeJajanan.addToCart(item, dataFiltered.value.id_cart)
+        await storeJajanan.getCartAmount(dataFiltered.value.id)
+        await storeJajanan.getCartByIdUser(dataFiltered.value.id)
     } else {
         swal('Anda Belum Login\nSilahkan Login Terlebih Dahulu', {
             buttons: {
@@ -67,6 +71,7 @@ const addToCart = async (item) => {
         })
     }
 }
+
 const likeButton = (event) => {
     if (event.target.style.color != 'gold') {
         event.target.style.color = 'gold'
