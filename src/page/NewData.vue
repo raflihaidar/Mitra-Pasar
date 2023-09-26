@@ -17,12 +17,6 @@
             </section>
             <section class="flex flex-col gap-y-1 w-2/5">
                 <label class="text-white" name="price">Category</label>
-                <!-- <select name="category" class="py-2 outline-none border-none">
-                    <option value="Minuman dan Makanan">Makanan dan Minuman</option>
-                    <option value="Sembako">Sembako</option>
-                    <option value="Elektronik">Elektronik</option>
-                    <option value="Minuman dan Makanan">Pakaian</option>
-                </select> -->
                 <select name="id_category" class="border-lime-600 px-2 py-2 rounded-lg outline-none">
                     <option :value="item.id" v-for="(item, index) in category" :key="index">{{ item.name }}</option>
                 </select>
@@ -35,7 +29,7 @@
                 <label class="text-white" name="description">Deskripsi Produk</label>
                 <textarea cols="30" rows="5" class="p-2 rounded-md outline-none border-none" name="description"></textarea>
             </section>
-            <button class="bg-lime-600 px-3 py-2 rounded-md">Tambah</button>
+            <button aria-label="add data" class="bg-lime-600 px-3 py-2 rounded-md">Tambah</button>
         </form>
     </div>
 </template>

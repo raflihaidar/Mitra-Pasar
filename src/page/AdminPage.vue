@@ -29,25 +29,18 @@
 
         <div class="w-[80%] mx-auto my-10 flex justify-between text-white">
             <div class="w-1/5 flex flex-col px-3 py-6 rounded-lg shadow-xl bg-lime-600">
-                <CartIcon />
                 <p class="font-semibold">Overall Sale</p>
                 <p>{{ catalog.length }}</p>
             </div>
             <div class="w-1/5 flex flex-col  bg-lime-600 px-3 py-6 rounded-lg">
-                <lord-icon src="https://cdn.lordicon.com/hbvyhtse.json" trigger="hover" colors="primary:#ffffff">
-                </lord-icon>
                 <p>Overall User</p>
                 <p>{{ dataUser.data.length }}</p>
             </div>
             <div class=" w-1/5 flex flex-col  bg-lime-600 px-3 py-6 rounded-lg">
-                <lord-icon src="https://cdn.lordicon.com/zchxlapl.json" trigger="hover" colors="primary:#ffffff">
-                </lord-icon>
                 <p>Overall Growth</p>
                 <p>605</p>
             </div>
             <div class=" w-1/5 flex flex-col bg-lime-600 px-3 py-6 rounded-lg">
-                <lord-icon src="https://cdn.lordicon.com/gsvbkwao.json" trigger="hover" colors="primary:#ffffff">
-                </lord-icon>
                 <p>Overall Profit</p>
                 <p>6,275</p>
             </div>
@@ -60,7 +53,6 @@
 </template>
 
 <script setup>
-import CartIcon from '../assets/icon/CartIcon.vue'
 import { useJajananStore } from '../store/modules/products';
 import { useUserStore } from '../store/modules/users';
 import { storeToRefs } from 'pinia';

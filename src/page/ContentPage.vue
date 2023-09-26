@@ -8,7 +8,7 @@
                 <div class="w-4/5 mx-auto grid grid-cols-5 text-sm text-center text-white font-semibold mb-20 mt-5">
                     <div v-for="(item, index) in category" :key="index" class="group">
                         <div class="w-[100px] h-[100px] flex items-center justify-center px-2 py-3 mr-3 rounded-lg cursor-pointer shadow-lg group-hover:scale-110 transition-all"
-                            :class="item.status ? 'bg-lime-500' : 'bg-lime-600'" @click="selectCategory(item)">
+                            :class="item.status ? 'bg-lime-600' : 'bg-lime-700'" @click="selectCategory(item)">
                             {{ item.name }}
                         </div>
                     </div>
@@ -80,15 +80,10 @@ const category = reactive([
 ],)
 
 const selectCategory = (item) => {
-    if (item.name === "Semua Produk") {
-        storeJajanan.setCatalog(item.url)
-    } else {
-        storeJajanan.setCatalogByCategory(item.url)
-    }
-    category.forEach((data) => {
-        if (data === item) data.status = true
-        else data.status = false
-    })
+    if (item.name === "Semua Produk") storeJajanan.setCatalog(item.url)
+    else storeJajanan.setCatalogByCategory(item.url)
+
+    category.forEach((data) => data.status = (data === item))
 }
 watchEffect(async () => {
     await storeJajanan.getCartByIdUser(dataFiltered.value.id)

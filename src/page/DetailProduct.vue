@@ -76,7 +76,6 @@ const getDetailProduct = async () => {
     console.log(productId.params.productId)
     try {
         const response = await axios.get(`http://localhost:8000/products/detail/${productId.params.productId}`);
-        console.log(response.data)
         product.value = response.data;
     }
     catch (error) {
@@ -130,13 +129,6 @@ const buyNow = (item) => {
         })
     }
 }
-
-// watch(
-//     () => productId.params,
-//     async newId => {
-//         getDetailProduct(newId)
-//     }
-// )
 
 onMounted(() => {
 })

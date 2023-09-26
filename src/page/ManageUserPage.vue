@@ -67,8 +67,9 @@
               v-model="modalContent.description"></textarea>
           </section>
           <section class="flex justify-end gap-x-5">
-            <button class="bg-blue-300 rounded-md px-3 py-2" @click="cancelButton">Batal</button>
-            <button class="bg-green-600 rounded-md px-3 py-2" @click="saveNewData(modalContent.id)">Simpan</button>
+            <button aria-label="cancel" class="bg-blue-300 rounded-md px-3 py-2" @click="cancelButton">Batal</button>
+            <button aria-label="save" class="bg-green-600 rounded-md px-3 py-2"
+              @click="saveNewData(modalContent.id)">Simpan</button>
           </section>
         </div>
       </div>

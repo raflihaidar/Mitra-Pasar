@@ -2,12 +2,12 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import swal from 'sweetalert'
 import { computed, ref } from 'vue'
+import router from '../../../router'
 
 export const useJajananStore = defineStore(
   'products',
   () => {
     const catalog = ref([])
-    const filteredCatalog = ref([])
     const category = ref([])
     const cart = ref([])
     const cartAmount = ref(0)
@@ -48,7 +48,6 @@ export const useJajananStore = defineStore(
         catalog.value = response.data.data
       } catch (error) {
         console.log(error)
-        console.log(url)
       }
     }
 
@@ -56,10 +55,8 @@ export const useJajananStore = defineStore(
       try {
         const response = await axios.get(`http://localhost:8000/products?category=${url}`)
         catalog.value = response.data.data
-        console.log(response.data)
       } catch (error) {
         console.log(error)
-        console.log(url)
       }
     }
 
@@ -78,30 +75,41 @@ export const useJajananStore = defineStore(
 
     const addToCart = async (payload, id_cart) => {
       try {
-        const addedItem = cart.value.find((item) => item.id === payload.id)
-        const limitItem = payload.stock > 0
-
-        if (limitItem) {
-          if (addedItem) {
-            await axios.patch(`http://localhost:8000/cart`, {
-              quantity: 1,
-              id_cart,
-              id_product: payload.id
-            })
-          } else {
-            const response = await axios.post(`http://localhost:8000/cart`, {
-              id_cart,
-              id_product: payload.id,
-              total: payload.price
-            })
-            cart.value.push(response.data.body)
-          }
-
-          await axios.patch(`http://localhost:8000/products/${payload.id}`, {
-            stock: payload.stock - 1
+        if (!id_cart) {
+          swal('Anda Belum Login\nSilahkan Login Terlebih Dahulu', {
+            buttons: {
+              cancel: 'Batal',
+              confirm: 'Login'
+            }
+          }).then((login) => {
+            if (login) router.push({ name: 'login user' })
           })
+        } else {
+          const addedItem = cart.value.find((item) => item.id === payload.id)
+          const limitItem = payload.stock > 0
 
-          payload.stock -= 1
+          if (limitItem) {
+            if (addedItem) {
+              await axios.patch(`http://localhost:8000/cart`, {
+                quantity: 1,
+                id_cart,
+                id_product: payload.id
+              })
+            } else {
+              const response = await axios.post(`http://localhost:8000/cart`, {
+                id_cart,
+                id_product: payload.id,
+                total: payload.price
+              })
+              cart.value.push(response.data.body)
+            }
+
+            await axios.patch(`http://localhost:8000/products/${payload.id}`, {
+              stock: payload.stock - 1
+            })
+
+            payload.stock -= 1
+          }
         }
       } catch (error) {
         console.log(error)
@@ -210,7 +218,6 @@ export const useJajananStore = defineStore(
 
     return {
       catalog,
-      filteredCatalog,
       cart,
       total,
       Total,

@@ -3,7 +3,8 @@
 
     <p class="text-3xl text-center font-semibold text-black">Overall Sale</p>
     <router-link to="/admin/new_data">
-      <button class="bg-lime-500 px-2 py-2 text-sm rounded-md text-white font-semibold my-2">Tambah Data</button>
+      <button aria-label="add product"
+        class="bg-lime-500 px-2 py-2 text-sm rounded-md text-white font-semibold my-2">Tambah Data</button>
     </router-link>
 
     <table class="border-2 border-lime-700  w-full mb-10">
@@ -73,8 +74,9 @@
               v-model="modalContent.description"></textarea>
           </section>
           <section class="flex justify-end gap-x-5">
-            <button class="bg-blue-300 rounded-md px-3 py-2" @click="cancelButton">Batal</button>
-            <button class="bg-green-600 rounded-md px-3 py-2" @click="saveNewData(modalContent.id)">Simpan</button>
+            <button aria-label="cancel" class="bg-blue-300 rounded-md px-3 py-2" @click="cancelButton">Batal</button>
+            <button aria-label="save" class="bg-green-600 rounded-md px-3 py-2"
+              @click="saveNewData(modalContent.id)">Simpan</button>
           </section>
         </div>
       </div>

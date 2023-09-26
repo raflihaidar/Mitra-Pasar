@@ -2,10 +2,6 @@
   <div>
 
     <p class="text-3xl mb-5 text-center font-semibold text-black">Manage Users</p>
-    <!-- <router-link to="/admin/new_data">
-      <button class="bg-lime-500 px-2 py-2 text-sm rounded-md text-white font-semibold my-2">Tambah Data</button>
-    </router-link> -->
-
     <table class="border-2 border-lime-700  w-full mb-10">
       <thead class="border-2 border-lime-700 bg-lime-500 w-full text-left">
         <tr class="text-white">
@@ -25,7 +21,7 @@
           <td class="px-5 py-3 whitespace-nowrap">{{ item.id }}</td>
           <td>
             <div class="text-left">
-              <button class="cursor-pointer pl-5" @click="deleteData(item.id)">
+              <button aria-label="delete data" class="cursor-pointer pl-5" @click="deleteData(item.id)">
                 <DeleteIcon />
               </button>
             </div>
@@ -39,7 +35,6 @@
 
 <script setup>
 import { useUserStore } from '../store/modules/users';
-// import EditIconVue from '../assets/icon/EditIcon.vue'
 import DeleteIcon from '../assets/icon/DeleteIcon.vue';
 import { ref, watchEffect } from 'vue';
 import { storeToRefs } from 'pinia';

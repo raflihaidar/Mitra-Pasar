@@ -28,9 +28,10 @@
                     <td class="px-5 py-3 whitespace-nowrap">{{ item.quantity }}</td>
                     <td class="px-5 py-3 whitespace-nowrap">Rp.{{ item.total }}</td>
                     <td class="text-white text center px-5 py-3 whitespace-nowrap">
-                        <button class="bg-red-500 py-1 px-2 mr-3 rounded-md"
+                        <button aria-label="delete cart item" class="bg-red-500 py-1 px-2 mr-3 rounded-md"
                             @click="removeItem(index, item)">Delete</button>
-                        <button class="bg-red-500 py-1 px-2 rounded-md" @click="clearAll(index)">Delete All</button>
+                        <button aria-label="delete all cart item" class="bg-red-500 py-1 px-2 rounded-md"
+                            @click="clearAll(index)">Delete All</button>
                     </td>
                 </tr>
             </tbody>
@@ -42,7 +43,8 @@
                 <p class="font-bold text-lg">Rp.{{ Total }}</p>
             </div>
             <div v-if="Total > 0" class="text-white text center px-5 py-3 whitespace-nowrap" @click="handleCheckOut">
-                <button class="bg-lime-600 px-2 py-1 text-cente rounded-md">Check Out</button>
+                <button class="bg-lime-600 px-2 py-1 text-cente rounded-md" aria-label="checkout cart item">Check
+                    Out</button>
             </div>
         </div>
     </div>

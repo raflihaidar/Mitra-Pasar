@@ -1,6 +1,4 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import { useUserStore } from '../store/modules/users'
-import swal from 'sweetalert'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -63,26 +61,6 @@ const router = createRouter({
       component: () => import('../page/UserProfile.vue')
     }
   ]
-})
-
-router.beforeEach((to, from, next) => {
-  const store = useUserStore()
-  let status = store.dataFiltered.length !== 0
-  if (to.name === 'cart page' && !status) {
-    swal('Anda Belum Login\nSilahkan Login Terlebih Dahulu', {
-      buttons: {
-        cancel: 'Batal',
-        confirm: 'Login'
-      }
-    }).then((login) => {
-      if (login) next({ name: 'login user' })
-      else next({ name: 'content page' })
-    })
-  } else if (to.name === 'login user' && status) {
-    next({ name: 'home' })
-  } else {
-    next()
-  }
 })
 
 export default router

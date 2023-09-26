@@ -3,13 +3,14 @@
         <nav class="w-[90%] mx-auto flex justify-between items-center">
             <LogoIcon />
             <section class="w-2/5 text-md flex justify-end gap-x-10 text-white font-bold">
-                <router-link to='/sign' class="transition-all" v-show="!isAuthenticated">
+                <router-link aria-label="sign in" to='/sign' class="transition-all" v-show="!isAuthenticated">
                     Daftar
                 </router-link>
                 <div v-if="!isAuthenticated">
-                    <router-link to="/login_user" class="relative transition-all pointer">Login</router-link>
+                    <router-link to="/login_user" class="relative transition-all pointer"
+                        aria-label="login">Login</router-link>
                 </div>
-                <button v-else>
+                <button v-else aria-label="log out">
                     <p class="relative transition-all" @click="handleLogOut">Log out</p>
                 </button>
             </section>
