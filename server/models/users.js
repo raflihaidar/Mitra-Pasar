@@ -7,7 +7,6 @@ export const getUser = () => {
         u.username,
         u.password,
         u.name,
-        u.image,
         u.email,
         u.telephone,
         u.address,
@@ -16,6 +15,21 @@ FROM mitrapasar_db.cart as c
 JOIN users as u ON c.id_user= u.id
   `
 
+  return dbPool.execute(SQLquery)
+}
+
+export const getUserLogged = () => {
+  const SQLquery = `SELECT c.id as id_cart,
+  u.id,
+  u.username,
+  u.password,
+  u.name,
+  u.email,
+  u.telephone,
+  u.address,
+  u.isAuthenticated
+FROM mitrapasar_db.cart as c 
+JOIN users as u ON c.id_user= u.id WHERE isAuthenticated  = 1`
   return dbPool.execute(SQLquery)
 }
 

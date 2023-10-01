@@ -5,7 +5,8 @@ import {
   addNewData,
   updateDataUser,
   updateDetailUser,
-  deleteData
+  deleteData,
+  getDataFiltered
 } from '../controller/users.js'
 
 const upload = multer({ storage: multer.memoryStorage() })
@@ -13,6 +14,9 @@ export const router = express.Router()
 
 // READ - GET
 router.get('/', getAllData)
+
+//READ - GET USER LOGGED
+router.get('/logged', getDataFiltered)
 
 // CREATE - POST
 router.post('/', addNewData)

@@ -15,10 +15,8 @@
                 </div>
                 <div class="grid grid-cols-4 gap-y-10 my-5" v-if="catalog.length !== 0">
                     <CatalogComponent v-for="(item, index) in catalog" :key="index" class="group" :item="item" />
-
-                    <router-link :to="`/cart?id=${dataFiltered.id}`" v-if="dataFiltered.length !== 0"
+                    <router-link :to="`/cart?id=${dataFiltered.id}`" v-if="dataFiltered"
                         class="fixed w-[40px] h-[40px] p-1 z-10 bg-lime-700 rounded-full bottom-5 right-16">
-                        <CartIcon />
                         <span class="absolute bottom-7 -right-1 text-sm px-1  bg-red-600 text-white rounded-full">{{
                             cartAmount
                         }}</span>
@@ -36,7 +34,6 @@
 
 <script setup>
 import NavbarComponent from '../components/NavbarComponent.vue'
-import CartIcon from '../assets/icon/CartIcon.vue'
 import FooterPage from '../components/FooterPage.vue';
 import SearchBar from '../components/SearchBar.vue';
 import { useUserStore } from '../store/modules/users';
@@ -86,8 +83,10 @@ const selectCategory = (item) => {
     category.forEach((data) => data.status = (data === item))
 }
 watchEffect(async () => {
-    await storeJajanan.getCartByIdUser(dataFiltered.value.id)
-    await storeJajanan.getCartAmount(dataFiltered.value.id)
+    if (dataFiltered.value) {
+        await storeJajanan.getCartByIdUser(dataFiltered.value.id)
+        await storeJajanan.getCartAmount(dataFiltered.value.id)
+    }
 })
 
 </script>

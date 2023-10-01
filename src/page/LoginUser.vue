@@ -67,27 +67,35 @@ const show = ref(false)
 const store = useUserStore()
 
 const handleLogin = () => {
-    const adminAuth = username.value == 'admin' && password.value == 'adminlogin'
+    const adminAuth = username.value === 'admin' && password.value === 'adminlogin';
+    let userAuthenticated = false;
+
     store.dataUser.data.forEach(item => {
-        const userAuth = item.username === username.value && item.password === password.value
-        console.log(userAuth)
-        console.log(item.username)
-        console.log(item.password)
-        if (userAuth) {
-            store.handleLogin(username.value)
-        } else if (adminAuth) {
-            swal('Berhasil Login', {
-                icon: 'success'
-            }).then(() => {
-                router.push({ name: 'admin dashboard' })
-            })
-        } else {
-            swal('Gagal Login', {
-                icon: 'warning'
-            }).then(() => failed.value = true)
+        if (item.username === username.value && item.password === password.value) {
+            userAuthenticated = true;
+            store.handleLogin(item.id)
         }
-    })
-}
+    });
+
+    if (userAuthenticated) {
+        swal('Berhasil Login', {
+            icon: 'success'
+        }).then(() => {
+            router.push({ name: 'content page' });
+        });
+    } else if (adminAuth) {
+        swal('Berhasil Login', {
+            icon: 'success'
+        }).then(() => {
+            router.push({ name: 'admin dashboard' });
+        });
+    } else {
+        swal('Gagal Login', {
+            icon: 'warning'
+        }).then(() => failed.value = true);
+    }
+};
+
 
 onMounted(async () => {
     await store.setDataUser()

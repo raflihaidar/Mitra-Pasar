@@ -3,7 +3,8 @@ import {
   createNewUser,
   updateData,
   updateProfileUser,
-  deleteUser
+  deleteUser,
+  getUserLogged
 } from '../models/users.js'
 import { v4 as uuid } from 'uuid'
 
@@ -18,6 +19,20 @@ export const getAllData = async (req, res) => {
   } catch (error) {
     res.status(500).json({
       message: 'server error',
+      serverMessage: error
+    })
+  }
+}
+
+export const getDataFiltered = async (req, res) => {
+  try {
+    const [[data]] = await getUserLogged()
+    res.status(200).json({
+      data
+    })
+  } catch (error) {
+    res.status(500).json({
+      message: 'Server Error',
       serverMessage: error
     })
   }

@@ -1,6 +1,6 @@
 <template>
     <router-link class="bg-lime-700 w-full py-3 flex justify-around items-center fixed top-0 z-30 shadow-lg"
-        :to="isAuthenticated ? '/user/akun/profil' : ''">
+        :to="dataFiltered ? '/user/akun/profil' : ''">
         <LogoIcon />
         <div class='flex gap-x-2 text-white items-center font-semibold'>
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
@@ -9,7 +9,7 @@
                     clip-rule="evenodd" />
             </svg>
 
-            <p class="text-lg" v-if="isAuthenticated">{{ user }}</p>
+            <p class="text-lg" v-if="dataFiltered">{{ dataFiltered.username }}</p>
             <div v-else class="flex gap-x-2">
                 <router-link to="/sign">Daftar</router-link>
                 <span>|</span>
@@ -20,11 +20,13 @@
 </template>
   
 <script setup>
-import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 import LogoIcon from '../assets/icon/LogoIcon.vue';
 import { useUserStore } from '../store/modules/users';
 
+
 const store = useUserStore()
-const user = computed(() => store.dataFiltered.username)
-const isAuthenticated = store.dataFiltered.length !== 0
+const { dataFiltered } = storeToRefs(store)
+
+
 </script>

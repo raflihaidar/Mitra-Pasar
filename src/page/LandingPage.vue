@@ -6,11 +6,11 @@
                 <router-link aria-label="sign in" to='/sign' class="transition-all" v-show="!isAuthenticated">
                     Daftar
                 </router-link>
-                <div v-if="!isAuthenticated">
+                <div v-show="!isAuthenticated">
                     <router-link to="/login_user" class="relative transition-all pointer"
                         aria-label="login">Login</router-link>
                 </div>
-                <button v-else aria-label="log out">
+                <button v-if="isAuthenticated" aria-label="log out">
                     <p class="relative transition-all" @click="handleLogOut">Log out</p>
                 </button>
             </section>
@@ -31,21 +31,23 @@ import LogoIcon from '../assets/icon/LogoIcon.vue'
 import swal from 'sweetalert'
 import { useUserStore } from '../store/modules/users';
 import { computed } from 'vue';
+import { storeToRefs } from 'pinia';
 const store = useUserStore()
+const { dataFiltered } = storeToRefs(store)
 const isAuthenticated = computed(() => {
-    return store.dataFiltered.length !== 0 ? true : false
+    return dataFiltered.value ? true : false
 })
-const idUser = store.dataFiltered.id
 
 const handleLogOut = () => {
+    const idUser = dataFiltered.value.id
     swal("Apakah Anda Ingin Logout", {
         icon: 'warning',
         buttons: {
             cancel: 'Batal',
             confirm: 'Logout'
         }
-    }).then((confirm) => {
-        if (confirm) store.handleLogOut(idUser)
+    }).then(async (confirm) => {
+        if (confirm) await store.handleLogOut(idUser)
     })
 }
 </script>

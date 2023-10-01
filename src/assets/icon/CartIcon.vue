@@ -1,10 +1,23 @@
 <template>
-    <lord-icon src="https://cdn.lordicon.com/udbbfuld.json" trigger="hover" colors="primary:#fff, secondary:#fff">
-    </lord-icon>
+    <svg-icon type="mdi" :path="path"></svg-icon>
 </template>
-
+  
+  
 <script>
+import SvgIcon from '@jamescoyle/vue-icon';
+import { mdiAccount } from '@mdi/js';
+
 export default {
-    name: "CartIcon"
+    name: "my-cool-component",
+
+    components: {
+        SvgIcon
+    },
+
+    data() {
+        return {
+            path: mdiAccount,
+        }
+    }
 }
 </script>

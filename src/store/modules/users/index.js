@@ -10,7 +10,7 @@ export const useUserStore = defineStore(
   'users',
   () => {
     let dataUser = ref([])
-    const dataFiltered = ref([])
+    let dataFiltered = ref(null)
 
     const setDataUser = async () => {
       try {
@@ -23,19 +23,22 @@ export const useUserStore = defineStore(
       }
     }
 
+    const getUserLogged = async () => {
+      const response = await axios.get('/logged')
+      if (response.data.data) dataFiltered.value = response.data.data
+      else dataFiltered.value = null
+    }
+
     const handleLogin = async (payload) => {
       try {
-        for (const item of dataUser.value.data) {
-          if (item.username === payload) {
-            await axios.put(`/${item.id}`, { isAuthenticated: true })
-            dataFiltered.value = item
-            swal('Berhasil Login', {
-              icon: 'success'
-            }).then(() => {
-              router.push({ name: 'content page' })
-            })
-          }
-        }
+        await axios.put(`/${payload}`, { isAuthenticated: true })
+        await getUserLogged()
+
+        swal('Berhasil Login', {
+          icon: 'success'
+        }).then(() => {
+          router.push({ name: 'content page' })
+        })
       } catch (err) {
         console.error(err)
       }
@@ -58,10 +61,10 @@ export const useUserStore = defineStore(
     const handleLogOut = async (item) => {
       try {
         await axios.put(`${item}`, { isAuthenticated: false })
+        dataFiltered.value = null
       } catch (err) {
         console.log(err.message)
       }
-      dataFiltered.value = []
     }
 
     const editProfileUser = async (item, id) => {
@@ -105,16 +108,16 @@ export const useUserStore = defineStore(
         }
       })
     }
-
     return {
       dataUser,
       dataFiltered,
       setDataUser,
-      deleteDataUser,
-      editProfileUser,
+      getUserLogged,
       handleLogin,
       handleSignUp,
-      handleLogOut
+      handleLogOut,
+      editProfileUser,
+      deleteDataUser
     }
   },
   {
