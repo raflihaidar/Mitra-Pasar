@@ -4,6 +4,7 @@ export const getData = (id) => {
   const SQLquery = `SELECT p.product_name, 
                            p.image,
                            p.id,
+                           ci.isChecked,
                            ci.total,
                            ci.id_cart,
                            ci.quantity
@@ -59,24 +60,28 @@ export const updateData = (body) => {
   return dbPool.execute(cartItemQuery)
 }
 
-export const updateQuantity = (id_cart, id_product) => {
+export const updateCheckedStatus = (id_cart, id_product) => {
   const cartItemQuery = `UPDATE cart_item
-                      SET quantity = quantity - 1
-                      WHERE id_cart = ${id_cart} AND id_product = ${id_product}`
+                          SET isChecked = CASE
+                            WHEN isChecked = 0  THEN 1
+                            ELSE 0
+                          END
+                          WHERE id_cart = ${id_cart} AND id_product = ${id_product}`
+  return dbPool.execute(cartItemQuery)
+}
+
+export const updateItem = (id_cart, id_product) => {
+  const cartItemQuery = `UPDATE cart_item AS ci
+                          JOIN products AS p ON (ci.id_product = p.id)
+                          JOIN cart AS c ON (ci.id_cart = c.id)
+                          SET ci.quantity = ci.quantity - 1,
+                            p.stock = p.stock + 1,
+                            ci.total = ci.total - p.price
+                          WHERE ci.id_cart = ${id_cart} AND ci.id_product = ${id_product}`
   return dbPool.execute(cartItemQuery)
 }
 
 export const deleteAllData = (id_cart, id_product) => {
   const cartItemQuery = `DELETE FROM cart_item WHERE id_product = ${id_product} AND id_cart = ${id_cart}`
-  return dbPool.execute(cartItemQuery)
-}
-
-export const deleteData = (id_cart, id_product) => {
-  const cartItemQuery = `DELETE FROM cart_item 
-                            AND 
-                            id_cart = ${id_cart}
-                            AND 
-                            id_product = ${id_product}`
-
   return dbPool.execute(cartItemQuery)
 }

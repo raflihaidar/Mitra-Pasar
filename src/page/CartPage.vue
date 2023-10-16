@@ -16,7 +16,7 @@
                 <tr v-for=" (item, index) in cart" :key="index"
                     class="text-sm font-semibold bg-lime-200 bg-opacity-25 text-center border-b-2">
                     <td class="align-middle">
-                        <input type="checkbox" :checked="item.status" :name="item.product_name" :v-model="item.status"
+                        <input type="checkbox" :checked="item.isChecked" :name="item.product_name" :v-model="item.status"
                             @click="setStatus(index)">
                     </td>
                     <td>
@@ -43,8 +43,7 @@
                 <p class="font-bold text-lg">Rp.{{ Total }}</p>
             </div>
             <div v-if="Total > 0" class="text-white text center px-5 py-3 whitespace-nowrap" @click="handleCheckOut">
-                <button class="bg-lime-600 px-2 py-1 text-cente rounded-md" aria-label="checkout cart item">Check
-                    Out</button>
+                <button class="bg-lime-600 px-2 py-1 text-cente rounded-md" aria-label="checkout cart item">Beli</button>
             </div>
         </div>
     </div>
@@ -52,7 +51,7 @@
     <div v-else
         class="absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 bg-red-600 w-[60%] text-white text-3xl font-bold py-10 text-center mt-5">
         <div class="">
-            <h3>Tidak Ada Produk Disini</h3>
+            <h3>Tidak Ada Produk storeTotal</h3>
         </div>
     </div>
 </template>
@@ -88,4 +87,5 @@ const setStatus = (index) => {
 watchEffect(() => {
     store.getCartByIdUser(router.query.id)
 })
+
 </script>

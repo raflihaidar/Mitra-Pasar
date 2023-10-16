@@ -3,10 +3,10 @@ import {
   getTotalData,
   createData,
   deleteAllData,
-  deleteData,
   getData,
   updateData,
-  updateQuantity
+  updateCheckedStatus,
+  updateItem
 } from '../models/cart.js'
 
 export const getCart = async (req, res) => {
@@ -83,13 +83,31 @@ export const updateCart = async (req, res) => {
   }
 }
 
-export const updateItemQuantity = async (req, res) => {
+export const updateCheckBox = async (req, res) => {
+  const { id_cart, id_product } = req.params
+  try {
+    await updateCheckedStatus(id_cart, id_product)
+    res.json({
+      message: 'update checkbox success'
+    })
+  } catch (error) {
+    res.status(404).json({
+      id_cart,
+      id_product,
+      message: 'Server error',
+      serverMessage: error
+    })
+  }
+}
+
+export const updateCartItem = async (req, res) => {
   const { id_cart, id_product } = req.params
   const { quantity } = req.body
   try {
-    await updateQuantity(id_cart, id_product, quantity)
+    const [data] = await updateItem(id_cart, id_product, quantity)
     res.json({
-      message: 'Update  quantity success'
+      message: 'Update  quantity success',
+      data
     })
   } catch (error) {
     console.log(error)
@@ -111,17 +129,5 @@ export const deleteAllCartItem = async (req, res) => {
     res.status(500).json({
       message: 'ERROR'
     })
-  }
-}
-
-export const deleteCartItem = async (req, res) => {
-  const { id_cart, id_product } = req.params
-  try {
-    await deleteData(id_cart, id_product)
-    res.status(200).json({
-      message: 'delete cart item success'
-    })
-  } catch (error) {
-    res.status(500)
   }
 }

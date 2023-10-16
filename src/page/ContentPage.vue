@@ -19,9 +19,10 @@
                         class="fixed w-[40px] h-[40px] p-1 z-10 bg-lime-700 rounded-full bottom-5 right-16">
                         <span class="absolute bottom-7 -right-1 text-sm px-1  bg-red-600 text-white rounded-full">{{
                             cartAmount
-                        }}</span>
+                        }}
+                        </span>
+                        <CartIcon class="text-xl mx-auto my-2" />
                     </router-link>
-
                 </div>
                 <div v-else class="bg-red-600 w-[60%] mx-auto text-white text-3xl font-bold py-10 text-center mt-5">
                     <p>Produk Belum Tersedia</p>
@@ -36,6 +37,7 @@
 import NavbarComponent from '../components/NavbarComponent.vue'
 import FooterPage from '../components/FooterPage.vue';
 import SearchBar from '../components/SearchBar.vue';
+import CartIcon from '../assets/icon/CartIcon.vue';
 import { useUserStore } from '../store/modules/users';
 import { useJajananStore } from '../store/modules/products';
 import { defineAsyncComponent, reactive, watchEffect } from 'vue';
