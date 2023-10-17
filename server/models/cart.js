@@ -23,6 +23,18 @@ export const getTotalData = (id) => {
   return dbPool.execute(cartItemQuery)
 }
 
+export const selectedData = (id_cart) => {
+  const cartItemQuery = `SELECT ci.id_product, 
+                          ci.quantity, 
+                          ci.total, 
+                          p.product_name,  
+                          p.image, 
+                          p.price FROM cart_item AS ci 
+                          JOIN products AS p ON (ci.id_product = p.id)
+                          WHERE ci.isChecked = 1 AND ci.id_cart = ${id_cart}`
+  return dbPool.execute(cartItemQuery)
+}
+
 export const createData = (id) => {
   const cartQuery = `INSERT INTO mitrapasar_db.cart (
                       id_user

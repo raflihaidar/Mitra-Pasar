@@ -35,10 +35,10 @@ import CloseIcon from '../assets/icon/CloseIcon.vue'
 import SearchIcon from '../assets/icon/SearchIcon.vue'
 import { ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useJajananStore } from '../store/modules/products';
+import { useProductStore } from '../store/products';
 
-const storeJajanan = useJajananStore()
-const { catalog } = storeToRefs(storeJajanan)
+const productStore = useProductStore()
+const { catalog } = storeToRefs(productStore)
 const filteredData = ref([])
 const wordEntered = ref('')
 

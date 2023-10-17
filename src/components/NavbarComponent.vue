@@ -1,5 +1,5 @@
 <template>
-    <router-link class="bg-lime-700 w-full py-3 flex justify-around items-center fixed top-0 z-30 shadow-lg"
+    <router-link class="bg-lime-700 w-full  py-3 flex justify-around items-center fixed top-0 z-30 shadow-lg"
         :to="dataFiltered ? '/user/akun/profil' : ''">
         <LogoIcon />
         <div class='flex gap-x-2 text-white items-center font-semibold'>
@@ -22,11 +22,10 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import LogoIcon from '../assets/icon/LogoIcon.vue';
-import { useUserStore } from '../store/modules/users';
+import { useUserStore } from '../store/users';
 
-
-const store = useUserStore()
-const { dataFiltered } = storeToRefs(store)
+const userStore = useUserStore()
+const { dataFiltered } = storeToRefs(userStore)
 
 
 </script>

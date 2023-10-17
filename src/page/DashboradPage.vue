@@ -76,7 +76,7 @@
           <section class="flex justify-end gap-x-5">
             <button aria-label="cancel" class="bg-blue-300 rounded-md px-3 py-2" @click="cancelButton">Batal</button>
             <button aria-label="save" class="bg-green-600 rounded-md px-3 py-2"
-              @click="saveNewData(modalContent.id)">Simpan</button>
+              @click="saveNewData(modalContent)">Simpan</button>
           </section>
         </div>
       </div>
@@ -85,16 +85,16 @@
 </template>
 
 <script setup>
-import { useJajananStore } from '../store/modules/products';
+import { useProductStore } from '../store/products';
 import EditIconVue from '../assets/icon/EditIcon.vue'
 import DeleteIcon from '../assets/icon/DeleteIcon.vue';
 import { reactive, ref, } from 'vue';
 import { storeToRefs } from 'pinia';
-import axios from 'axios';
 
 const modalDelete = ref(false);
 const modalModify = ref(false);
-const store = useJajananStore()
+const productStore = useProductStore()
+
 let modalContent = reactive({
   id: 0,
   product_name: '',
@@ -104,10 +104,10 @@ let modalContent = reactive({
   image: ''
 })
 
-const { catalog, category } = storeToRefs(store)
+const { catalog, category } = storeToRefs(productStore)
 
 const deleteData = (item) => {
-  store.deleteData(item)
+  productStore.deleteData(item)
   modalDelete.value = false;
 }
 
@@ -115,16 +115,10 @@ const uploadImage = (e) => {
   modalContent.image = e.target.files[0]
 }
 
-const saveNewData = async (id) => {
+const saveNewData = async (payload) => {
   try {
     modalModify.value = false
-    await axios.put(`http://localhost:8000/products/${id}`,
-      modalContent,
-      {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
+    await productStore.updateProduct(payload)
   } catch (error) {
     console.log(error)
   }

@@ -8,7 +8,7 @@
             <div class="text-left font-semibold py-2 px-3">
                 <p class="text-sm" v-if="item.product_name.length > 20">{{ truncatedText }}</p>
                 <p class="text-sm" v-else>{{ item.product_name }}</p>
-                <p>Rp.{{ item.price }}</p>
+                <p>Rp{{ productStore.getPriceProduct(item.price) }}</p>
             </div>
         </div>
         <div class="flex justify-between items-center w-full px-2 py-3 mt-5 z-20">
@@ -35,12 +35,12 @@
 
 <script setup>
 import FavoriteIcon from '../assets/icon/favoriteIcon.vue';
-import { useJajananStore } from '../store/modules/products';
-import { useUserStore } from '../store/modules/users';
+import { useProductStore } from '../store/products';
+import { useUserStore } from '../store/users';
 import { storeToRefs } from 'pinia';
 import { toRefs, ref } from 'vue';
 
-const storeJajanan = useJajananStore()
+const productStore = useProductStore()
 const userStore = useUserStore()
 const { dataFiltered } = storeToRefs(userStore)
 const props = defineProps({
@@ -53,16 +53,11 @@ let productName = item.value.product_name
 truncatedText.value = productName.substring(0, maxLength) + "...";
 
 const addToCart = async (item) => {
-    await storeJajanan.addToCart(item, dataFiltered.value.id_cart)
-    await storeJajanan.getCartAmount(dataFiltered.value.id)
-    await storeJajanan.getCartByIdUser(dataFiltered.value.id)
+    await productStore.addToCart(item, dataFiltered.value)
 }
 
 const likeButton = (event) => {
-    if (event.target.style.color != 'gold') {
-        event.target.style.color = 'gold'
-    } else {
-        event.target.style.color = ''
-    }
+    if (event.target.style.color != 'gold') event.target.style.color = 'gold'
+    else event.target.style.color = ''
 }
 </script>

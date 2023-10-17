@@ -3,10 +3,10 @@
 </template>
 
 <script setup>
-import { useJajananStore } from './store/modules/products'
-import { useUserStore } from './store/modules/users'
-const store = useJajananStore()
+import { useProductStore } from './store/products'
+import { useUserStore } from './store/users'
+const productStore = useProductStore()
 const usersStore = useUserStore()
-store.setCatalog("products")
+productStore.setCatalog("products")
 usersStore.setDataUser()
 </script>

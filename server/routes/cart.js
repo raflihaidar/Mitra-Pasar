@@ -7,13 +7,15 @@ import {
   createCart,
   getTotalQuantity,
   updateCartItem,
-  updateCheckBox
+  updateCheckBox,
+  selectedItem
 } from '../controller/cart.js'
 
 export const router = express.Router()
 
 router.get('/', getCart)
 router.get('/totalData', getTotalQuantity)
+router.get('/shipment', selectedItem)
 router.post('/', addToCart)
 router.patch('/', updateCart)
 router.patch('/isChecked/:id_cart&:id_product', updateCheckBox)

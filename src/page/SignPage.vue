@@ -51,7 +51,7 @@
 
 <script setup>
 import LogoIcon from '../assets/icon/LogoIcon.vue';
-import { useUserStore } from '../store/modules/users';
+import { useUserStore } from '../store/users';
 import EyeIcon from "../assets/icon/EyeIcon.vue"
 import { ref } from 'vue';
 

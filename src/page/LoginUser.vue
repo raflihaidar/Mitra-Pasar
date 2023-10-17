@@ -57,7 +57,7 @@ import swal from 'sweetalert'
 import { onMounted, ref } from "vue"
 import LogoIcon from '../assets/icon/LogoIcon.vue'
 import EyeIcon from "../assets/icon/EyeIcon.vue"
-import { useUserStore } from '../store/modules/users';
+import { useUserStore } from '../store/users';
 import router from '../router';
 
 const username = ref("")

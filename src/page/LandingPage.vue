@@ -29,7 +29,7 @@
 <script setup>
 import LogoIcon from '../assets/icon/LogoIcon.vue'
 import swal from 'sweetalert'
-import { useUserStore } from '../store/modules/users';
+import { useUserStore } from '../store/users';
 import { computed } from 'vue';
 import { storeToRefs } from 'pinia';
 const store = useUserStore()

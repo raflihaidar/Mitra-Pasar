@@ -37,9 +37,9 @@
 <script setup>
 import { storeToRefs } from 'pinia';
 import NavbarComponent from '../components/NavbarComponent.vue';
-import { useJajananStore } from '../store/modules/products';
+import { useProductStore } from '../store/products';
 
-const store = useJajananStore()
+const productStore = useProductStore()
 
-const { category } = storeToRefs(store)
+const { category } = storeToRefs(productStore)
 </script>

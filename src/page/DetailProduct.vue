@@ -54,19 +54,19 @@ import FavoriteIcon from '../assets/icon/favoriteIcon.vue';
 import FooterPage from '../components/FooterPage.vue'
 import NavbarComponent from '../components/NavbarComponent.vue'
 import router from '../router';
-import { useJajananStore } from '../store/modules/products';
+import { useProductStore } from '../store/products';
 import swal from 'sweetalert';
 import Swal from 'sweetalert2';
 import { ref, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
-import { useUserStore } from '../store/modules/users';
+import { useUserStore } from '../store/users';
 import { useRoute } from 'vue-router';
 
-const storeJajanan = useJajananStore()
+const productStore = useProductStore()
 const storeUsers = useUserStore()
 const productId = useRoute()
 
-const { catalog } = storeToRefs(storeJajanan)
+const { catalog } = storeToRefs(productStore)
 
 
 let product = ref([])
@@ -86,7 +86,7 @@ const getDetailProduct = async () => {
 const addToCart = (item) => {
     let data = catalog.find((p) => p.id === item.id)
     if (data.stock !== 0 && isAuthenticated) {
-        storeJajanan.addToCart(item)
+        productStore.addToCart(item)
         Swal.fire({
             position: 'top-end',
             icon: 'success',
@@ -121,8 +121,8 @@ const likeButton = (event) => {
 const buyNow = (item) => {
     let data = this.catalog.find((p) => p.id === item.id)
     if (data.stock !== 0) {
-        storeJajanan.handleBuy(item)
-        storeJajanan.checkOut()
+        productStore.handleBuy(item)
+        productStore.checkOut()
     } else {
         swal('Mohon Maaf, Stock Habis', {
             icon: 'info'

@@ -78,7 +78,7 @@
 </template>
 
 <script setup>
-import { useJajananStore } from '../store/modules/jajanan_pasar';
+import { useProductStore } from '../store/jajanan_pasar';
 import EditIconVue from '../assets/icon/EditIcon.vue'
 import DeleteIcon from '../assets/icon/DeleteIcon.vue';
 import { reactive, ref, watchEffect } from 'vue';
@@ -87,7 +87,7 @@ import axios from 'axios';
 
 const modalDelete = ref(false);
 const modalModify = ref(false);
-const store = useJajananStore()
+const productStore = useProductStore()
 let modalContent = reactive({
   id: 0,
   product_name: '',
@@ -97,17 +97,17 @@ let modalContent = reactive({
   img: ''
 })
 
-const { catalog } = storeToRefs(store)
+const { catalog } = storeToRefs(productStore)
 
 const deleteData = (item) => {
-  store.deleteData(item)
+  productStore.deleteData(item)
   modalDelete.value = false;
 }
 
 const saveNewData = async (id) => {
   await axios.put(`http://localhost:8000/jajanan_pasar/${id}`, modalContent).then(() => {
     modalModify.value = false
-    store.setCatalog("jajanan_pasar")
+    productStore.setCatalog("jajanan_pasar")
   })
 }
 
@@ -122,6 +122,6 @@ const activyActive = (item) => {
 }
 
 watchEffect(() => {
-  store.setCatalog("jajanan_pasar")
+  productStore.setCatalog("jajanan_pasar")
 })
 </script>

@@ -37,13 +37,14 @@
             </tbody>
         </table>
         <div v-if="Total > 0"
-            class="w-[80%] flex left-[10%] fixed justify-between items-center bottom-0 text-sm text-center font-semibold bg-lime-200  px-5">
+            class="w-[80%] flex left-[10%] rounded-lg fixed justify-between items-center bottom-0 text-sm text-center font-semibold bg-lime-200  px-5">
             <div class="flex">
                 <p class="font-bold text-lg">Total : </p>
                 <p class="font-bold text-lg">Rp.{{ Total }}</p>
             </div>
-            <div v-if="Total > 0" class="text-white text center px-5 py-3 whitespace-nowrap" @click="handleCheckOut">
-                <button class="bg-lime-600 px-2 py-1 text-cente rounded-md" aria-label="checkout cart item">Beli</button>
+            <div class="text-white text center px-5 py-7 whitespace-nowrap">
+                <router-link to="cart/shipment" class="bg-lime-600 px-10 py-2 text-cente rounded-md"
+                    aria-label="checkout cart item">Beli</router-link>
             </div>
         </div>
     </div>
@@ -59,33 +60,30 @@
 <script setup>
 import NavbarComponent from '../components/NavbarComponent.vue';
 import { reactive, watchEffect } from 'vue';
-import { useJajananStore } from '../store/modules/products';
+import { useProductStore } from '../store/products';
 import { storeToRefs } from 'pinia';
 import { useRoute } from 'vue-router';
 
-const store = useJajananStore()
-const { cart, Total } = storeToRefs(store)
+const productStore = useProductStore()
+const { cart, Total } = storeToRefs(productStore)
 const selectedValues = reactive([])
 
 const removeItem = async (index, item) => {
-    store.removeItem(index, item)
+    productStore.removeItem(index, item)
 }
 
 const clearAll = (item) => {
     selectedValues.fill(0)
-    store.clearCart(item)
+    productStore.clearCart(item)
 }
 
 const router = useRoute()
 
-const handleCheckOut = () => {
-    store.checkOut()
-}
 const setStatus = (index) => {
-    store.handleStatus(index)
+    productStore.handleStatus(index)
 }
 watchEffect(() => {
-    store.getCartByIdUser(router.query.id)
+    productStore.getCartByIdUser(router.query.id)
 })
 
 </script>

@@ -38,17 +38,17 @@ import NavbarComponent from '../components/NavbarComponent.vue'
 import FooterPage from '../components/FooterPage.vue';
 import SearchBar from '../components/SearchBar.vue';
 import CartIcon from '../assets/icon/CartIcon.vue';
-import { useUserStore } from '../store/modules/users';
-import { useJajananStore } from '../store/modules/products';
+import { useUserStore } from '../store/users';
+import { useProductStore } from '../store/products';
 import { defineAsyncComponent, reactive, watchEffect } from 'vue';
 import { storeToRefs } from 'pinia';
 
 const CatalogComponent = defineAsyncComponent({
     loader: () => import('../components/CatalogComponent.vue' /* webpackChunkName: "productComponent" */),
 })
-const storeJajanan = useJajananStore()
+const productStore = useProductStore()
 const storeUsers = useUserStore()
-const { catalog, cartAmount } = storeToRefs(storeJajanan)
+const { catalog, cartAmount } = storeToRefs(productStore)
 const { dataFiltered } = storeToRefs(storeUsers)
 const category = reactive([
     {
@@ -79,15 +79,15 @@ const category = reactive([
 ],)
 
 const selectCategory = (item) => {
-    if (item.name === "Semua Produk") storeJajanan.setCatalog(item.url)
-    else storeJajanan.setCatalogByCategory(item.url)
+    if (item.name === "Semua Produk") productStore.setCatalog(item.url)
+    else productStore.setCatalogByCategory(item.url)
 
     category.forEach((data) => data.status = (data === item))
 }
 watchEffect(async () => {
     if (dataFiltered.value) {
-        await storeJajanan.getCartByIdUser(dataFiltered.value.id)
-        await storeJajanan.getCartAmount(dataFiltered.value.id)
+        await productStore.getCartByIdUser(dataFiltered.value.id)
+        await productStore.getCartAmount(dataFiltered.value.id)
     }
 })
 

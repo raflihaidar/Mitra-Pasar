@@ -6,7 +6,8 @@ import {
   getData,
   updateData,
   updateCheckedStatus,
-  updateItem
+  updateItem,
+  selectedData
 } from '../models/cart.js'
 
 export const getCart = async (req, res) => {
@@ -74,6 +75,26 @@ export const updateCart = async (req, res) => {
     res.json({
       message: 'Update data success'
     })
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({
+      message: 'server error',
+      serverMessage: error
+    })
+  }
+}
+
+export const selectedItem = async (req, res) => {
+  const { id_cart } = req.query
+  try {
+    const [data] = await selectedData(id_cart)
+    res
+      .json({
+        message: 'Get selected data success',
+        data,
+        id_cart
+      })
+      .status(200)
   } catch (error) {
     console.log(error)
     res.status(500).json({

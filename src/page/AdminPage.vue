@@ -53,24 +53,24 @@
 </template>
 
 <script setup>
-import { useJajananStore } from '../store/modules/products';
-import { useUserStore } from '../store/modules/users';
+import { useProductStore } from '../store/products';
+import { useUserStore } from '../store/users';
 import { storeToRefs } from 'pinia';
 import LogoIcon from '../assets/icon/LogoIcon.vue';
 import { ref, watch } from 'vue';
 import router from '../router';
 
-const jajananStore = useJajananStore()
+const productStore = useProductStore()
 const userStore = useUserStore()
 const { dataUser } = storeToRefs(userStore)
-const { catalog } = storeToRefs(jajananStore)
+const { catalog } = storeToRefs(productStore)
 const sideBar = ref(true);
 
 router.push({ name: "dashboard" })
 
 watch(catalog, () => {
-    jajananStore.setCatalog("products")
-    jajananStore.setCategory()
+    productStore.setCatalog("products")
+    productStore.setCategory()
 })
 </script>
 

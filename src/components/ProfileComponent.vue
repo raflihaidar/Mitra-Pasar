@@ -77,13 +77,13 @@
 </template>
 
 <script setup>
-import { useUserStore } from '../store/modules/users';
+import { useUserStore } from '../store/users';
 import EditIcon from '../assets/icon/EditIcon.vue';
 import SaveIcon from "../assets/icon/SaveIcon.vue"
 import { ref, watchEffect } from 'vue';
 import { storeToRefs } from 'pinia';
-const store = useUserStore()
-const { dataFiltered } = storeToRefs(store)
+const userStore = useUserStore()
+const { dataFiltered } = storeToRefs(userStore)
 const editStatus = ref(true)
 
 const payload = ref({})
@@ -94,7 +94,7 @@ const uploadImage = (e) => {
 }
 
 const handleSave = async () => {
-    await store.editProfileUser(payload.value, payload.value.id)
+    await userStore.editProfileUser(payload.value, payload.value.id)
     editStatus.value = true
 }
 

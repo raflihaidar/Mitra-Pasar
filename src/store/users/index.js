@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 import axios from 'axios'
 import { ref } from 'vue'
 import swal from 'sweetalert'
-import router from '../../../router/index'
+import router from '../../router/index'
 
 axios.defaults.baseURL = 'http://localhost:8000/users'
 

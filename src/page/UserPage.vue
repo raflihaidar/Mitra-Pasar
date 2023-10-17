@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { useUserStore } from '../store/modules/users';
+import { useUserStore } from '../store/users';
 import DeleteIcon from '../assets/icon/DeleteIcon.vue';
 import { ref, watchEffect } from 'vue';
 import { storeToRefs } from 'pinia';
