@@ -1,9 +1,10 @@
 <template>
   <div>
 
-    <p class="text-3xl text-center font-semibold text-black">Overall Sale</p>
+    <p class="text-3xl text-center font-semibold text-black">All Products</p>
     <router-link to="/admin/new_data">
-      <button class="bg-lime-500 px-2 py-2 text-sm rounded-md text-white font-semibold my-2">Tambah Data</button>
+      <button aria-label="add product"
+        class="bg-lime-500 px-2 py-2 text-sm rounded-md text-white font-semibold my-2">Tambah Data</button>
     </router-link>
 
     <table class="border-2 border-lime-700  w-full mb-10">
@@ -16,7 +17,7 @@
           <th class="px-5 py-3">Aksi</th>
         </tr>
       </thead>
-      <tbody v-for="(item, index) in catalog.data" :key="index" class="border-2 border-lime-700 relative mx-auto">
+      <tbody v-for="(item, index) in catalog" :key="index" class="border-2 border-lime-700 relative mx-auto">
         <tr
           class="text-sm font-semibold bg-lime-200 bg-opacity-25 w-screen text-left hover:bg-lime-100 transition-colors">
           <td class="px-5 py-3 whitespace-nowrap">{{ index + 1 }}</td>
@@ -42,34 +43,40 @@
           class="bg-white w-2/5 px-10 py-5 absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 opacity-100 font-semibold border-4 border-lime-600 rounded-xl">
           <section class="flex flex-col gap-y-1 mb-5">
             <label>Nama Produk</label>
-            <input type="text" class="border-2 border-lime-600 px-2 py-2 rounded-lg outline-none"
+            <input type="text" name="product_name" class="border-2 border-lime-600 px-2 py-2 rounded-lg outline-none"
               v-model="modalContent.product_name">
           </section>
           <section class="flex flex-col gap-y-1 mb-5">
             <label>Stok</label>
-            <input type="text" class="border-2 border-lime-600 px-2 py-2 rounded-lg outline-none"
+            <input type="text" name="stock" class="border-2 border-lime-600 px-2 py-2 rounded-lg outline-none"
               v-model="modalContent.stock">
           </section>
           <section class="flex flex-col mb-5">
             <label>Harga</label>
-            <input type="text" class="border-2 border-lime-600 px-2 py-2 rounded-lg outline-none"
+            <input type="text" name="price" class="border-2 border-lime-600 px-2 py-2 rounded-lg outline-none"
               v-model="modalContent.price">
+          </section>
+          <section class="flex flex-col mb-5 w-2/5">
+            <label>Category</label>
+            <select name="category" class="border-lime-600 px-2 py-2 rounded-lg outline-none"
+              v-model="modalContent.id_category">
+              <option :value="item.id" v-for="(item, index) in category" :key="index">{{ item.name }}</option>
+            </select>
           </section>
           <section class="flex flex-col mb-5">
             <label>Url Gambar</label>
-            <input type="text" v-model="modalContent.img"
-              class="border-2 border-lime-600 px-2 py-2 rounded-lg outline-none">
+            <input type="file" name="image" @change="uploadImage($event)">
           </section>
           <section class="flex flex-col mb-5">
             <label>Deskripsi</label>
-            <textarea name="" id="" cols="25" rows="8"
+            <textarea name="description" id="" cols="25" rows="8"
               class="border-2 border-lime-600 px-2 py-2 rounded-lg resize-none outline-none"
               v-model="modalContent.description"></textarea>
           </section>
           <section class="flex justify-end gap-x-5">
             <button aria-label="cancel" class="bg-blue-300 rounded-md px-3 py-2" @click="cancelButton">Batal</button>
             <button aria-label="save" class="bg-green-600 rounded-md px-3 py-2"
-              @click="saveNewData(modalContent.id)">Simpan</button>
+              @click="saveNewData(modalContent)">Simpan</button>
           </section>
         </div>
       </div>
@@ -78,37 +85,43 @@
 </template>
 
 <script setup>
-import { useProductStore } from '../store/jajanan_pasar';
+import { useProductStore } from '../store/products';
 import EditIconVue from '../assets/icon/EditIcon.vue'
 import DeleteIcon from '../assets/icon/DeleteIcon.vue';
-import { reactive, ref, watchEffect } from 'vue';
+import { reactive, ref, } from 'vue';
 import { storeToRefs } from 'pinia';
-import axios from 'axios';
 
 const modalDelete = ref(false);
 const modalModify = ref(false);
 const productStore = useProductStore()
+
 let modalContent = reactive({
   id: 0,
   product_name: '',
   stock: 0,
   description: '',
   price: 0,
-  img: ''
+  image: ''
 })
 
-const { catalog } = storeToRefs(productStore)
+const { catalog, category } = storeToRefs(productStore)
 
 const deleteData = (item) => {
   productStore.deleteData(item)
   modalDelete.value = false;
 }
 
-const saveNewData = async (id) => {
-  await axios.put(`http://localhost:8000/jajanan_pasar/${id}`, modalContent).then(() => {
+const uploadImage = (e) => {
+  modalContent.image = e.target.files[0]
+}
+
+const saveNewData = async (payload) => {
+  try {
     modalModify.value = false
-    productStore.setCatalog("jajanan_pasar")
-  })
+    await productStore.updateProduct(payload)
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 const cancelButton = () => {
@@ -120,8 +133,4 @@ const activyActive = (item) => {
   modalModify.value = true
   Object.assign(modalContent, item)
 }
-
-watchEffect(() => {
-  productStore.setCatalog("jajanan_pasar")
-})
 </script>

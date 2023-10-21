@@ -1,6 +1,6 @@
 <template>
-    <div class="relative w-full font-openSans">
-        <div class="w-full flex items-center gap-x-4 bg-lime-600 py-5 text-white font-bold pl-16">
+    <main class="relative w-full font-openSans">
+        <div class="flex items-center gap-x-4 bg-lime-600 py-5 text-white font-bold pl-16 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                 class="w-8 h-8" @click="sideBar = !sideBar">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
@@ -9,47 +9,34 @@
         </div>
 
         <div class="absolute z-10 w-[250px] h-screen bg-lime-500 text-center text-white font-semibold"
-            :class="sideBar ? '-translate-x-[250px]' : ''">
+            :class="sideBar ? '-translate-x-[250px] transition-all' : 'transition-all'">
             <div class="py-5 px-2 cursor-pointer" @click="$router.push({ name: 'dashboard' })">
-                <p>Dashboard</p>
+                <p>Products</p>
             </div>
             <div class="py-5 cursor-pointer" @click="$router.push({ name: 'user' })">
-                <p>Manage Users</p>
-            </div>
-            <div class="py-5 cursor-pointer">
-                <p>Customer</p>
-            </div>
-            <div class="py-5 cursor-pointer">
-                <p>Transfer</p>
-            </div>
-            <div class="py-5 cursor-pointer">
-                <p>Settings</p>
+                <p>Users</p>
             </div>
         </div>
 
-        <div class="w-[80%] mx-auto my-10 flex justify-between text-white">
-            <div class="w-1/5 flex flex-col px-3 py-6 rounded-lg shadow-xl bg-lime-600">
-                <p class="font-semibold">Overall Sale</p>
-                <p>{{ catalog.length }}</p>
-            </div>
-            <div class="w-1/5 flex flex-col  bg-lime-600 px-3 py-6 rounded-lg">
-                <p>Overall User</p>
-                <p>{{ dataUser.data.length }}</p>
-            </div>
-            <div class=" w-1/5 flex flex-col  bg-lime-600 px-3 py-6 rounded-lg">
-                <p>Overall Growth</p>
-                <p>605</p>
-            </div>
-            <div class=" w-1/5 flex flex-col bg-lime-600 px-3 py-6 rounded-lg">
-                <p>Overall Profit</p>
-                <p>6,275</p>
-            </div>
-        </div>
+        <section class="w-[80%] transition-all mx-auto" :class="sideBar ? 'translate-x-0' : 'translate-x-32'">
 
-        <div class="w-[80%] mx-auto bg-gray-100 p-7" id="content">
-            <router-view></router-view>
-        </div>
-    </div>
+            <div class="w-[90%] mx-auto my-10 flex gap-x-5 text-white">
+                <div class="w-1/5 flex flex-col px-3 py-6 rounded-lg shadow-xl bg-lime-600">
+                    <p class="font-semibold">All Products</p>
+                    <p>{{ catalog.length }}</p>
+                </div>
+                <div class="w-1/5 flex flex-col  bg-lime-600 px-3 py-6 rounded-lg">
+                    <p>All Users</p>
+                    <p>{{ dataUser.data.length }}</p>
+                </div>
+            </div>
+
+            <div class="w-[90%] mx-auto bg-gray-100 p-7" id="content">
+                <router-view></router-view>
+            </div>
+        </section>
+
+    </main>
 </template>
 
 <script setup>

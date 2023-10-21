@@ -26,7 +26,7 @@
                     </td>
                     <td class="px-5 py-3 whitespace-nowrap">{{ item.product_name }}</td>
                     <td class="px-5 py-3 whitespace-nowrap">{{ item.quantity }}</td>
-                    <td class="px-5 py-3 whitespace-nowrap">Rp.{{ item.total }}</td>
+                    <td class="px-5 py-3 whitespace-nowrap">Rp.{{ item.total.toLocaleString('id-ID') }}</td>
                     <td class="text-white text center px-5 py-3 whitespace-nowrap">
                         <button aria-label="delete cart item" class="bg-red-500 py-1 px-2 mr-3 rounded-md"
                             @click="removeItem(index, item)">Delete</button>
@@ -36,7 +36,7 @@
                 </tr>
             </tbody>
         </table>
-        <div v-if="Total > 0"
+        <div v-if="Total"
             class="w-[80%] flex left-[10%] rounded-lg fixed justify-between items-center bottom-0 text-sm text-center font-semibold bg-lime-200  px-5">
             <div class="flex">
                 <p class="font-bold text-lg">Total : </p>
@@ -60,30 +60,29 @@
 <script setup>
 import NavbarComponent from '../components/NavbarComponent.vue';
 import { reactive, watchEffect } from 'vue';
-import { useProductStore } from '../store/products';
 import { storeToRefs } from 'pinia';
 import { useRoute } from 'vue-router';
+import { useCartStore } from '../store/cart';
 
-const productStore = useProductStore()
-const { cart, Total } = storeToRefs(productStore)
+const router = useRoute()
+const cartStore = useCartStore();
+const { cart, Total } = storeToRefs(cartStore)
 const selectedValues = reactive([])
 
 const removeItem = async (index, item) => {
-    productStore.removeItem(index, item)
+    cartStore.removeItem(index, item)
 }
 
 const clearAll = (item) => {
     selectedValues.fill(0)
-    productStore.clearCart(item)
+    cartStore.clearCart(item)
 }
-
-const router = useRoute()
 
 const setStatus = (index) => {
-    productStore.handleStatus(index)
+    cartStore.handleStatus(index)
 }
 watchEffect(() => {
-    productStore.getCartByIdUser(router.query.id)
+    cartStore.getCartByIdUser(router.query.id)
 })
 
 </script>

@@ -39,8 +39,10 @@ import { useProductStore } from '../store/products';
 import { useUserStore } from '../store/users';
 import { storeToRefs } from 'pinia';
 import { toRefs, ref } from 'vue';
+import { useCartStore } from '../store/cart';
 
 const productStore = useProductStore()
+const cartStore = useCartStore()
 const userStore = useUserStore()
 const { dataFiltered } = storeToRefs(userStore)
 const props = defineProps({
@@ -53,7 +55,7 @@ let productName = item.value.product_name
 truncatedText.value = productName.substring(0, maxLength) + "...";
 
 const addToCart = async (item) => {
-    await productStore.addToCart(item, dataFiltered.value)
+    await cartStore.addToCart(item, dataFiltered.value)
 }
 
 const likeButton = (event) => {

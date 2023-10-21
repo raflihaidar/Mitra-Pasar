@@ -37,7 +37,7 @@
               <span>
                 <p>{{ item.product_name }}</p>
                 <p>{{ item.quantity }} barang</p>
-                <p class="font-semibold">Rp{{ item.total }}</p>
+                <p class="font-semibold">Rp{{ item.total.toLocaleString('id-ID') }}</p>
               </span>
             </span>
           </section>
@@ -96,13 +96,13 @@
 import { storeToRefs } from 'pinia';
 import NavbarComponent from '../components/NavbarComponent.vue';
 import { useUserStore } from '../store/users';
-import { useProductStore } from '../store/products'
 import { onMounted } from 'vue';
+import { useCartStore } from '../store/cart';
 
 const userStore = useUserStore()
-const productStore = useProductStore()
+const cartStore = useCartStore()
 const { dataFiltered } = storeToRefs(userStore)
-const { selectedItem, Total } = storeToRefs(productStore)
+const { selectedItem, Total } = storeToRefs(cartStore)
 
-onMounted(() => productStore.setSelectedItem(dataFiltered.value.id_cart))
+onMounted(() => cartStore.setSelectedItem(dataFiltered.value.id_cart))
 </script>

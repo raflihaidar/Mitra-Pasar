@@ -3,23 +3,28 @@ import { ref, computed } from 'vue'
 import axios from 'axios'
 import router from '../../router/index.js'
 import swal from 'sweetalert'
+import { useProductStore } from '../products/index.js'
 
 export const useCartStore = defineStore(
   'cart',
   () => {
+    const productStore = useProductStore()
     const cart = ref([])
     const cartAmount = ref(0)
     const selectedItem = ref([])
     const total = ref(0)
 
     const Total = computed(() => {
-      return cart.value.reduce((amount, item) => {
-        if (item.isChecked) {
-          amount += item.total
-          total.value = amount
-        }
-        return amount
-      }, 0)
+      return cart.value
+        .reduce((amount, item) => {
+          if (item.isChecked) {
+            amount += item.total
+            total.value = amount
+            console.log(total.value)
+          }
+          return amount
+        }, 0)
+        .toLocaleString('ID-id')
     })
 
     const getCartByIdUser = async (id) => {
@@ -96,12 +101,23 @@ export const useCartStore = defineStore(
       }
     }
 
+    const removeCartProduct = (index) => {
+      let cartItem = cart.value[index]
+      let product = productStore.catalog.find((item) => item.id === cartItem.id)
+      if (cartItem.quantity === 1) {
+        cart.value.splice(index, 1)
+      } else {
+        cartItem.quantity--
+        cartItem.total -= product.price
+      }
+    }
+
     const clearCart = async (index) => {
       try {
         let product = cart.value[index]
         await axios.delete(`http://localhost:8000/cart/${product.id_cart}&${product.id}`)
         cart.value.splice(index, 1)
-        catalog.value.forEach(async (item) => {
+        productStore.catalog.forEach(async (item) => {
           if (item.id === product.id) {
             await axios.patch(`http://localhost:8000/products/${product.id}`, {
               stock: (item.stock += product.quantity)
@@ -120,7 +136,7 @@ export const useCartStore = defineStore(
           await axios.delete(`http://localhost:8000/cart/${item.id_cart}&${item.id}`)
         }
         removeCartProduct(index)
-        setCatalog('products')
+        productStore.setCatalog('products')
       } catch (err) {
         console.log(err)
       }
@@ -147,6 +163,7 @@ export const useCartStore = defineStore(
       getCartAmount,
       setSelectedItem,
       addToCart,
+      removeCartProduct,
       clearCart,
       removeItem,
       handleStatus

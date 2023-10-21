@@ -42,13 +42,16 @@ import { useUserStore } from '../store/users';
 import { useProductStore } from '../store/products';
 import { defineAsyncComponent, reactive, watchEffect } from 'vue';
 import { storeToRefs } from 'pinia';
+import { useCartStore } from '../store/cart';
 
 const CatalogComponent = defineAsyncComponent({
     loader: () => import('../components/CatalogComponent.vue' /* webpackChunkName: "productComponent" */),
 })
 const productStore = useProductStore()
 const storeUsers = useUserStore()
-const { catalog, cartAmount } = storeToRefs(productStore)
+const cartStore = useCartStore()
+const { cartAmount } = storeToRefs(cartStore)
+const { catalog } = storeToRefs(productStore)
 const { dataFiltered } = storeToRefs(storeUsers)
 const category = reactive([
     {
@@ -86,8 +89,8 @@ const selectCategory = (item) => {
 }
 watchEffect(async () => {
     if (dataFiltered.value) {
-        await productStore.getCartByIdUser(dataFiltered.value.id)
-        await productStore.getCartAmount(dataFiltered.value.id)
+        await cartStore.getCartByIdUser(dataFiltered.value.id)
+        await cartStore.getCartAmount(dataFiltered.value.id)
     }
 })
 
