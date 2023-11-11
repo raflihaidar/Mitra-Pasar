@@ -13,16 +13,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="grid grid-cols-4 gap-y-10 my-5" v-if="catalog.length !== 0">
+                <div class="w-full grid md:grid-cols-4 grid-cols-1 overflow-x-scroll justify-center items-center gap-y-10 my-5"
+                    v-if="catalog.length !== 0">
                     <CatalogComponent v-for="(item, index) in catalog" :key="index" class="group" :item="item" />
-                    <router-link :to="`/cart?id=${dataFiltered.id}`" v-if="dataFiltered"
-                        class="fixed w-[40px] h-[40px] p-1 z-10 bg-lime-700 rounded-full bottom-5 right-16">
-                        <span class="absolute bottom-7 -right-1 text-sm px-1  bg-red-600 text-white rounded-full">{{
-                            cartAmount
-                        }}
-                        </span>
-                        <CartIcon class="text-xl mx-auto my-2" />
-                    </router-link>
+                    <CartNavigation />
                 </div>
                 <div v-else class="bg-red-600 w-[60%] mx-auto text-white text-3xl font-bold py-10 text-center mt-5">
                     <p>Produk Belum Tersedia</p>
@@ -37,7 +31,7 @@
 import NavbarComponent from '../components/NavbarComponent.vue'
 import FooterPage from '../components/FooterPage.vue';
 import SearchBar from '../components/SearchBar.vue';
-import CartIcon from '../assets/icon/CartIcon.vue';
+import CartNavigation from '../components/CartNavigation.vue';
 import { useUserStore } from '../store/users';
 import { useProductStore } from '../store/products';
 import { defineAsyncComponent, reactive, watchEffect } from 'vue';
@@ -50,7 +44,6 @@ const CatalogComponent = defineAsyncComponent({
 const productStore = useProductStore()
 const storeUsers = useUserStore()
 const cartStore = useCartStore()
-const { cartAmount } = storeToRefs(cartStore)
 const { catalog } = storeToRefs(productStore)
 const { dataFiltered } = storeToRefs(storeUsers)
 const category = reactive([
@@ -87,6 +80,7 @@ const selectCategory = (item) => {
 
     category.forEach((data) => data.status = (data === item))
 }
+
 watchEffect(async () => {
     if (dataFiltered.value) {
         await cartStore.getCartByIdUser(dataFiltered.value.id)

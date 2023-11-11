@@ -4,11 +4,11 @@
     <p class="text-3xl text-center font-semibold text-black">All Products</p>
     <router-link to="/admin/new_data">
       <button aria-label="add product"
-        class="bg-lime-500 px-2 py-2 text-sm rounded-md text-white font-semibold my-2">Tambah Data</button>
+        class="bg-lime-700 px-2 py-2 text-sm rounded-md text-white font-semibold my-2">Tambah Data</button>
     </router-link>
 
     <table class="border-2 border-lime-700  w-full mb-10">
-      <thead class="border-2 border-lime-700 bg-lime-500 w-full text-left">
+      <thead class="border-2 border-lime-700 bg-lime-700 w-full text-left">
         <tr class="text-white">
           <th class="px-5 py-3">No</th>
           <th class="px-5 py-3">Nama</th>

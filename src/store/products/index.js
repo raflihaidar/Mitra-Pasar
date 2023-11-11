@@ -8,6 +8,7 @@ export const useProductStore = defineStore(
   () => {
     const catalog = ref([])
     const category = ref([])
+    const product = ref(null)
 
     const setCategory = async () => {
       try {
@@ -51,6 +52,7 @@ export const useProductStore = defineStore(
         console.log(error)
       }
     }
+
     const deleteData = async (payload) => {
       try {
         swal('Apakah anda ingin menghapus ?', {
@@ -78,12 +80,25 @@ export const useProductStore = defineStore(
       }
     }
 
+    const getDetailProduct = async (productId) => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8000/products/detail/${productId.params.productId}`
+        )
+        product.value = response.data.data
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     return {
       catalog,
       category,
+      product,
       setCategory,
       updateProduct,
       getPriceProduct,
+      getDetailProduct,
       setCatalog,
       setCatalogByCategory,
       deleteData

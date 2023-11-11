@@ -3,7 +3,7 @@
         <div class="bg-lime-800 font-bold flex justify-center items-center w-[50px] h-[50px] text-lg rounded-md">
             <span>M</span><span>P</span>
         </div>
-        <div class="text-xl font-bold">Mitra Pasar</div>
+        <div class="text-xl font-bold hidden md:block">Mitra Pasar</div>
     </section>
 </template>
 

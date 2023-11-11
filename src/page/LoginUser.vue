@@ -20,8 +20,7 @@
             <div class="flex flex-col gap-y-5">
                 <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3" :class="failed ? 'border-red-500' : 'border-2'">
                     <div class="flex items-center justify-evenly  bg-white">
-                        <input type="text" class="bg-white w-full outline-none" name="username" placeholder="Your email"
-                            v-model="username" autocomplete="off">
+                        <FormulateInput type="text" />
                     </div>
                 </div>
                 <div class="w-3/5 mx-auto border-2 rounded-md py-3 px-3" :class="failed ? 'border-red-500' : 'border-2'">
