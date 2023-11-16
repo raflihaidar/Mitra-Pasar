@@ -5,6 +5,7 @@ import {
   deleteData,
   getAllData,
   getDetailProducts,
+  searchProductData,
   updateData,
   updateSingleData
 } from '../controller/products.js'
@@ -17,6 +18,9 @@ router.get('/', getAllData)
 
 //READ - GET DETAIL PRODUCTS
 router.get('/detail/:id', getDetailProducts)
+
+//SEARCH DATA BY KEYWORD
+router.get('/search', searchProductData)
 
 // CREATE - POST
 router.post('/', upload.single('image'), addNewData)

@@ -2,18 +2,19 @@
     <div class="bg-gray-100 w-full h-full">
         <NavbarComponent />
         <SearchBar />
-        <div class="w-[80%] mx-auto font-openSans mt-10">
-            <div class="w-full relative">
+        <div class="md:w-[80%] mx-auto font-openSans mt-10">
+            <div class="w-full md:relative p-5">
                 <p class="text-2xl font-semibold">Kategori Produk</p>
-                <div class="w-4/5 mx-auto grid grid-cols-5 text-sm text-center text-white font-semibold mb-20 mt-5">
-                    <div v-for="(item, index) in category" :key="index" class="group">
-                        <div class="w-[100px] h-[100px] flex items-center justify-center px-2 py-3 mr-3 rounded-lg cursor-pointer shadow-lg group-hover:scale-110 transition-all"
+                <div
+                    class="md:w-4/5 w-full md:mx-auto flex justify-between items-center text-sm text-center text-white font-semibold mb-20 mt-5 overflow-x-auto no-scrollbar">
+                    <div v-for="(item, index) in category" :key="index">
+                        <div class="flex justify-center items-center w-[100px] h-[100px] px-2 py-3 mr-3 rounded-lg cursor-pointer shadow-lg transition-all"
                             :class="item.status ? 'bg-lime-600' : 'bg-lime-700'" @click="selectCategory(item)">
                             {{ item.name }}
                         </div>
                     </div>
                 </div>
-                <div class="w-full grid md:grid-cols-4 grid-cols-1 overflow-x-scroll justify-center items-center gap-y-10 my-5"
+                <div class="w-full grid md:grid-cols-4 grid-cols-2 justify-center items-center md:gap-10 gap-5 my-5 px-3"
                     v-if="catalog.length !== 0">
                     <CatalogComponent v-for="(item, index) in catalog" :key="index" class="group" :item="item" />
                     <CartNavigation />

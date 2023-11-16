@@ -1,7 +1,7 @@
 <template>
     <NavbarComponent />
-    <div class="container my-5 pt-20 bg-gray-100 w-full h-full" v-if="cart.length !== 0">
-        <table class="w-[80%] mx-auto my-10 px-3 py-4 text-left table-auto mb-10 shadow-lg">
+    <div class="mx-auto pt-20 w-full h-full" v-if="cart.length !== 0">
+        <table class="w-[90%] mx-auto my-10 px-3 py-4 text-left table-auto mb-10 shadow-lg">
             <thead class="bg-lime-500">
                 <tr class="text-white text-center">
                     <th class="px-5 py-3"></th>
@@ -36,24 +36,22 @@
                 </tr>
             </tbody>
         </table>
-        <div v-if="Total"
-            class="w-[80%] flex left-[10%] rounded-lg fixed justify-between items-center bottom-0 text-sm text-center font-semibold bg-lime-200  px-5">
-            <div class="flex">
-                <p class="font-bold text-lg">Total : </p>
-                <p class="font-bold text-lg">Rp.{{ Total }}</p>
-            </div>
-            <div class="text-white text center px-5 py-7 whitespace-nowrap">
-                <router-link to="cart/shipment" class="bg-lime-600 px-10 py-2 text-cente rounded-md"
-                    aria-label="checkout cart item">Beli</router-link>
-            </div>
+    </div>
+    <div v-if="Total && cart.length !== 0"
+        class="w-[80%] fixed bottom-0 left-[10%] flex justify-between items-center mx-auto px-5 rounded-lg text-sm text-center font-semibold bg-lime-200">
+        <div class="flex">
+            <p class="font-bold text-lg">Total : </p>
+            <p class="font-bold text-lg">Rp.{{ Total }}</p>
+        </div>
+        <div class="text-white text center px-5 py-7 whitespace-nowrap">
+            <router-link to="cart/shipment" class="bg-lime-600 px-10 py-2 text-cente rounded-md"
+                aria-label="checkout cart item">Beli</router-link>
         </div>
     </div>
 
     <div v-else
-        class="absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 bg-red-600 w-[60%] text-white text-3xl font-bold py-10 text-center mt-5">
-        <div class="">
-            <h3>Tidak Ada Produk storeTotal</h3>
-        </div>
+        class="absolute left-[50%] top-[50%] -translate-x-1/2 -translate-y-1/2 bg-red-600 md:w-[60%] w-[90%] text-white md:text-3xl text-lg font-bold md:py-10 py-5 text-center mt-5">
+        <h3>Tidak Ada Produk</h3>
     </div>
 </template>
 

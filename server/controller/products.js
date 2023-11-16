@@ -5,7 +5,8 @@ import {
   updateProduct,
   updateSingleProduct,
   deleteProduct,
-  getProductByCategory
+  getProductByCategory,
+  searchProducts
 } from '../models/products.js'
 
 export const getAllData = async (req, res) => {
@@ -102,6 +103,24 @@ export const deleteData = async (req, res) => {
         price: 3000
       }
     })
+  } catch (error) {
+    res.status(500).json({
+      message: 'server error',
+      serverMessage: error
+    })
+  }
+}
+
+export const searchProductData = async (req, res) => {
+  const { query } = req
+  try {
+    let [data] = await searchProducts(query)
+    res
+      .json({
+        message: 'Search Products Success',
+        data
+      })
+      .status(200)
   } catch (error) {
     res.status(500).json({
       message: 'server error',

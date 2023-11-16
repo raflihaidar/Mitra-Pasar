@@ -36,6 +36,8 @@ export const useProductStore = defineStore(
       try {
         const response = await axios.get(`http://localhost:8000/products?category=${url}`)
         catalog.value = response.data.data
+        console.log(url)
+        console.log(response.data.data)
       } catch (error) {
         console.log(error)
       }
@@ -91,6 +93,15 @@ export const useProductStore = defineStore(
       }
     }
 
+    const searchDataProduct = async (payload) => {
+      try {
+        const response = await axios.get(`http://localhost:8000/products/search?keyword=${payload}`)
+        catalog.value = response.data.data
+      } catch (error) {
+        console.log(error)
+      }
+    }
+
     return {
       catalog,
       category,
@@ -101,6 +112,7 @@ export const useProductStore = defineStore(
       getDetailProduct,
       setCatalog,
       setCatalogByCategory,
+      searchDataProduct,
       deleteData
     }
   },

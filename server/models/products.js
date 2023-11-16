@@ -62,3 +62,10 @@ export const deleteProduct = (id) => {
   const SQLquery = `DELETE FROM mitrapasar_db.products WHERE id=${id} `
   return dbPool.execute(SQLquery)
 }
+
+export const searchProducts = (query) => {
+  const SQLquery = `SELECT * from products 
+                    WHERE MATCH(product_name)
+                    AGAINST('${query.keyword}*' IN BOOLEAN MODE)`
+  return dbPool.execute(SQLquery)
+}

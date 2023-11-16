@@ -14,10 +14,8 @@
         <div v-if="filteredData.length !== 0 && wordEntered !== ''"
             class="w-[60%] mx-auto  text-center rounded-lg bg-gray-100 shadow-xl absolute overflow-hidden z-[999] left-[50%] -translate-x-1/2">
             <div v-for="( item, index ) in  filteredData " :key="index">
-                <ul class="py-2">
-                    <router-link :to="'/product/detail/' + item.id">
-                        <li>{{ item.product_name }}</li>
-                    </router-link>
+                <ul class="py-2" @click="handleSearch(item.product_name)">
+                    <li>{{ item.product_name }}</li>
                 </ul>
             </div>
         </div>
@@ -69,6 +67,10 @@ const handleFiltered = (wordEntered) => {
 }
 const handleDelete = () => {
     wordEntered.value = ''
+}
+
+const handleSearch = async (payload) => {
+    await productStore.searchDataProduct(payload)
 }
 
 watchEffect(() => {
