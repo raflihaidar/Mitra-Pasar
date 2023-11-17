@@ -19,7 +19,7 @@
             <p class="text-4xl font-semibold text-white animate-slideIn mb-10">Bersama Mitra Pasar, Menjual Apapun Menjadi
                 Lebih
                 Mudah</p>
-            <router-link to="/content"
+            <router-link to="/content/catalog"
                 class="py-3 px-4 rounded-full bg-white hover:bg-lime-700 hover:text-white font-semibold text-center text-black text-lg transition animate-fadein">Coba
                 Sekarang</router-link>
         </div>

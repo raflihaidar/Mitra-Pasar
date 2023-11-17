@@ -43,7 +43,20 @@ const router = createRouter({
     {
       path: '/content',
       name: 'content page',
-      component: () => import('../page/ContentPage.vue')
+      component: () => import('../page/ContentPage.vue'),
+      children: [
+        {
+          path: 'catalog',
+          name: 'catalog page',
+          component: () => import('../page/CatalogPage.vue')
+        },
+        {
+          path: 'search',
+          name: 'search page',
+          component: () => import('../page/SearchPage.vue'),
+          props: true
+        }
+      ]
     },
     {
       path: '/product/detail/:productId',

@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-lime-700 text-slate-300 mt-20">
+    <div class="bg-lime-700 text-slate-300">
         <div class="w-[80%] mx-auto grid md:grid-cols-4 place-content-around p-10 gap-x-20 gap-y-5">
             <div>
                 <p class="text-2xl text-white font-bold">Toko</p>

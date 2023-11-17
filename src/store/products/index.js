@@ -9,6 +9,7 @@ export const useProductStore = defineStore(
     const catalog = ref([])
     const category = ref([])
     const product = ref(null)
+    const productFiltered = ref([])
 
     const setCategory = async () => {
       try {
@@ -96,7 +97,7 @@ export const useProductStore = defineStore(
     const searchDataProduct = async (payload) => {
       try {
         const response = await axios.get(`http://localhost:8000/products/search?keyword=${payload}`)
-        catalog.value = response.data.data
+        productFiltered.value = response.data.data
       } catch (error) {
         console.log(error)
       }
@@ -106,6 +107,7 @@ export const useProductStore = defineStore(
       catalog,
       category,
       product,
+      productFiltered,
       setCategory,
       updateProduct,
       getPriceProduct,

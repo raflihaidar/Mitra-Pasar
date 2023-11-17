@@ -81,7 +81,7 @@ const handleLogin = () => {
         swal('Berhasil Login', {
             icon: 'success'
         }).then(() => {
-            router.push({ name: 'content page' });
+            router.push({ name: 'catalog page' });
         });
     } else if (adminAuth) {
         swal('Berhasil Login', {

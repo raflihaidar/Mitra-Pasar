@@ -1,9 +1,10 @@
 <template>
     <div class="relative mt-10 pt-20">
         <div class="w-[60%] mx-auto flex border-2 items-center px-3 py-5 rounded-lg" id="search-container"
-            :class="active ? 'border-black' : null">
+            :class="active ? 'border-lime-600' : null">
             <input type=" text" class="w-full h-full border-none outline-none bg-inherit" placeholder="Mau Cari Apa ?"
-                v-model="wordEntered" @click="handleClick($event)">
+                v-model="wordEntered" @click="handleClick($event)" @keyup.enter="handleSearch(wordEntered)"
+                ref="searchInput">
             <div v-if="wordEntered !== ''" @click="handleDelete">
                 <CloseIcon />
             </div>
@@ -11,7 +12,7 @@
                 <SearchIcon />
             </div>
         </div>
-        <div v-if="filteredData.length !== 0 && wordEntered !== ''"
+        <div v-if="filteredData.length !== 0 && wordEntered !== '' && active"
             class="w-[60%] mx-auto  text-center rounded-lg bg-gray-100 shadow-xl absolute overflow-hidden z-[999] left-[50%] -translate-x-1/2">
             <div v-for="( item, index ) in  filteredData " :key="index">
                 <ul class="py-2" @click="handleSearch(item.product_name)">
@@ -19,7 +20,7 @@
                 </ul>
             </div>
         </div>
-        <div v-else-if="filteredData.length === 0 && wordEntered !== ''"
+        <div v-else-if="filteredData.length === 0 && wordEntered !== '' && active"
             class="w-[60%] mx-auto text-center py-2 rounded-lg bg-gray-100 shadow-xl absolute overflow-hidden z-[999] left-[50%] -translate-x-1/2">
             <p>
                 Tidak dapat menemukan "{{ wordEntered }}"
@@ -35,12 +36,15 @@ import SearchIcon from '../assets/icon/SearchIcon.vue'
 import { ref, watch, watchEffect } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useProductStore } from '../store/products';
+import { useRouter } from 'vue-router';
 
 const productStore = useProductStore()
 const { catalog } = storeToRefs(productStore)
 const filteredData = ref([])
+const searchInput = ref(null)
 const wordEntered = ref('')
 const active = ref(false);
+const router = useRouter()
 
 const handleClick = (event) => {
     let elementClicked = event.target
@@ -48,10 +52,6 @@ const handleClick = (event) => {
     if (!elementSearching.contains(elementClicked)) active.value = false
     else active.value = true
 }
-
-watch(wordEntered, (newVal) => {
-    handleFiltered(newVal)
-})
 
 const handleFiltered = (wordEntered) => {
     let dataFilter = catalog.value.filter((item) => {
@@ -65,12 +65,16 @@ const handleFiltered = (wordEntered) => {
         filteredData.value = dataFilter
     }
 }
+
 const handleDelete = () => {
     wordEntered.value = ''
 }
 
 const handleSearch = async (payload) => {
+    router.push({ name: 'search page', query: { keyword: wordEntered.value } })
     await productStore.searchDataProduct(payload)
+    active.value = false
+    searchInput.value.blur();
 }
 
 watchEffect(() => {
@@ -79,5 +83,9 @@ watchEffect(() => {
     } else {
         document.removeEventListener('click', handleClick)
     }
+})
+
+watch(wordEntered, (newVal) => {
+    handleFiltered(newVal)
 })
 </script>
